@@ -4,8 +4,10 @@ import static Conexion.Conexion.getConnection;
 import Entidades.Comida;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class ComidaDAO {
@@ -51,18 +53,66 @@ public class ComidaDAO {
         }
 
     }
+
     public void borrar(Comida comida) {
         String SQL_DELETE = "DELETE FROM comida WHERE idComida = ?";
-        
+
         try (PreparedStatement ps = con.prepareStatement(SQL_DELETE)) {
             ps.setInt(1, comida.getIdComida());
             int del = ps.executeUpdate();
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al eliminar una comida");
 
         }
 
+    }
+
+    public ArrayList<Comida> listarcomidas() {
+        String SQL_SELECT = "SELECT idComida, nombre, detalle, cantCalorias FROM comida";
+        Comida comida = null;
+        ArrayList<Comida> comidaList = new ArrayList<>();
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT);
+                ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                comida = new Comida();
+                comida.setIdComida(rs.getInt("idcomida"));
+                comida.setNombre(rs.getString("nombre"));
+                comida.setDetalle(rs.getString("detalle"));
+                comida.setCantCalorias(rs.getInt("cantcalorias"));
+
+                comidaList.add(comida);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al obtener comidas");
+        }
+        return comidaList; // retorna la lista 
+    }
+
+    public Comida buscarCantCalorias(int cantCalorias) {
+        String SQL_SELECT_ID = "SELECT idComida, nombre, detalle, cantCalorias FROM comida WHERE cantCalorias = ?";
+        Comida calorias = null;
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
+            ps.setInt(1, cantCalorias);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    calorias = new Comida();
+                    calorias.setIdComida(rs.getInt("idcomida"));
+                    calorias.setNombre(rs.getString("nombre"));
+                    calorias.setDetalle(rs.getString("detalle"));
+                    calorias.setCantCalorias(rs.getInt("cantcalorias"));
+
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al buscar las comidas por calorias");
+        }
+        return calorias;
     }
 }
