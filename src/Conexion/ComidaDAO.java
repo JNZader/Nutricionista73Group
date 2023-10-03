@@ -9,6 +9,6 @@ package Conexion;
  *
  * @author javie
  */
-public interface ComidaDAO {
+public class ComidaDAO {
     
 }
