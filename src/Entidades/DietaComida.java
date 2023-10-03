@@ -1,49 +1,52 @@
 package Entidades;
 
 public class DietaComida {
-    private int idDietaComida;
-    private int idComida;
-    private int idDieta;
+    private int id;
+    private Comida comida;
+    private Dieta dieta;
     private int porcion ;
     private String horario ;
 
-    public DietaComida(int idComida, int idDieta, int porcion, String horario) {
-        this.idComida = idComida;
-        this.idDieta = idDieta;
+    public DietaComida() {
+    }
+
+    public DietaComida(Comida comida, Dieta dieta, int porcion, String horario) {
+        this.comida = comida;
+        this.dieta = dieta;
         this.porcion = porcion;
         this.horario = horario;
     }
 
-    public DietaComida(int idDietaComida, int idComida, int idDieta, int porcion, String horario) {
-        this.idDietaComida = idDietaComida;
-        this.idComida = idComida;
-        this.idDieta = idDieta;
+    public DietaComida(int id, Comida comida, Dieta dieta, int porcion, String horario) {
+        this.id = id;
+        this.comida = comida;
+        this.dieta = dieta;
         this.porcion = porcion;
         this.horario = horario;
     }
 
-    public int getIdDietaComida() {
-        return idDietaComida;
+    public int getId() {
+        return id;
     }
 
-    public void setIdDietaComida(int idDietaComida) {
-        this.idDietaComida = idDietaComida;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getIdComida() {
-        return idComida;
+    public Comida getComida() {
+        return comida;
     }
 
-    public void setIdComida(int idComida) {
-        this.idComida = idComida;
+    public void setComida(Comida comida) {
+        this.comida = comida;
     }
 
-    public int getIdDieta() {
-        return idDieta;
+    public Dieta getDieta() {
+        return dieta;
     }
 
-    public void setIdDieta(int idDieta) {
-        this.idDieta = idDieta;
+    public void setDieta(Dieta dieta) {
+        this.dieta = dieta;
     }
 
     public int getPorcion() {
@@ -64,8 +67,9 @@ public class DietaComida {
 
     @Override
     public String toString() {
-        return "DietaComida{" + "idDietaComida=" + idDietaComida + ", idComida=" + idComida + ", idDieta=" + idDieta + ", porcion=" + porcion + ", horario=" + horario + '}';
+        return "DietaComida{" + "id=" + id + ", comida=" + comida + ", dieta=" + dieta + ", porcion=" + porcion + ", horario=" + horario + '}';
     }
     
-    
 }
+
+    
