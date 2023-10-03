@@ -21,6 +21,11 @@ public class Comida {
         this.detalle = detalle;
     }
 
+    public Comida(int idComida) {
+        this.idComida = idComida;
+    }
+    
+
     @Override
     public String toString() {
         return "Comida{" + "cantCalorias=" + cantCalorias + ", nombre=" + nombre + ", detalle=" + detalle + '}';
