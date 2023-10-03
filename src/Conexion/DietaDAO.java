@@ -12,8 +12,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-
-
 public class DietaDAO {
 
     private PacienteDAO pd;
@@ -23,7 +21,7 @@ public class DietaDAO {
         con = getConnection();
     }
 
-    public ArrayList<Dieta> seleccionar() {
+    public ArrayList<Dieta> buscar() {
         String SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta";
         Dieta dieta = null;
         ArrayList<Dieta> dietaList = new ArrayList<>();
@@ -40,7 +38,7 @@ public class DietaDAO {
                 dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
                 dieta.setPesoFinal(rs.getDouble("pesoFinal"));
 
-                dietaList.add(dieta); 
+                dietaList.add(dieta);
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
@@ -49,7 +47,7 @@ public class DietaDAO {
         return dietaList; // retorna la lista 
     }
 
-    public Dieta seleccionarPorId(int idDieta) {
+    public Dieta buscarPorId(int idDieta) {
         String SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE idDieta = ?";
         Dieta dieta = null;
 
@@ -120,6 +118,17 @@ public class DietaDAO {
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al actualizar Dieta");
+        }
+    }
+
+    public void eliminarDieta(int idDieta) {
+        String sql = "DELETE FROM Dieta WHERE idDieta = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idDieta);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al eliminar Dieta");
         }
     }
 }
