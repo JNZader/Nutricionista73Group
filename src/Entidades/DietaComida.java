@@ -16,6 +16,10 @@ public class DietaComida {
     private int porcion ;
     private String horario ;
 
+    public DietaComida() {
+    }
+    
+
     public DietaComida(int idComida, int idDieta, int porcion, String horario) {
         this.idComida = idComida;
         this.idDieta = idDieta;
