@@ -3,6 +3,7 @@ package Entidades;
 import java.time.LocalDate;
 
 public class Dieta {
+
     private int idDieta;
     private String nombre;
     private Paciente paciente;
@@ -11,6 +12,10 @@ public class Dieta {
     private double pesoFinal;
 
     public Dieta() {
+    }
+
+    public Dieta(int idDieta) {
+        this.idDieta = idDieta;
     }
 
     public Dieta(String nombre, Paciente paciente, LocalDate fechaInicial, LocalDate fechaFinal, double pesoFinal) {
@@ -82,5 +87,5 @@ public class Dieta {
     public String toString() {
         return "Dieta{" + "idDieta=" + idDieta + ", nombre=" + nombre + ", paciente=" + paciente + ", fechaInicial=" + fechaInicial + ", fechaFinal=" + fechaFinal + ", pesoFinal=" + pesoFinal + '}';
     }
-    
+
 }
