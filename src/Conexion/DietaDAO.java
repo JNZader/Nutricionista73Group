@@ -98,7 +98,7 @@ public class DietaDAO {
     }
 
     public void actualizar(Dieta dieta) {
-        String SQL_UPDATE = "UPDATE Dieta SET idPaciente = ?, fechaInicio = ?, fechaFin = ?, PesoFin = ? WHERE idDieta = ?";
+        String SQL_UPDATE = "UPDATE dieta SET idPaciente = ?, fechaInicio = ?, fechaFin = ?, PesoFin = ? WHERE idDieta = ?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
 
@@ -122,7 +122,7 @@ public class DietaDAO {
     }
 
     public void eliminarDieta(int idDieta) {
-        String sql = "DELETE FROM Dieta WHERE idDieta = ?";
+        String sql = "DELETE FROM dieta WHERE idDieta = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idDieta);
             ps.executeUpdate();
