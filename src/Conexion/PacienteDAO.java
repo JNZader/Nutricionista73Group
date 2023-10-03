@@ -9,6 +9,6 @@ package Conexion;
  *
  * @author javie
  */
-public interface PacienteDAO {
+public class PacienteDAO {
     
 }
