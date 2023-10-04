@@ -5,19 +5,19 @@ public class DietaComida {
     private Comida comida;
     private Dieta dieta;
     private int porcion ;
-    private String horario ;
+    private Horario horario ;
 
     public DietaComida() {
     }
 
-    public DietaComida(Comida comida, Dieta dieta, int porcion, String horario) {
+    public DietaComida(Comida comida, Dieta dieta, int porcion, Horario horario) {
         this.comida = comida;
         this.dieta = dieta;
         this.porcion = porcion;
         this.horario = horario;
     }
 
-    public DietaComida(int id, Comida comida, Dieta dieta, int porcion, String horario) {
+    public DietaComida(int id, Comida comida, Dieta dieta, int porcion, Horario horario) {
         this.id = id;
         this.comida = comida;
         this.dieta = dieta;
@@ -57,11 +57,11 @@ public class DietaComida {
         this.porcion = porcion;
     }
 
-    public String getHorario() {
+    public Horario getHorario() {
         return horario;
     }
 
-    public void setHorario(String horario) {
+    public void setHorario(Horario horario) {
         this.horario = horario;
     }
 
