@@ -78,10 +78,16 @@ public class DietaDAO {
         try (PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, dieta.getNombre());
-            ps.setInt(2, dieta.getPaciente().getIdPaciente());
+            System.out.println("1");
+            int id=dieta.getPaciente().getIdPaciente();
+            ps.setInt(2, id);
+            System.out.println("2+gfhjgj"+id);
             ps.setDate(3, Date.valueOf(dieta.getFechaInicial()));
+            System.out.println("3");
             ps.setDate(4, Date.valueOf(dieta.getFechaFinal()));
+            System.out.println("4");
             ps.setDouble(5, dieta.getPesoFinal());
+            System.out.println("5");
             ps.executeUpdate(); // ejecuta la inserción en la base de datos
             try (ResultSet rs = ps.getGeneratedKeys()) { // obtiene las claves generadas automáticamente
                 if (rs.next()) {
