@@ -19,11 +19,7 @@ public class PacienteDAO {
 
     public void guardarPaciente(Paciente paciente) {
         String sql = "INSERT INTO paciente (nombreCompleto,DNI,celular,pesoActual) VALUES(?,?,?,?)";
-//        int dniAumno = alumno.getDni();
-//        if (buscarAlumnoPorDni(dniAumno,0) != null) {
-//            JOptionPane.showMessageDialog(null, "No se puede añadir el Alumno porque ya hay uno registrado con ese DNI");
-//            return;
-//        }
+
 
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, paciente.getNombre());
@@ -32,11 +28,11 @@ public class PacienteDAO {
             ps.setDouble(4, paciente.getPesoActual());
 
             int filasAfectadas = ps.executeUpdate();
-
+            System.out.println("no llega"+filasAfectadas);
             if (filasAfectadas == 1) {
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     if (rs.next()) {
-                        paciente.setIdPaciente(rs.getInt(6));
+                        paciente.setIdPaciente(rs.getInt(1));//aca me da error
                         JOptionPane.showMessageDialog(null, "Paciente añadido con éxito");
                     }
                 }
