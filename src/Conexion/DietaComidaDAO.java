@@ -18,7 +18,7 @@ public class DietaComidaDAO {
         con = getConnection( );
     }
     public void insertar(DietaComida dietacomida) {
-        String SQL_INSERT = "INSERT INTO dieta(idDietacomida, idComida,idDieta, porcion, horario) VALUES (?,?,?,?,?)";
+        String SQL_INSERT = "INSERT INTO dieta(idDietacomida, idComida,idDieta, porcion, horario,estado) VALUES (?,?,?,?,?,?)";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_INSERT,Statement.RETURN_GENERATED_KEYS)) {
 
@@ -27,6 +27,8 @@ public class DietaComidaDAO {
              ps.setInt(3, dietacomida.getDieta().getIdDieta());
              ps.setInt(4, dietacomida.getPorcion());
               ps.setObject(5,dietacomida.getHorario());
+              ps.setBoolean(6,dietacomida.isEstado() );
+
             
             
            
@@ -75,7 +77,11 @@ public class DietaComidaDAO {
     }
 
     public void eliminarDietaComida(int idDietaComida) {
-        String sql = "DELETE FROM dietaComida WHERE idDietaComida = ?";
+
+      String sql = "UPDATE  dietaComida WHERE estado = 0 Where idDietaComida ?";
+        
+        
+
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idDietaComida);
             ps.executeUpdate();

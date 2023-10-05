@@ -6,23 +6,28 @@ public class DietaComida {
     private Dieta dieta;
     private int porcion ;
     private Horario horario ;
+    private boolean estado ;
 
     public DietaComida() {
     }
 
-    public DietaComida(Comida comida, Dieta dieta, int porcion, Horario horario) {
+    public DietaComida(Comida comida, Dieta dieta, int porcion, Horario horario,boolean estado) {
+ 
         this.comida = comida;
         this.dieta = dieta;
         this.porcion = porcion;
         this.horario = horario;
+        this.estado  = estado ;
     }
 
-    public DietaComida(int id, Comida comida, Dieta dieta, int porcion, Horario horario) {
+    public DietaComida(int id, Comida comida, Dieta dieta, int porcion, Horario horario, boolean estado) {
+
         this.id = id;
         this.comida = comida;
         this.dieta = dieta;
         this.porcion = porcion;
         this.horario = horario;
+        this.estado = estado ;
     }
 
     public int getId() {
@@ -65,10 +70,21 @@ public class DietaComida {
         this.horario = horario;
     }
 
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
     @Override
     public String toString() {
-        return "DietaComida{" + "id=" + id + ", comida=" + comida + ", dieta=" + dieta + ", porcion=" + porcion + ", horario=" + horario + '}';
+        return "DietaComida{" + "id=" + id + ", comida=" + comida + ", dieta=" + dieta + ", porcion=" + porcion + ", horario=" + horario + ", estado=" + estado + '}';
     }
+
+    
+    
     
 }
 
