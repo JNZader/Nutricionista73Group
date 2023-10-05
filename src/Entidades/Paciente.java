@@ -8,35 +8,31 @@ public class Paciente {
    int telefono;
    int idPaciente;
    double pesoActual;
+   boolean estado;
 
-    public double getPesoActual() {
-        return pesoActual;
-    }
-
-    public void setPesoActual(double pesoActual) {
-        this.pesoActual = pesoActual;
-    }
    
    
     public Paciente(){
     
     }
 
-    public Paciente(String nombre, int dni, String domicilio, int telefono, int idPaciente,double pesoActual) {
+    public Paciente(String nombre, int dni, String domicilio, int telefono, int idPaciente,double pesoActual,boolean estado) {
         this.nombre = nombre;
         this.dni = dni;
         this.domicilio = domicilio;
         this.telefono = telefono;
         this.idPaciente = idPaciente;
         this.pesoActual=pesoActual;
+        this.estado = estado;
     }
 
-    public Paciente(String nombre, int dni, String domicilio, int telefono,double pesoActual) {
+    public Paciente(String nombre, int dni, String domicilio, int telefono,double pesoActual,boolean estado) {
         this.nombre = nombre;
         this.dni = dni;
         this.domicilio = domicilio;
         this.telefono = telefono;
         this.pesoActual=pesoActual;
+        this.estado=estado;
     }
 
     public String getNombre() {
@@ -55,10 +51,6 @@ public class Paciente {
         this.dni = dni;
     }
 
-    @Override
-    public String toString() {
-        return "Paciente{" + "nombre=" + nombre + ", dni=" + dni + ", domicilio=" + domicilio + ", telefono=" + telefono + '}';
-    }
 
     public String getDomicilio() {
         return domicilio;
@@ -83,6 +75,31 @@ public class Paciente {
     public void setIdPaciente(int idPaciente) {
         this.idPaciente = idPaciente;
     }
+    
+    
+    public double getPesoActual() {
+        return pesoActual;
+    }
+
+    public void setPesoActual(double pesoActual) {
+        this.pesoActual = pesoActual;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+    
+     @Override
+    public String toString() {
+        return "Paciente{" + "nombre=" + nombre + ", dni=" + dni + ", domicilio=" + domicilio + ", telefono=" + telefono + '}';
+    }
+    
+    
+    
    
     
    
