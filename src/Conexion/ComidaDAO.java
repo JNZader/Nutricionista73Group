@@ -21,11 +21,12 @@ public class ComidaDAO {
     }
 
     public void insertar(Comida comida) {
-        String SQL_INSERT = "INSERT INTO comida(nombre, detalle, cantCalorias) VALUES (?,?,?)";
+        String SQL_INSERT = "INSERT INTO comida(nombre, detalle, cantCalorias, estado) VALUES (?,?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, comida.getNombre());
             ps.setString(2, comida.getDetalle());
             ps.setInt(3, comida.getCantCalorias());
+            ps.setBoolean(4, comida.isEstado());
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al insertar comida");
@@ -33,13 +34,14 @@ public class ComidaDAO {
     }
 
     public void modificar(Comida comida) {
-        String SQL_UPDATE = "UPDATE comida SET idComida = ?, nombre = ? , detalle = ? , cantCalorias = ? WHERE ?";
+        String SQL_UPDATE = "UPDATE comida SET idComida = ?, nombre = ? , detalle = ? , cantCalorias = ? , estado = ? WHERE ?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
             ps.setInt(1, comida.getIdComida());
             ps.setString(2, comida.getNombre());
             ps.setString(3, comida.getDetalle());
             ps.setInt(4, comida.getCantCalorias());
+            ps.setBoolean(5, comida.isEstado());
             int mod = ps.executeUpdate();
             if (mod > 0) {
                 JOptionPane.showMessageDialog(null, "Modificacion realizada");
@@ -54,7 +56,7 @@ public class ComidaDAO {
 
     }
 
-    public void borrar(Comida comida) {
+    public void borrarTotal(Comida comida) {
         String SQL_DELETE = "DELETE FROM comida WHERE idComida = ?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_DELETE)) {
@@ -68,9 +70,23 @@ public class ComidaDAO {
         }
 
     }
+     public void borrar(Comida comida) {
+        String SQL_UPDATE = "UPDATE comida SET estado = 0 WHERE idComida = ? ";
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
+            ps.setInt(1, comida.getIdComida());
+            int updel = ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al eliminar una comida");
+
+        }
+
+    }
 
     public ArrayList<Comida> listarcomidas() {
-        String SQL_SELECT = "SELECT idComida, nombre, detalle, cantCalorias FROM comida";
+        String SQL_SELECT = "SELECT idComida, nombre, detalle, cantCalorias, estado FROM comida";
         Comida comida = null;
         ArrayList<Comida> comidaList = new ArrayList<>();
 
@@ -83,7 +99,7 @@ public class ComidaDAO {
                 comida.setNombre(rs.getString("nombre"));
                 comida.setDetalle(rs.getString("detalle"));
                 comida.setCantCalorias(rs.getInt("cantcalorias"));
-
+                comida.setEstado(true);
                 comidaList.add(comida);
             }
         } catch (SQLException ex) {
@@ -94,7 +110,7 @@ public class ComidaDAO {
     }
 
     public Comida buscarCantCalorias(int cantCalorias) {
-        String SQL_SELECT_ID = "SELECT idComida, nombre, detalle, cantCalorias FROM comida WHERE cantCalorias = ?";
+        String SQL_SELECT_ID = "SELECT idComida, nombre, detalle, cantCalorias, estado FROM comida WHERE cantCalorias = ?";
         Comida calorias = null;
 
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
@@ -106,6 +122,7 @@ public class ComidaDAO {
                     calorias.setNombre(rs.getString("nombre"));
                     calorias.setDetalle(rs.getString("detalle"));
                     calorias.setCantCalorias(rs.getInt("cantcalorias"));
+                    calorias.setEstado(true);
 
                 }
             }
