@@ -1,8 +1,11 @@
 package nutricionista73group;
 
+import Conexion.DietaComidaDAO;
 import Conexion.DietaDAO;
 import Conexion.PacienteDAO;
+import Entidades.Comida;
 import Entidades.Dieta;
+import Entidades.DietaComida;
 import Entidades.Paciente;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,6 +24,10 @@ public class Nutricionista73Group {
 
         DietaDAO ddao=new DietaDAO();
         ddao.insertar(d1);
+        
     }
+    DietaComidaDAO die = new DietaComidaDAO () ;
+    Comida comi = new Comida (  );
+    Dieta d1 = Dieta ( )
     
 }
