@@ -78,13 +78,22 @@ public class DietaComidaDAO {
 
     public void eliminarDietaComida(int idDietaComida) {
 
-      String sql = "UPDATE  dietaComida WHERE estado = 0 Where idDietaComida ?";
-        
-        
+        String sql = "UPDATE  dietaComida SET estado = 0 Where idDietaComida = ?";
+
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
+            
             ps.setInt(1, idDietaComida);
-            ps.executeUpdate();
+            
+            
+             int on = ps.executeUpdate(); // Ejecuta la actualización en la base de datos
+            if (on > 0) {
+                
+                JOptionPane.showMessageDialog(null, "DietaComida eliminada!!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Eliminacion fallida");
+            }
+            
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al eliminar Dieta");
