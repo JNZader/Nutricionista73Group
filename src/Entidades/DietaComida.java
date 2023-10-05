@@ -12,6 +12,7 @@ public class DietaComida {
     }
 
     public DietaComida(Comida comida, Dieta dieta, int porcion, Horario horario,boolean estado) {
+ 
         this.comida = comida;
         this.dieta = dieta;
         this.porcion = porcion;
@@ -20,6 +21,7 @@ public class DietaComida {
     }
 
     public DietaComida(int id, Comida comida, Dieta dieta, int porcion, Horario horario, boolean estado) {
+
         this.id = id;
         this.comida = comida;
         this.dieta = dieta;

@@ -28,6 +28,7 @@ public class DietaComidaDAO {
              ps.setInt(4, dietacomida.getPorcion());
               ps.setObject(5,dietacomida.getHorario());
               ps.setBoolean(6,dietacomida.isEstado() );
+
             
             
            
@@ -76,9 +77,10 @@ public class DietaComidaDAO {
     }
 
     public void eliminarDietaComida(int idDietaComida) {
+
         String sql = "UPDATE  dietaComida SET estado = 0 Where idDietaComida = ?";
-        
-        
+
+
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             
             ps.setInt(1, idDietaComida);
