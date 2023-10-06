@@ -27,6 +27,7 @@ public class ComidaDAO {
             ps.setString(2, comida.getDetalle());
             ps.setInt(3, comida.getCantCalorias());
             ps.setBoolean(4, comida.isEstado());
+            int insCom = ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al insertar comida");
@@ -34,15 +35,19 @@ public class ComidaDAO {
     }
 
     public void modificar(Comida comida) {
-        String SQL_UPDATE = "UPDATE comida SET idComida = ?, nombre = ? , detalle = ? , cantCalorias = ? , estado = ? WHERE ?";
+        String SQL_UPDATE = "UPDATE comida SET nombre = ? , detalle = ? , cantCalorias = ? , estado = ? WHERE idComida = ?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
+           
+            
             ps.setInt(1, comida.getIdComida());
             ps.setString(2, comida.getNombre());
             ps.setString(3, comida.getDetalle());
             ps.setInt(4, comida.getCantCalorias());
             ps.setBoolean(5, comida.isEstado());
+            
             int mod = ps.executeUpdate();
+            
             if (mod > 0) {
                 JOptionPane.showMessageDialog(null, "Modificacion realizada");
             } else {
@@ -50,7 +55,7 @@ public class ComidaDAO {
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
-            JOptionPane.showMessageDialog(null, "Error al modificar comida");
+            JOptionPane.showMessageDialog(null, "Error al ingresar a la tabla comida");
 
         }
 
@@ -132,4 +137,5 @@ public class ComidaDAO {
         }
         return calorias;
     }
+
 }
