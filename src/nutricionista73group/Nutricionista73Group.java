@@ -7,6 +7,7 @@ import Conexion.PacienteDAO;
 import Entidades.Comida;
 import Entidades.Dieta;
 import Entidades.DietaComida;
+import Entidades.Horario;
 import Entidades.Paciente;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -28,17 +29,23 @@ public class Nutricionista73Group {
         
 
 
-        DietaDAO ddao=new DietaDAO();
+//        DietaDAO ddao=new DietaDAO();
 //        ddao.insertar(d1);
         
 
         //buscar paciente por dni
+
         //System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
         
+
+//        System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
+//        
+
         //eliminar paciente
         //pdao.eliminarPacienteLogico(1);
         
         //listar paciente
+
         //System.out.println(pdao.listarPaciente());
         //DietaDAO ddao=new DietaDAO();
         
@@ -62,11 +69,26 @@ public class Nutricionista73Group {
         
         //borrado logico
         comiDao.borrar(3);
-            
+        DietaComidaDAO die = new DietaComidaDAO();
+        Dieta d1 = new Dieta(" Vegetarianismo ", p1, LocalDate.parse("2023/09/22", DateTimeFormatter.ofPattern("yyyy/MM/dd")), LocalDate.parse("2023/10/05", DateTimeFormatter.ofPattern("yyyy/MM/dd")), 80.5);
+        Comida comiRocio = new Comida(200, "milanesa", "con papas frita", true);
+        DietaComida dietC = new DietaComida(comiRocio, d1, 500, Horario.ALMUERZO, true);
+        die.insertar(dietC);  
 
     }
 //    DietaComidaDAO die = new DietaComidaDAO () ;
 //    Comida comi = new Comida (  );
 ////    Dieta d1 = Dieta ( )
+
+//        System.out.println(pdao.listarPaciente());
+        //DietaDAO ddao=new DietaDAO();
+        
+        //ddao.insertar(d1);
+  
+        
+//   
+    }
+   
+
     
-}
+
