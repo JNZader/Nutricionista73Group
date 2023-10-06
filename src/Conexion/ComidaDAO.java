@@ -35,16 +35,15 @@ public class ComidaDAO {
     }
 
     public void modificar(Comida comida) {
-        String SQL_UPDATE = "UPDATE comida SET nombre = ? , detalle = ? , cantCalorias = ? , estado = ? WHERE idComida = ?";
+        String SQL_UPDATE = "UPDATE comida SET nombre = ? , detalle = ? , cantCalorias = ?  WHERE idComida = ?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
            
             
-            ps.setInt(1, comida.getIdComida());
-            ps.setString(2, comida.getNombre());
-            ps.setString(3, comida.getDetalle());
-            ps.setInt(4, comida.getCantCalorias());
-            ps.setBoolean(5, comida.isEstado());
+            ps.setString(1, comida.getNombre());
+            ps.setString(2, comida.getDetalle());
+            ps.setInt(3, comida.getCantCalorias());
+            ps.setInt(4, comida.getIdComida());
             
             int mod = ps.executeUpdate();
             
@@ -75,12 +74,17 @@ public class ComidaDAO {
         }
 
     }
-     public void borrar(Comida comida) {
+     public void borrar(int id) {
         String SQL_UPDATE = "UPDATE comida SET estado = 0 WHERE idComida = ? ";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
-            ps.setInt(1, comida.getIdComida());
+            ps.setInt(1, id);
             int updel = ps.executeUpdate();
+            if (updel ==1) {
+                System.out.println("se ha eliminado la comida");
+            }else{
+                System.out.println("error al eliminar comida");
+            }
 
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
@@ -114,7 +118,7 @@ public class ComidaDAO {
         return comidaList; // retorna la lista 
     }
 
-    public Comida buscarCantCalorias(int cantCalorias) {
+    public Comida buscarXCantCalorias(int cantCalorias) {
         String SQL_SELECT_ID = "SELECT idComida, nombre, detalle, cantCalorias, estado FROM comida WHERE cantCalorias = ?";
         Comida calorias = null;
 

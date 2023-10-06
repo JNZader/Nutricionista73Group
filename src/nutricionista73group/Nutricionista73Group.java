@@ -1,11 +1,13 @@
 package nutricionista73group;
 
+import Conexion.ComidaDAO;
 import Conexion.DietaComidaDAO;
 import Conexion.DietaDAO;
 import Conexion.PacienteDAO;
 import Entidades.Comida;
 import Entidades.Dieta;
 import Entidades.DietaComida;
+import Entidades.Horario;
 import Entidades.Paciente;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,25 +29,59 @@ public class Nutricionista73Group {
         
 
 
-        DietaDAO ddao=new DietaDAO();
+//        DietaDAO ddao=new DietaDAO();
 //        ddao.insertar(d1);
         
 
         //buscar paciente por dni
-        System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
+        //System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
         
+
         //eliminar paciente
         //pdao.eliminarPacienteLogico(1);
         
         //listar paciente
-        System.out.println(pdao.listarPaciente());
+        //System.out.println(pdao.listarPaciente());
         //DietaDAO ddao=new DietaDAO();
         
         //ddao.insertar(d1);
+        
+        //probando comidaDAO
+        ComidaDAO comiDao = new ComidaDAO();
+        Comida comi = new Comida(10000, "lomito", "con papas", true);
+        
+        //insertar
+        //comiDao.insertar(comi);
+        
+        //modificar
+        //comiDao.modificar(comi);
+        
+        //listar comidas
+        //System.out.println(comiDao.listarcomidas());
+        
+        //buscar cantidad calorias
+        //System.out.println("la comida que se busco por calorias es: "+comiDao.buscarXCantCalorias(10000) );
+        
+        //borrado logico
+        comiDao.borrar(3);
+            
 
     }
-    DietaComidaDAO die = new DietaComidaDAO () ;
-    Comida comi = new Comida (  );
-//    Dieta d1 = Dieta ( )
+//    DietaComidaDAO die = new DietaComidaDAO () ;
+//    Comida comi = new Comida (  );
+////    Dieta d1 = Dieta ( )
+///fgdfrdf
+//        System.out.println(pdao.listarPaciente());
+        //DietaDAO ddao=new DietaDAO();
+        
+        //ddao.insertar(d1);
+      DietaComidaDAO die = new DietaComidaDAO () ;
+  Dieta d1 = new Dieta(" Vegetarianismo ",p1, LocalDate.parse("2023/09/22",DateTimeFormatter.ofPattern("yyyy/MM/dd")), LocalDate.parse("2023/10/05",DateTimeFormatter.ofPattern("yyyy/MM/dd")),80.5) ;
+    Comida comi = new Comida (200, "milanesa", "con papas frita",true ); 
+    DietaComida dietC = new DietaComida(comi,d1,500, Horario.ALMUERZO, true );
+        die.insertar(dietC);
+//   
+    }
+   
     
 }
