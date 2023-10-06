@@ -2,8 +2,6 @@ package Conexion;
 
 import static Conexion.Conexion.getConnection;
 import Entidades.Consulta;
-import Entidades.Dieta;
-import Entidades.Paciente;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
