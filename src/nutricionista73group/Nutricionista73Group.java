@@ -1,10 +1,11 @@
 package nutricionista73group;
-
 import Conexion.ComidaDAO;
+import Conexion.DietaComidaDAO;
 import Conexion.DietaDAO;
 import Conexion.PacienteDAO;
 import Entidades.Comida;
 import Entidades.Dieta;
+import Entidades.DietaComida;
 import Entidades.Paciente;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +25,12 @@ public class Nutricionista73Group {
         //buscar paciente
         //System.out.println(pdao.buscarPaciente(1));
         
+
+
+        DietaDAO ddao=new DietaDAO();
+//        ddao.insertar(d1);
+        
+
         //buscar paciente por dni
 //        System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
 //        
@@ -42,6 +49,11 @@ public class Nutricionista73Group {
 //        cdao.insertar(c1);  
           //modificar comida
           cdao.modificar(c1);
+
+
     }
+    DietaComidaDAO die = new DietaComidaDAO () ;
+    Comida comi = new Comida (  );
+//    Dieta d1 = Dieta ( )
     
 }
