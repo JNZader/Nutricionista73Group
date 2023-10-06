@@ -35,16 +35,24 @@ public class Nutricionista73Group {
 
         //buscar paciente por dni
 
+
         //System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
         
 
 //        System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
 //        
 
+
+        //System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
+        
+
+
         //eliminar paciente
         //pdao.eliminarPacienteLogico(1);
         
         //listar paciente
+
+
 
         //System.out.println(pdao.listarPaciente());
         //DietaDAO ddao=new DietaDAO();
@@ -76,19 +84,9 @@ public class Nutricionista73Group {
         die.insertar(dietC);  
 
     }
-//    DietaComidaDAO die = new DietaComidaDAO () ;
-//    Comida comi = new Comida (  );
-////    Dieta d1 = Dieta ( )
+}
 
-//        System.out.println(pdao.listarPaciente());
-        //DietaDAO ddao=new DietaDAO();
         
-        //ddao.insertar(d1);
-  
-        
-//   
-    }
-   
 
     
 
