@@ -1,5 +1,6 @@
 package nutricionista73group;
 
+import Conexion.ComidaDAO;
 import Conexion.DietaComidaDAO;
 import Conexion.DietaDAO;
 import Conexion.PacienteDAO;
@@ -33,12 +34,43 @@ public class Nutricionista73Group {
         
 
         //buscar paciente por dni
-//        System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
-//        
+        //System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
+        
+
         //eliminar paciente
         //pdao.eliminarPacienteLogico(1);
         
         //listar paciente
+        //System.out.println(pdao.listarPaciente());
+        //DietaDAO ddao=new DietaDAO();
+        
+        //ddao.insertar(d1);
+        
+        //probando comidaDAO
+        ComidaDAO comiDao = new ComidaDAO();
+        Comida comi = new Comida(10000, "lomito", "con papas", true);
+        
+        //insertar
+        //comiDao.insertar(comi);
+        
+        //modificar
+        //comiDao.modificar(comi);
+        
+        //listar comidas
+        //System.out.println(comiDao.listarcomidas());
+        
+        //buscar cantidad calorias
+        //System.out.println("la comida que se busco por calorias es: "+comiDao.buscarXCantCalorias(10000) );
+        
+        //borrado logico
+        comiDao.borrar(3);
+            
+
+    }
+//    DietaComidaDAO die = new DietaComidaDAO () ;
+//    Comida comi = new Comida (  );
+////    Dieta d1 = Dieta ( )
+///fgdfrdf
 //        System.out.println(pdao.listarPaciente());
         //DietaDAO ddao=new DietaDAO();
         
