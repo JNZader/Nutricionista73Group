@@ -3,8 +3,16 @@ package Entidades;
 public class Comida {
     private int idComida;
     private int cantCalorias;
-    private String nombre, detalle;
+    private String nombre; 
+    private String detalle;
     private boolean estado;
+
+    public Comida() {
+    }
+
+    public Comida(int idComida) {
+        this.idComida = idComida;
+    }
 
     public Comida(int idComida, int cantCalorias, String nombre, String detalle, boolean estado) {
         this.idComida = idComida;
@@ -19,40 +27,6 @@ public class Comida {
         this.nombre = nombre;
         this.detalle = detalle;
         this.estado = estado;
-    }
-
-    public Comida() {
-    }
-
-    public Comida(int idComida, int cantCalorias, String nombre, String detalle) {
-        this.idComida = idComida;
-        this.cantCalorias = cantCalorias;
-        this.nombre = nombre;
-        this.detalle = detalle;
-    }
-
-    public Comida(int cantCalorias, String nombre, String detalle) {
-        this.cantCalorias = cantCalorias;
-        this.nombre = nombre;
-        this.detalle = detalle;
-    }
-
-    public boolean isEstado() {
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
-
-    public Comida(int idComida) {
-        this.idComida = idComida;
-    }
-    
-
-    @Override
-    public String toString() {
-        return "Comida{" + "cantCalorias=" + cantCalorias + ", nombre=" + nombre + ", detalle=" + detalle + '}';
     }
 
     public int getIdComida() {
@@ -86,5 +60,19 @@ public class Comida {
     public void setDetalle(String detalle) {
         this.detalle = detalle;
     }
-    
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    @Override
+    public String toString() {
+        return "Comida{" + "idComida=" + idComida + ", cantCalorias=" + cantCalorias + ", nombre=" + nombre + ", detalle=" + detalle + ", estado=" + estado + '}';
+    }
+
+ 
 }
