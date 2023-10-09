@@ -15,51 +15,13 @@ import java.time.format.DateTimeFormatter;
 public class Nutricionista73Group {
 
     public static void main(String[] args) {
-       /* PacienteDAO pdao = new PacienteDAO();
-        Paciente p1=new Paciente("Juan Lencina Rosendo", 213700255, "Av siempre viva 1234", 353749800,11, 150.5,true);
-        //guardar paciente
-        //pdao.guardarPaciente(p1);
-        //Dieta d1=new Dieta("Mediterranea", p1, LocalDate.parse("2023/09/22",DateTimeFormatter.ofPattern("yyyy/MM/dd")), LocalDate.parse("2023/12/30",DateTimeFormatter.ofPattern("yyyy/MM/dd")), 120.5);
-        
-        //modificar paciente
-        //pdao.modificarPaciente(p1);
-        
-        //buscar paciente
-        //System.out.println(pdao.buscarPaciente(1));
-        
 
-
-//        DietaDAO ddao=new DietaDAO();
-//        ddao.insertar(d1);
-        
-
-        //buscar paciente por dni
-
-
-        //System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
-        
-
-//        System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
-//        
-
-
-        //System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
-        
-
-
-        //eliminar paciente
-        //pdao.eliminarPacienteLogico(1);
-        
-        //listar paciente
-
-
-
-        //System.out.println(pdao.listarPaciente());
-        //DietaDAO ddao=new DietaDAO();
-        
-        //ddao.insertar(d1);
-        
-        //probando comidaDAO
+ /*    |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
+       |                      Prueba Crud clase Comida                   |
+       |                                                                 |
+       |_________________________________________________________________|         */
+ 
+/*        //probando comidaDAO
         ComidaDAO comiDao = new ComidaDAO();
         Comida comi = new Comida(10000, "lomito", "con papas", true);
         
@@ -82,11 +44,75 @@ public class Nutricionista73Group {
         Comida comiRocio = new Comida(200, "milanesa", "con papas frita", true);
         DietaComida dietC = new DietaComida(comiRocio, d1, 500, Horario.ALMUERZO, true);
         die.insertar(dietC);  
-*/
-    }
-}
+ */
+ /*    |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
+       |                      Prueba Crud clase Paciente                 |
+       |                                                                 |
+       |_________________________________________________________________|         */
 
+ /* 
+        PacienteDAO pdao = new PacienteDAO();
+        Paciente p1=new Paciente("Juan Lencina Rosendo", 213700255, "Av siempre viva 1234", 353749800,11, 150.5,true);
+        guardar paciente
+        pdao.guardarPaciente(p1);
+        Dieta d1=new Dieta("Mediterranea", p1, LocalDate.parse("2023/09/22",DateTimeFormatter.ofPattern("yyyy/MM/dd")), LocalDate.parse("2023/12/30",DateTimeFormatter.ofPattern("yyyy/MM/dd")), 120.5);
+        
+        modificar paciente
+        pdao.modificarPaciente(p1);
+        
+        buscar paciente
+        System.out.println(pdao.buscarPaciente(1));
         
 
-    
 
+        DietaDAO ddao=new DietaDAO();
+        ddao.insertar(d1);
+        
+
+        buscar paciente por dni
+
+
+        System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
+        
+
+        System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
+        
+
+
+        System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
+        
+
+
+        eliminar paciente
+        pdao.eliminarPacienteLogico(1);
+        
+        listar paciente
+
+
+
+        System.out.println(pdao.listarPaciente());
+*/ 
+ 
+/*     |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
+       |                      Prueba Crud clase Consulta                 |
+       |                                                                 |
+       |_________________________________________________________________|         */
+
+
+
+ /*    |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
+       |                      Prueba Crud clase Dieta                    |
+       |                                                                 |
+       |_________________________________________________________________|         */
+ 
+ 
+
+ /*    |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
+       |                      Prueba Crud clase DietaComida              |
+       |                                                                 |
+       |_________________________________________________________________|         */
+ 
+ 
+ 
+    }
+}
