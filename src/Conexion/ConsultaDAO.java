@@ -2,8 +2,6 @@ package Conexion;
 
 import static Conexion.Conexion.getConnection;
 import Entidades.Consulta;
-import Entidades.Dieta;
-import Entidades.Paciente;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -45,17 +43,17 @@ public class ConsultaDAO {
         return consultaList; // retorna la lista 
     }
 
-    public Consulta buscarPorId(int idConsulta) {
+    public Consulta buscar(int idPaciente) {
         String SQL_SELECT_ID = "SELECT * FROM consulta WHERE idConsulta = ?";
         Consulta consulta= null;
 
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
-            ps.setInt(1, idConsulta);
+            ps.setInt(1, idPaciente);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     consulta = new Consulta();
-                    consulta.setIdConsulta(idConsulta);
-                    consulta.setIdPaciente(rs.getInt("idPaciente"));
+                    consulta.setIdConsulta(rs.getInt("idConsulta"));
+                    consulta.setIdPaciente(idPaciente);
                     consulta.setFecha(rs.getDate("fecha").toLocalDate());
                     consulta.setPesoActual(rs.getDouble("pesoActual"));
                 }
