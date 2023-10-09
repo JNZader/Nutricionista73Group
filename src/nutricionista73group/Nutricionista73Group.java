@@ -10,6 +10,7 @@ import Entidades.DietaComida;
 import Entidades.Horario;
 import Entidades.Paciente;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 
 public class Nutricionista73Group {
@@ -112,7 +113,16 @@ public class Nutricionista73Group {
        |                                                                 |
        |_________________________________________________________________|         */
  
- 
+       
+//   DietaComidaDAO die = new DietaComidaDAO();
+//        //Dieta d1 = new Dieta(" Vegetarianismo ", p1, LocalDate.parse("2023/09/22", DateTimeFormatter.ofPattern("yyyy/MM/dd")), LocalDate.parse("2023/10/05", DateTimeFormatter.ofPattern("yyyy/MM/dd")), 80.5);
+//        DietaDAO dieDao = new DietaDAO();
+//        Dieta d1 = new Dieta(11,"de la luna", p1, LocalDate.of(2023, Month.NOVEMBER, 02), LocalDate.of(2023, Month.NOVEMBER, 04), 150,true);
+//        //dieDao.insertar(d1);
+//        Comida comiRocio = new Comida(4,200, "milanesa a la napolitana ", "con papas frita", true);
+//        //comiDao.insertar(comiRocio);
+//        DietaComida dietC = new DietaComida(comiRocio, d1, 500, Horario.ALMUERZO, true);
+//        die.insertar(dietC);
  
     }
 }
