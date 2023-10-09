@@ -20,7 +20,7 @@ public class ComidaDAO {
 
     }
 
-    public void insertar(Comida comida) {
+    public Comida insertar(Comida comida) {
         String SQL_INSERT = "INSERT INTO comida(nombre, detalle, cantCalorias, estado) VALUES (?,?,?,?)";
         try (PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, comida.getNombre());
@@ -28,25 +28,29 @@ public class ComidaDAO {
             ps.setInt(3, comida.getCantCalorias());
             ps.setBoolean(4, comida.isEstado());
             int insCom = ps.executeUpdate();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    comida.setIdComida(rs.getInt(1));
+                    JOptionPane.showMessageDialog(null, "Comida añadida con éxito");
+                }
+            }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al insertar comida");
         }
+        return comida;
     }
 
     public void modificar(Comida comida) {
-        String SQL_UPDATE = "UPDATE comida SET nombre = ? , detalle = ? , cantCalorias = ?  WHERE idComida = ?";
+        String SQL_UPDATE = "UPDATE comida SET nombre=?, detalle=?, cantCalorias=?  WHERE idComida=?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
-           
-            
+
             ps.setString(1, comida.getNombre());
             ps.setString(2, comida.getDetalle());
             ps.setInt(3, comida.getCantCalorias());
             ps.setInt(4, comida.getIdComida());
-            
             int mod = ps.executeUpdate();
-            
             if (mod > 0) {
                 JOptionPane.showMessageDialog(null, "Modificacion realizada");
             } else {
@@ -74,15 +78,16 @@ public class ComidaDAO {
         }
 
     }
-     public void borrar(int id) {
+
+    public void borrar(int id) {
         String SQL_UPDATE = "UPDATE comida SET estado = 0 WHERE idComida = ? ";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
             ps.setInt(1, id);
             int updel = ps.executeUpdate();
-            if (updel ==1) {
+            if (updel == 1) {
                 System.out.println("se ha eliminado la comida");
-            }else{
+            } else {
                 System.out.println("error al eliminar comida");
             }
 

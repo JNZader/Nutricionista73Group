@@ -17,36 +17,33 @@ public class Nutricionista73Group {
 
     public static void main(String[] args) {
 
- /*    |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
+/*     |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
        |                      Prueba Crud clase Comida                   |
        |                                                                 |
        |_________________________________________________________________|         */
- 
-/*        //probando comidaDAO
-        ComidaDAO comiDao = new ComidaDAO();
-        Comida comi = new Comida(10000, "lomito", "con papas", true);
-        
-        //insertar
-        //comiDao.insertar(comi);
-        
+        //probando comidaDAO
+//        ComidaDAO comiDao = new ComidaDAO();
+//        Comida comi = new Comida(6, 1650, "lomito", "con papas", true);
+//        System.out.println("comi = " + comi);
+//        //insertar
+//        comi = comiDao.insertar(comi);
+//        System.out.println("comi = " + comi);
+
         //modificar
-        //comiDao.modificar(comi);
-        
+//        Comida comi2 = new Comida(6, 1650, "lomito", "con papas", true);
+//        comiDao.modificar(comi2);
         //listar comidas
         //System.out.println(comiDao.listarcomidas());
-        
         //buscar cantidad calorias
         //System.out.println("la comida que se busco por calorias es: "+comiDao.buscarXCantCalorias(10000) );
-        
         //borrado logico
-        comiDao.borrar(3);
-        DietaComidaDAO die = new DietaComidaDAO();
-        Dieta d1 = new Dieta(" Vegetarianismo ", p1, LocalDate.parse("2023/09/22", DateTimeFormatter.ofPattern("yyyy/MM/dd")), LocalDate.parse("2023/10/05", DateTimeFormatter.ofPattern("yyyy/MM/dd")), 80.5);
-        Comida comiRocio = new Comida(200, "milanesa", "con papas frita", true);
-        DietaComida dietC = new DietaComida(comiRocio, d1, 500, Horario.ALMUERZO, true);
-        die.insertar(dietC);  
- */
- /*    |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
+//        comiDao.borrar(3);
+//        DietaComidaDAO die = new DietaComidaDAO();
+//        Dieta d1 = new Dieta(" Vegetarianismo ", p1, LocalDate.parse("2023/09/22", DateTimeFormatter.ofPattern("yyyy/MM/dd")), LocalDate.parse("2023/10/05", DateTimeFormatter.ofPattern("yyyy/MM/dd")), 80.5);
+//        Comida comiRocio = new Comida(200, "milanesa", "con papas frita", true);
+//        DietaComida dietC = new DietaComida(comiRocio, d1, 500, Horario.ALMUERZO, true);
+//        die.insertar(dietC);  
+/*     |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
        |                      Prueba Crud clase Paciente                 |
        |                                                                 |
        |_________________________________________________________________|         */
@@ -92,28 +89,21 @@ public class Nutricionista73Group {
 
 
         System.out.println(pdao.listarPaciente());
-*/ 
- 
+         */
 /*     |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
        |                      Prueba Crud clase Consulta                 |
        |                                                                 |
        |_________________________________________________________________|         */
-
-
-
  /*    |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
        |                      Prueba Crud clase Dieta                    |
        |                                                                 |
        |_________________________________________________________________|         */
- 
- 
-
  /*    |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
        |                      Prueba Crud clase DietaComida              |
        |                                                                 |
        |_________________________________________________________________|         */
- 
-       
+
+        
 //   DietaComidaDAO die = new DietaComidaDAO();
 //        //Dieta d1 = new Dieta(" Vegetarianismo ", p1, LocalDate.parse("2023/09/22", DateTimeFormatter.ofPattern("yyyy/MM/dd")), LocalDate.parse("2023/10/05", DateTimeFormatter.ofPattern("yyyy/MM/dd")), 80.5);
 //        DietaDAO dieDao = new DietaDAO();
