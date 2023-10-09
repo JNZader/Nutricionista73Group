@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 public class Nutricionista73Group {
 
     public static void main(String[] args) {
-        PacienteDAO pdao = new PacienteDAO();
+       /* PacienteDAO pdao = new PacienteDAO();
         Paciente p1=new Paciente("Juan Lencina Rosendo", 213700255, "Av siempre viva 1234", 353749800,11, 150.5,true);
         //guardar paciente
         //pdao.guardarPaciente(p1);
@@ -82,7 +82,7 @@ public class Nutricionista73Group {
         Comida comiRocio = new Comida(200, "milanesa", "con papas frita", true);
         DietaComida dietC = new DietaComida(comiRocio, d1, 500, Horario.ALMUERZO, true);
         die.insertar(dietC);  
-
+*/
     }
 }
 

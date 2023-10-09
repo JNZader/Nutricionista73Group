@@ -10,6 +10,7 @@ public class Dieta {
     private LocalDate fechaInicial;
     private LocalDate fechaFinal;
     private double pesoFinal;
+    private boolean estado;
 
     public Dieta() {
     }
@@ -18,21 +19,23 @@ public class Dieta {
         this.idDieta = idDieta;
     }
 
-    public Dieta(String nombre, Paciente paciente, LocalDate fechaInicial, LocalDate fechaFinal, double pesoFinal) {
+    public Dieta(String nombre, Paciente paciente, LocalDate fechaInicial, LocalDate fechaFinal, double pesoFinal, boolean estado) {
         this.nombre = nombre;
         this.paciente = paciente;
         this.fechaInicial = fechaInicial;
         this.fechaFinal = fechaFinal;
         this.pesoFinal = pesoFinal;
+        this.estado = estado;
     }
 
-    public Dieta(int idDieta, String nombre, Paciente paciente, LocalDate fechaInicial, LocalDate fechaFinal, double pesoFinal) {
+    public Dieta(int idDieta, String nombre, Paciente paciente, LocalDate fechaInicial, LocalDate fechaFinal, double pesoFinal, boolean estado) {
         this.idDieta = idDieta;
         this.nombre = nombre;
         this.paciente = paciente;
         this.fechaInicial = fechaInicial;
         this.fechaFinal = fechaFinal;
         this.pesoFinal = pesoFinal;
+        this.estado = estado;
     }
 
     public int getIdDieta() {
@@ -83,9 +86,18 @@ public class Dieta {
         this.pesoFinal = pesoFinal;
     }
 
-    @Override
-    public String toString() {
-        return "Dieta{" + "idDieta=" + idDieta + ", nombre=" + nombre + ", paciente=" + paciente + ", fechaInicial=" + fechaInicial + ", fechaFinal=" + fechaFinal + ", pesoFinal=" + pesoFinal + '}';
+    public boolean isEstado() {
+        return estado;
     }
 
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    @Override
+    public String toString() {
+        return "Dieta{" + "idDieta=" + idDieta + ", nombre=" + nombre + ", paciente=" + paciente + ", fechaInicial=" + fechaInicial + ", fechaFinal=" + fechaFinal + ", pesoFinal=" + pesoFinal + ", estado=" + estado + '}';
+    }
+
+    
 }
