@@ -21,8 +21,21 @@ public class DietaDAO {
         con = getConnection();
     }
 
-    public ArrayList<Dieta> buscar() {
-        String SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta";
+    public ArrayList<Dieta> buscar(int estado) {
+        String SQL_SELECT = null;
+
+        switch (estado) {
+            case 1:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE estado=1";
+                break;
+            case 0:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE estado=0";
+                break;
+            default:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta";
+                break;
+        }
+
         Dieta dieta = null;
         ArrayList<Dieta> dietaList = new ArrayList<>();
 
@@ -47,10 +60,21 @@ public class DietaDAO {
         return dietaList; // retorna la lista 
     }
 
-    public Dieta buscarPorId(int idDieta) {
-        String SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE idDieta = ?";
+    public Dieta buscarPorId(int idDieta, int estado) {
+        String SQL_SELECT_ID = null;
         Dieta dieta = null;
 
+        switch (estado) {
+            case 1:
+                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE idDieta = ? AND estado=1";
+                break;
+            case 0:
+                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE idDieta = ? AND estado=0";
+                break;
+            default:
+                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE idDieta = ?";
+                break;
+        }
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
             ps.setInt(1, idDieta);
             try (ResultSet rs = ps.executeQuery()) {
@@ -78,7 +102,7 @@ public class DietaDAO {
         try (PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, dieta.getNombre());
-            int id=dieta.getPaciente().getIdPaciente();
+            int id = dieta.getPaciente().getIdPaciente();
             ps.setInt(2, id);
             ps.setDate(3, Date.valueOf(dieta.getFechaInicial()));
             ps.setDate(4, Date.valueOf(dieta.getFechaFinal()));
