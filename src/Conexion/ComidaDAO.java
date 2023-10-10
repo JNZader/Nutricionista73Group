@@ -70,7 +70,11 @@ public class ComidaDAO {
         try (PreparedStatement ps = con.prepareStatement(SQL_DELETE)) {
             ps.setInt(1, comida.getIdComida());
             int del = ps.executeUpdate();
-
+            if (del == 1) {
+                System.out.println("se ha eliminado la comida");
+            } else {
+                System.out.println("error al eliminar comida");
+            }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al eliminar una comida");
@@ -99,7 +103,7 @@ public class ComidaDAO {
 
     }
 
-    public ArrayList<Comida> listarcomidas() {
+    public ArrayList<Comida> listarComidas() {
         String SQL_SELECT = "SELECT idComida, nombre, detalle, cantCalorias, estado FROM comida";
         Comida comida = null;
         ArrayList<Comida> comidaList = new ArrayList<>();
