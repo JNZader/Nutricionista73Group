@@ -29,7 +29,7 @@ public class ViewPaciente extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
 
-        jLabel1.setText("PAACIENTE");
+        jLabel1.setText("PAACIENTEeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

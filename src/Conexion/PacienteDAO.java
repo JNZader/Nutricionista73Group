@@ -20,7 +20,6 @@ public class PacienteDAO {
     public void guardarPaciente(Paciente paciente) {
         String sql = "INSERT INTO paciente (nombreCompleto,DNI,celular,pesoActual,estado) VALUES(?,?,?,?,?)";
 
-
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, paciente.getNombre());
             ps.setInt(2, paciente.getDni());
@@ -46,14 +45,15 @@ public class PacienteDAO {
     }
 
     public void modificarPaciente(Paciente paciente) {
-        String sql = "UPDATE paciente SET nombreCompleto=?,DNI=?,domicilio=?,celular=?,pesoActual=? WHERE idPaciente=? ";
+        String sql = "UPDATE paciente SET nombreCompleto=?,DNI=?,domicilio=?,celular=?,pesoActual=?,estado=? WHERE idPaciente=? ";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, paciente.getNombre());
             ps.setInt(2, paciente.getDni());
             ps.setString(3, paciente.getDomicilio());
             ps.setInt(4, paciente.getTelefono());
             ps.setDouble(5, paciente.getPesoActual());
-            ps.setInt(6,paciente.getIdPaciente());
+            ps.setBoolean(6, paciente.isEstado());
+            ps.setInt(7, paciente.getIdPaciente());
             // Verificación del resultado de la ejecución
             int exito = ps.executeUpdate();
             if (exito == 1) {
@@ -65,7 +65,7 @@ public class PacienteDAO {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla paciente ");
         }
-    }//REVISAR
+    }
 
     public void eliminarPacienteFisico(int id) {
         String sql = "DELETE FROM paciente WHERE idPaciente = ?";
@@ -84,8 +84,8 @@ public class PacienteDAO {
             JOptionPane.showMessageDialog(null, " Error al acceder a la tabla paciente");
         }
     }
-    
-     public void eliminarPacienteLogico(int id) {
+
+    public void eliminarPacienteLogico(int id) {
         String sql = "UPDATE paciente SET estado=0 WHERE idPaciente = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -105,6 +105,8 @@ public class PacienteDAO {
 
     public ArrayList<Paciente> listarPaciente() {
         String sql = "SELECT * FROM paciente where estado=1 ";
+        
+        
         ArrayList<Paciente> pacientes = new ArrayList<>();
 
         try (PreparedStatement ps = con.prepareStatement(sql);
@@ -151,8 +153,8 @@ public class PacienteDAO {
                     paciente.setEstado(true);
 
                 } else {
-                        JOptionPane.showMessageDialog(null, "No existe el paciente");
-                    
+                    JOptionPane.showMessageDialog(null, "No existe el paciente");
+
                 }
             }
         } catch (SQLException ex) {
