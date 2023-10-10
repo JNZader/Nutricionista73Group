@@ -103,7 +103,7 @@ public class ComidaDAO {
 
     }
 
-    public ArrayList<Comida> listarComidas() {
+    public ArrayList<Comida> listarComidas(int estado) {
         String SQL_SELECT = "SELECT idComida, nombre, detalle, cantCalorias, estado FROM comida";
         Comida comida = null;
         ArrayList<Comida> comidaList = new ArrayList<>();
@@ -127,7 +127,7 @@ public class ComidaDAO {
         return comidaList; // retorna la lista 
     }
 
-    public Comida buscarXCantCalorias(int cantCalorias) {
+    public Comida buscarXCantCalorias(int cantCalorias, int estado) {
         String SQL_SELECT_ID = "SELECT idComida, nombre, detalle, cantCalorias, estado FROM comida WHERE cantCalorias = ?";
         Comida calorias = null;
 
@@ -149,6 +149,10 @@ public class ComidaDAO {
             JOptionPane.showMessageDialog(null, "Error al buscar las comidas por calorias");
         }
         return calorias;
+    }
+
+    Comida buscar(int idComida) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
