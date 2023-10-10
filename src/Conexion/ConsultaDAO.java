@@ -2,6 +2,7 @@ package Conexion;
 
 import static Conexion.Conexion.getConnection;
 import Entidades.Consulta;
+import Entidades.Paciente;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -30,7 +31,9 @@ public class ConsultaDAO {
             while (rs.next()) {
                     consulta = new Consulta();
                     consulta.setIdConsulta(rs.getInt("idConsulta"));
-                    consulta.setIdPaciente(rs.getInt("idPaciente"));
+                    Paciente paciente=new Paciente();
+                    paciente.setIdPaciente(rs.getInt("idPaciente"));
+                    consulta.setPaciente(paciente);
                     consulta.setFecha(rs.getDate("fecha").toLocalDate());
                     consulta.setPesoActual(rs.getDouble("pesoActual"));
 
@@ -43,17 +46,17 @@ public class ConsultaDAO {
         return consultaList; // retorna la lista 
     }
 
-    public Consulta buscar(int idPaciente) {
-        String SQL_SELECT_ID = "SELECT * FROM consulta WHERE idConsulta = ?";
+    public Consulta buscar(Paciente paciente) {
+        String SQL_SELECT_ID = "SELECT * FROM consulta WHERE idPaciente = ?";
         Consulta consulta= null;
 
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
-            ps.setInt(1, idPaciente);
+            ps.setInt(1, paciente.getIdPaciente());
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     consulta = new Consulta();
                     consulta.setIdConsulta(rs.getInt("idConsulta"));
-                    consulta.setIdPaciente(idPaciente);
+                    consulta.setPaciente(paciente);
                     consulta.setFecha(rs.getDate("fecha").toLocalDate());
                     consulta.setPesoActual(rs.getDouble("pesoActual"));
                 }
@@ -70,7 +73,7 @@ public class ConsultaDAO {
 
         try (PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
-            ps.setInt(1, consulta.getIdPaciente());
+            ps.setInt(1, consulta.getPaciente().getIdPaciente());
             ps.setDate(2, Date.valueOf(consulta.getFecha()));
             ps.setDouble(3, consulta.getPesoActual());
             ps.executeUpdate(); // ejecuta la inserción en la base de datos
@@ -93,7 +96,7 @@ public class ConsultaDAO {
 
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
 
-            ps.setInt(1, consulta.getIdPaciente());
+            ps.setInt(1, consulta.getPaciente().getIdPaciente());
             ps.setDate(2, Date.valueOf(consulta.getFecha()));
             ps.setDouble(3, consulta.getPesoActual());
             ps.setInt(4, consulta.getIdConsulta());
