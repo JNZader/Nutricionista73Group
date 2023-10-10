@@ -45,7 +45,7 @@ public class DietaDAO {
             while (rs.next()) {
                 dieta = new Dieta();
                 dieta.setNombre(rs.getString("nombre"));
-                Paciente p = pd.buscarPaciente(rs.getInt("idpaciente"));
+                Paciente p = pd.buscarPaciente(rs.getInt("idpaciente"),3);
                 dieta.setPaciente(p);
                 dieta.setFechaInicial(rs.getDate("fechaInicio").toLocalDate());
                 dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
@@ -82,7 +82,7 @@ public class DietaDAO {
                 if (rs.next()) {
                     dieta = new Dieta();
                     dieta.setNombre(rs.getString("nombre"));
-                    Paciente p = pd.buscarPaciente(rs.getInt("idpaciente"));
+                    Paciente p = pd.buscarPaciente(rs.getInt("idpaciente"),3);
                     dieta.setPaciente(p);
                     dieta.setFechaInicial(rs.getDate("fechaInicio").toLocalDate());
                     dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
