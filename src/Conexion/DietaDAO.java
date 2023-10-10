@@ -123,7 +123,7 @@ public class DietaDAO {
     }
 
     public void actualizar(Dieta dieta) {
-        String SQL_UPDATE = "UPDATE dieta SET idPaciente = ?, fechaInicio = ?, fechaFin = ?, PesoFin = ? WHERE idDieta = ?";
+        String SQL_UPDATE = "UPDATE dieta SET idPaciente = ?, fechaInicio = ?, fechaFin = ?, pesoFinal = ? WHERE idDieta = ?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
 
