@@ -5,7 +5,6 @@
  */
 package Vistas;
 
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialPalenightIJTheme;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
