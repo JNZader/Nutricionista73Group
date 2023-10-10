@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Consulta {
 
     private int idConsulta;
-    private int idPaciente;
+    private Paciente paciente;
     private LocalDate fecha;
     private double pesoActual;
 
@@ -16,15 +16,15 @@ public class Consulta {
         this.idConsulta = idConsulta;
     }
 
-    public Consulta(int idPaciente, LocalDate fecha, double pesoActual) {
-        this.idPaciente = idPaciente;
+    public Consulta(Paciente paciente, LocalDate fecha, double pesoActual) {
+        this.paciente = paciente;
         this.fecha = fecha;
         this.pesoActual = pesoActual;
     }
 
-    public Consulta(int idConsulta, int idPaciente, LocalDate fecha, double pesoActual) {
+    public Consulta(int idConsulta, Paciente paciente, LocalDate fecha, double pesoActual) {
         this.idConsulta = idConsulta;
-        this.idPaciente = idPaciente;
+        this.paciente = paciente;
         this.fecha = fecha;
         this.pesoActual = pesoActual;
     }
@@ -37,12 +37,12 @@ public class Consulta {
         this.idConsulta = idConsulta;
     }
 
-    public int getIdPaciente() {
-        return idPaciente;
+    public Paciente getPaciente() {
+        return paciente;
     }
 
-    public void setIdPaciente(int idPaciente) {
-        this.idPaciente = idPaciente;
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
 
     public LocalDate getFecha() {
@@ -63,8 +63,7 @@ public class Consulta {
 
     @Override
     public String toString() {
-        return "Consulta{" + "idConsulta=" + idConsulta + ", idPaciente=" + idPaciente + ", fecha=" + fecha + ", pesoActual=" + pesoActual + '}';
+        return "Consulta{" + "idConsulta=" + idConsulta + ", paciente=" + paciente + ", fecha=" + fecha + ", pesoActual=" + pesoActual + '}';
     }
-    
-    
+
 }

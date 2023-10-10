@@ -26,13 +26,13 @@ public class DietaDAO {
 
         switch (estado) {
             case 1:
-                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE estado=1";
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE estado=1";
                 break;
             case 0:
-                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE estado=0";
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE estado=0";
                 break;
             default:
-                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta";
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta";
                 break;
         }
 
@@ -50,6 +50,7 @@ public class DietaDAO {
                 dieta.setFechaInicial(rs.getDate("fechaInicio").toLocalDate());
                 dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
                 dieta.setPesoFinal(rs.getDouble("pesoFinal"));
+                dieta.setEstado(rs.getBoolean("estado"));
 
                 dietaList.add(dieta);
             }
@@ -66,13 +67,13 @@ public class DietaDAO {
 
         switch (estado) {
             case 1:
-                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE idDieta = ? AND estado=1";
+                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE idDieta = ? AND estado=1";
                 break;
             case 0:
-                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE idDieta = ? AND estado=0";
+                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE idDieta = ? AND estado=0";
                 break;
             default:
-                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE idDieta = ?";
+                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE idDieta = ?";
                 break;
         }
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
@@ -87,6 +88,7 @@ public class DietaDAO {
                     dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
                     dieta.setPesoFinal(rs.getDouble("pesoFinal"));
                     dieta.setIdDieta(idDieta);
+                    dieta.setEstado(rs.getBoolean("estado"));
                 }
             }
         } catch (SQLException ex) {
@@ -97,7 +99,7 @@ public class DietaDAO {
     }
 
     public void insertar(Dieta dieta) {
-        String SQL_INSERT = "INSERT INTO dieta(nombre, idPaciente, fechaInicio, fechaFin, pesoFinal) VALUES (?,?,?,?,?)";
+        String SQL_INSERT = "INSERT INTO dieta(nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado) VALUES (?,?,?,?,?,?)";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -107,6 +109,7 @@ public class DietaDAO {
             ps.setDate(3, Date.valueOf(dieta.getFechaInicial()));
             ps.setDate(4, Date.valueOf(dieta.getFechaFinal()));
             ps.setDouble(5, dieta.getPesoFinal());
+            ps.setBoolean(6, true);
             ps.executeUpdate(); // ejecuta la inserción en la base de datos
             try (ResultSet rs = ps.getGeneratedKeys()) { // obtiene las claves generadas automáticamente
                 if (rs.next()) {
@@ -123,7 +126,7 @@ public class DietaDAO {
     }
 
     public void actualizar(Dieta dieta) {
-        String SQL_UPDATE = "UPDATE dieta SET idPaciente = ?, fechaInicio = ?, fechaFin = ?, PesoFin = ? WHERE idDieta = ?";
+        String SQL_UPDATE = "UPDATE dieta SET idPaciente = ?, fechaInicio = ?, fechaFin = ?, pesoFinal = ?, estado=? WHERE idDieta = ?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
 
@@ -131,7 +134,8 @@ public class DietaDAO {
             ps.setDate(2, Date.valueOf(dieta.getFechaInicial()));
             ps.setDate(3, Date.valueOf(dieta.getFechaFinal()));
             ps.setDouble(4, dieta.getPesoFinal());
-            ps.setInt(5, dieta.getIdDieta());
+            ps.setBoolean(5, dieta.isEstado());
+            ps.setInt(6, dieta.getIdDieta());
 
             int on = ps.executeUpdate(); // Ejecuta la actualización en la base de datos
             if (on > 0) {
@@ -154,6 +158,22 @@ public class DietaDAO {
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al eliminar Dieta");
+        }
+    }
+
+    public void anularDieta(int idDieta) {
+        String sql = "UPDATE dieta SET estado=0 WHERE idDieta = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idDieta);
+            int updel = ps.executeUpdate();
+            if (updel == 1) {
+                System.out.println("se ha eliminado una Dieta");
+            } else {
+                System.out.println("error al eliminar Dieta");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error SQL al eliminar Dieta");
         }
     }
 }
