@@ -9,12 +9,12 @@ package Vistas;
  *
  * @author javie
  */
-public class Principal extends javax.swing.JPanel {
+public class ViewConsulta extends javax.swing.JPanel {
 
     /**
-     * Creates new form Principal
+     * Creates new form ViewConsulta
      */
-    public Principal() {
+    public ViewConsulta() {
         initComponents();
     }
 
@@ -29,23 +29,23 @@ public class Principal extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
 
-        jLabel1.setText("PRINCIPAL");
+        jLabel1.setText("CONSULTA");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(257, 257, 257)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addGap(245, 245, 245)
+                .addComponent(jLabel1)
+                .addContainerGap(457, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(212, 212, 212)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(278, Short.MAX_VALUE))
+                .addGap(188, 188, 188)
+                .addComponent(jLabel1)
+                .addContainerGap(490, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
