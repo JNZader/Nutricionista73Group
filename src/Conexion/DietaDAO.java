@@ -66,13 +66,13 @@ public class DietaDAO {
 
         switch (estado) {
             case 1:
-                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE idDieta = ? AND estado=1";
+                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE idDieta = ? AND estado=1";
                 break;
             case 0:
-                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE idDieta = ? AND estado=0";
+                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE idDieta = ? AND estado=0";
                 break;
             default:
-                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal FROM dieta WHERE idDieta = ?";
+                SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE idDieta = ?";
                 break;
         }
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
@@ -87,6 +87,7 @@ public class DietaDAO {
                     dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
                     dieta.setPesoFinal(rs.getDouble("pesoFinal"));
                     dieta.setIdDieta(idDieta);
+                    dieta.setEstado(rs.getBoolean("estado"));
                 }
             }
         } catch (SQLException ex) {
