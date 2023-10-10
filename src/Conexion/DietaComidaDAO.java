@@ -115,7 +115,7 @@ public class DietaComidaDAO {
 
                 int idComida = rs.getInt("idComida");
                 ComidaDAO comidaDAO = new ComidaDAO(); // Debes crear una instancia de ComidaDAO
-                Comida comida = comidaDAO.buscar(idComida); // Implementa un método buscarPorId en ComidaDAO
+                Comida comida = comidaDAO.buscar(idComida,3); // Implementa un método buscarPorId en ComidaDAO
                 dietaComida.setComida(comida);
 
                 int idDieta = rs.getInt("idDieta");
@@ -160,7 +160,7 @@ public class DietaComidaDAO {
 
                     int idComida = rs.getInt("idComida");
                     ComidaDAO comidaDAO = new ComidaDAO();
-                    Comida comida = comidaDAO.buscar(idComida);
+                    Comida comida = comidaDAO.buscar(idComida,3);
                     dietaComida.setComida(comida);
 
                     int idDieta = rs.getInt("idDieta");
