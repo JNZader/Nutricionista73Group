@@ -124,5 +124,4 @@ public class ConsultaDAO {
             JOptionPane.showMessageDialog(null, "Error al eliminar Consulta");
         }
     }
-
 }
