@@ -16,11 +16,11 @@ import javax.swing.JLabel;
  */
 public class ViewPaciente extends javax.swing.JPanel {
 
-    private ImageIcon imagen;
-    private Icon icono;
+//    private ImageIcon imagen;
+//    private Icon icono;
     public ViewPaciente() {
         initComponents();
-        this.pintarImagen(this.iconoPaciente, "src/Vistas/imagenPaciente.png");
+//        this.pintarImagen(this.iconoPaciente, "src/Vistas/imagenPaciente.png");
     }
 
     /**
@@ -48,7 +48,10 @@ public class ViewPaciente extends javax.swing.JPanel {
         jRadioButton1 = new javax.swing.JRadioButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        iconoPaciente = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
 
@@ -153,26 +156,45 @@ public class ViewPaciente extends javax.swing.JPanel {
                 .addGap(67, 67, 67))
         );
 
-        iconoPaciente.setBackground(new java.awt.Color(255, 255, 255));
-        iconoPaciente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Documents\\GitHub\\Nutricionista73Group\\src\\recursos\\customer_person_people_man_you_1625.png")); // NOI18N
+        jLabel9.setText("jLabel9");
+
+        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Documents\\GitHub\\Nutricionista73Group\\src\\recursos\\guardar_user.png")); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Documents\\GitHub\\Nutricionista73Group\\src\\recursos\\delete_user.png")); // NOI18N
+
+        jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Documents\\GitHub\\Nutricionista73Group\\src\\recursos\\editar_user.png")); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
-                                .addComponent(jSeparator2))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(iconoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator2))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,12 +202,17 @@ public class ViewPaciente extends javax.swing.JPanel {
                 .addGap(32, 32, 32)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(iconoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(43, 43, 43)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -200,13 +227,23 @@ public class ViewPaciente extends javax.swing.JPanel {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
     public static void main(String[] args) {
         ViewPaciente vp = new ViewPaciente();
         vp.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel iconoPaciente;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -214,6 +251,7 @@ public class ViewPaciente extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JSeparator jSeparator1;
@@ -226,32 +264,32 @@ public class ViewPaciente extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
  
     
-private void pintarImagen(JLabel lbl, String ruta) {
-    try {
-        // Cargar la imagen
-        this.imagen = new ImageIcon(ruta);
-
-        // Verificar si la imagen tiene dimensiones no nulas
-        int width = this.imagen.getIconWidth();
-        int height = this.imagen.getIconHeight();
-
-        // Obtener las dimensiones del JLabel después de que se haya agregado al contenedor y se haya validado el diseño
-        int labelWidth = lbl.getWidth();
-        int labelHeight = lbl.getHeight();
-
-        if (width > 0 && height > 0 && labelWidth > 0 && labelHeight > 0) {
-            // Escalar la imagen y establecerla en el JLabel
-            this.icono = new ImageIcon(this.imagen.getImage().getScaledInstance(labelWidth, labelHeight, Image.SCALE_SMOOTH));
-            lbl.setIcon(this.icono);
-            this.repaint();
-        } else {
-            System.out.println("La imagen o las dimensiones del JLabel tienen valores no válidos.");
-        }
-    } catch (Exception e) {
-        System.out.println("Error al cargar la imagen: " + e.getMessage());
-        e.printStackTrace(System.out);
-    }
-}
+//private void pintarImagen(JLabel lbl, String ruta) {
+//    try {
+//        // Cargar la imagen
+//        this.imagen = new ImageIcon(ruta);
+//
+//        // Verificar si la imagen tiene dimensiones no nulas
+//        int width = this.imagen.getIconWidth();
+//        int height = this.imagen.getIconHeight();
+//
+//        // Obtener las dimensiones del JLabel después de que se haya agregado al contenedor y se haya validado el diseño
+//        int labelWidth = lbl.getWidth();
+//        int labelHeight = lbl.getHeight();
+//
+//        if (width > 0 && height > 0 && labelWidth > 0 && labelHeight > 0) {
+//            // Escalar la imagen y establecerla en el JLabel
+//            this.icono = new ImageIcon(this.imagen.getImage().getScaledInstance(labelWidth, labelHeight, Image.SCALE_SMOOTH));
+//            lbl.setIcon(this.icono);
+//            this.repaint();
+//        } else {
+//            System.out.println("La imagen o las dimensiones del JLabel tienen valores no válidos.");
+//        }
+//    } catch (Exception e) {
+//        System.out.println("Error al cargar la imagen: " + e.getMessage());
+//        e.printStackTrace(System.out);
+//    }
+//}
 
 
 
