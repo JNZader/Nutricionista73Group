@@ -38,14 +38,15 @@ public class DietaDAO {
 
         Dieta dieta = null;
         ArrayList<Dieta> dietaList = new ArrayList<>();
-
+        pd = new PacienteDAO();
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT);
                 ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 dieta = new Dieta();
                 dieta.setNombre(rs.getString("nombre"));
-                Paciente p = pd.buscarPaciente(rs.getInt("idpaciente"),3);
+                int idPaciente = rs.getInt("idpaciente");
+                Paciente p = pd.buscarPaciente(idPaciente, 3);
                 dieta.setPaciente(p);
                 dieta.setFechaInicial(rs.getDate("fechaInicio").toLocalDate());
                 dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
@@ -64,7 +65,7 @@ public class DietaDAO {
     public Dieta buscarPorId(int idDieta, int estado) {
         String SQL_SELECT_ID = null;
         Dieta dieta = null;
-
+        pd = new PacienteDAO();
         switch (estado) {
             case 1:
                 SQL_SELECT_ID = "SELECT nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE idDieta = ? AND estado=1";
@@ -82,7 +83,8 @@ public class DietaDAO {
                 if (rs.next()) {
                     dieta = new Dieta();
                     dieta.setNombre(rs.getString("nombre"));
-                    Paciente p = pd.buscarPaciente(rs.getInt("idpaciente"),3);
+                    int idPaciente = rs.getInt("idpaciente");
+                    Paciente p = pd.buscarPaciente(idPaciente, 3);
                     dieta.setPaciente(p);
                     dieta.setFechaInicial(rs.getDate("fechaInicio").toLocalDate());
                     dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
