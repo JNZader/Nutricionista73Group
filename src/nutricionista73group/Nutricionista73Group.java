@@ -17,102 +17,212 @@ public class Nutricionista73Group {
 
     public static void main(String[] args) {
 
-/*     |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
-       |                      Prueba Crud clase Comida                   |
-       |                                                                 |
-       |_________________________________________________________________|         */
-        //probando comidaDAO
-//        ComidaDAO comiDao = new ComidaDAO();
-//        Comida comi = new Comida(6, 1650, "lomito", "con papas", true);
-//        System.out.println("comi = " + comi);
-//        //insertar
-//        comi = comiDao.insertar(comi);
-//        System.out.println("comi = " + comi);
-
-        //modificar
-//        Comida comi2 = new Comida(6, 1650, "lomito", "con papas", true);
-//        comiDao.modificar(comi2);
-        //listar comidas
-        //System.out.println(comiDao.listarcomidas());
-        //buscar cantidad calorias
-        //System.out.println("la comida que se busco por calorias es: "+comiDao.buscarXCantCalorias(10000) );
-        //borrado logico
-//        comiDao.borrar(3);
-//        DietaComidaDAO die = new DietaComidaDAO();
-//        Dieta d1 = new Dieta(" Vegetarianismo ", p1, LocalDate.parse("2023/09/22", DateTimeFormatter.ofPattern("yyyy/MM/dd")), LocalDate.parse("2023/10/05", DateTimeFormatter.ofPattern("yyyy/MM/dd")), 80.5);
-//        Comida comiRocio = new Comida(200, "milanesa", "con papas frita", true);
-//        DietaComida dietC = new DietaComida(comiRocio, d1, 500, Horario.ALMUERZO, true);
-//        die.insertar(dietC);  
-/*     |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
-       |                      Prueba Crud clase Paciente                 |
-       |                                                                 |
-       |_________________________________________________________________|         */
-
- /* 
-        PacienteDAO pdao = new PacienteDAO();
-        Paciente p1=new Paciente("Juan Lencina Rosendo", 213700255, "Av siempre viva 1234", 353749800,11, 150.5,true);
-        guardar paciente
-        pdao.guardarPaciente(p1);
-        Dieta d1=new Dieta("Mediterranea", p1, LocalDate.parse("2023/09/22",DateTimeFormatter.ofPattern("yyyy/MM/dd")), LocalDate.parse("2023/12/30",DateTimeFormatter.ofPattern("yyyy/MM/dd")), 120.5);
-        
-        modificar paciente
-        pdao.modificarPaciente(p1);
-        
-        buscar paciente
-        System.out.println(pdao.buscarPaciente(1));
-        
-
-
-        DietaDAO ddao=new DietaDAO();
-        ddao.insertar(d1);
-        
-
-        buscar paciente por dni
-
-
-        System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
-        
-
-        System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
-        
-
-
-        System.out.println("paciente encontrado por dni "+pdao.buscarPacientePorDni(32600500));
-        
-
-
-        eliminar paciente
-        pdao.eliminarPacienteLogico(1);
-        
-        listar paciente
-
-
-
-        System.out.println(pdao.listarPaciente());
-         */
-/*     |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
-       |                      Prueba Crud clase Consulta                 |
-       |                                                                 |
-       |_________________________________________________________________|         */
- /*    |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
-       |                      Prueba Crud clase Dieta                    |
-       |                                                                 |
-       |_________________________________________________________________|         */
- /*    |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|
-       |                      Prueba Crud clase DietaComida              |
-       |                                                                 |
-       |_________________________________________________________________|         */
-
-        
-//   DietaComidaDAO die = new DietaComidaDAO();
-//        //Dieta d1 = new Dieta(" Vegetarianismo ", p1, LocalDate.parse("2023/09/22", DateTimeFormatter.ofPattern("yyyy/MM/dd")), LocalDate.parse("2023/10/05", DateTimeFormatter.ofPattern("yyyy/MM/dd")), 80.5);
-//        DietaDAO dieDao = new DietaDAO();
-//        Dieta d1 = new Dieta(11,"de la luna", p1, LocalDate.of(2023, Month.NOVEMBER, 02), LocalDate.of(2023, Month.NOVEMBER, 04), 150,true);
-//        //dieDao.insertar(d1);
-//        Comida comiRocio = new Comida(4,200, "milanesa a la napolitana ", "con papas frita", true);
-//        //comiDao.insertar(comiRocio);
-//        DietaComida dietC = new DietaComida(comiRocio, d1, 500, Horario.ALMUERZO, true);
-//        die.insertar(dietC);
- 
+//////////////////////////////////////////////////////////////////////////////////////
+/////////                     Prueba Crud clase Comida                   /////////////
+/////////                                                                /////////////
+/////////////////////////////////////////////////////////////////////////////////////
+//        // Crea instancia de ComidaDAO
+//        ComidaDAO comidaDAO = new ComidaDAO();
+//
+//        // inserción de comida
+//        Comida nuevaComida = new Comida(250, "desayuno", "tostadas con mermelada", true);
+//        comidaDAO.insertar(nuevaComida);
+//
+//        // búsqueda de comida por nombre
+//        String nombreComidaABuscar = "Desayuno"; 
+//        Comida comidaEncontrada = comidaDAO.buscarPorNombre(nombreComidaABuscar,1);
+//        if (comidaEncontrada != null) {
+//            System.out.println("Comida encontrada: " + comidaEncontrada.getNombre());
+//        } else {
+//            System.out.println("Comida no encontrada.");
+//        }
+//
+//        // modificación de una comida
+//        if (comidaEncontrada != null) {
+//            comidaEncontrada.setDetalle("Tostadas con mantequilla y mermelada");
+//            comidaDAO.modificar(comidaEncontrada);
+//            System.out.println("Comida modificada con éxito.");
+//        }
+//
+//        // eliminación de comida
+//        if (comidaEncontrada != null) {
+//            comidaDAO.borrar(comidaEncontrada.getIdComida());
+//            System.out.println("Comida eliminada.");
+//        }
+//
+//        // listado de todas las comidas
+//        System.out.println("Listado de todas las comidas:");
+//        for (Comida comida : comidaDAO.listarComidas(5)) {
+//            System.out.println(comida.getNombre());
+//        }
+/////////////////////////////////////////////////////////////////////////////////////
+////////                      Prueba Crud clase Paciente                 ////////////
+////////                                                                 ////////////
+/////////////////////////////////////////////////////////////////////////////////////
+//        // Crea instancia de PacienteDAO
+//        PacienteDAO pacienteDAO = new PacienteDAO();
+//
+//        // inserción de paciente
+//        Paciente nuevoPaciente = new Paciente("Juan Pérez", 123456789, "Calle 123", 555555, 70.0, true);
+//        pacienteDAO.guardarPaciente(nuevoPaciente);
+//
+//        // búsqueda de paciente por DNI
+//        int dniABuscar = 123456789; 
+//        Paciente pacienteEncontrado = pacienteDAO.buscarPacientePorDni(dniABuscar, 1); // 1 para pacientes activos, 0  inactivos otro numero ambos...
+//        if (pacienteEncontrado != null) {
+//            System.out.println("Paciente encontrado: " + pacienteEncontrado.getNombre());
+//        } else {
+//            System.out.println("Paciente no encontrado.");
+//        }
+//
+//        // modificación de paciente
+//        if (pacienteEncontrado != null) {
+//            pacienteEncontrado.setNombre("Juan Pérez Modificado");
+//            pacienteDAO.modificarPaciente(pacienteEncontrado);
+//            System.out.println("Paciente modificado con éxito.");
+//        }
+//
+//        // listado de pacientes activos
+//        System.out.println("Listado de pacientes activos:");
+//        for (Paciente paciente : pacienteDAO.listarPaciente(1)) {
+//            System.out.println(paciente.getNombre());
+//        }
+//
+//        // eliminación física de un paciente
+//        if (pacienteEncontrado != null) {
+//            int idPacienteAEliminar = pacienteEncontrado.getIdPaciente();
+//            pacienteDAO.eliminarPacienteFisico(idPacienteAEliminar);
+//            System.out.println("Paciente eliminado físicamente.");
+//        }
+/////////////////////////////////////////////////////////////////////////////////////
+////////                      Prueba Crud clase Consulta                 ////////////
+////////                                                                 ////////////
+/////////////////////////////////////////////////////////////////////////////////////
+//        ConsultaDAO consultaDAO = new ConsultaDAO();
+//        PacienteDAO pacienteDAO = new PacienteDAO();
+//
+//        // Obtiene una lista de todas las consultas
+//        ArrayList<Consulta> consultas = consultaDAO.buscar();
+//        for (Consulta consulta : consultas) {
+//            System.out.println(consulta);
+//        }
+//
+//        // Crea un nuevo paciente para insertar una nueva consulta
+//        Paciente paciente = new Paciente("Juan", 123456789, "Calle 123", 555555, 1, 70.5, true);
+//        pacienteDAO.guardarPaciente(paciente);
+//        
+//        // Crea una nueva consulta
+//        Consulta nuevaConsulta = new Consulta(paciente, LocalDate.now(), 75.0);
+//
+//        // Inserta la nueva consulta en la base de datos
+//        consultaDAO.insertar(nuevaConsulta);
+//        System.out.println("Nueva consulta insertada: " + nuevaConsulta);
+//
+//        // Actualiza la consulta
+//        nuevaConsulta.setPesoActual(76.0);
+//        consultaDAO.actualizar(nuevaConsulta);
+//        System.out.println("Consulta actualizada: " + nuevaConsulta);
+//
+//        // Busca una consulta por paciente
+//        Consulta consultaPorPaciente = consultaDAO.buscar(paciente);
+//        System.out.println("Consulta encontrada por paciente: " + consultaPorPaciente);
+//
+//        // Elimina la consulta
+//        int idConsultaAEliminar = nuevaConsulta.getIdConsulta();
+//        consultaDAO.eliminar(idConsultaAEliminar);
+//        System.out.println("Consulta eliminada con ID: " + idConsultaAEliminar);
+//
+/////////////////////////////////////////////////////////////////////////////////////
+////////                      Prueba Crud clase Dieta                    ////////////
+////////                                                                 ////////////
+/////////////////////////////////////////////////////////////////////////////////////
+//        // Crea una instancia de DietaDAO
+//        DietaDAO dietaDAO = new DietaDAO();
+//        // Crea una instancia de PacienteDAO
+//        PacienteDAO pacienteDAO = new PacienteDAO();
+//
+//        // Crea  paciente
+//        Paciente paciente = new Paciente("Maria Rodriguez", 987654321, "Avenida 456", 555555, 60.0, true);
+//        // inserción de un paciente
+//        pacienteDAO.guardarPaciente(paciente);        
+//
+//        // inserción de una dieta
+//        Dieta nuevaDieta = new Dieta("Dieta de prueba", paciente, LocalDate.now(), LocalDate.now(), 55.0, true);
+//        dietaDAO.insertar(nuevaDieta);
+//        // listado de dietas 
+//        System.out.println("Listado de dietas activas:");
+//        for (Dieta dieta : dietaDAO.buscar(3)) {
+//            System.out.println(dieta.getNombre());
+//        }
+//
+//        // búsqueda de una dieta por ID
+//        int idDietaABuscar = nuevaDieta.getIdDieta();
+//        Dieta dietaEncontrada = dietaDAO.buscarPorId(idDietaABuscar, 3);
+//        if (dietaEncontrada != null) {
+//            System.out.println("Dieta encontrada: " + dietaEncontrada.getNombre());
+//        } else {
+//            System.out.println("Dieta no encontrada.");
+//        }
+//
+//        // modificación de una dieta
+//        if (dietaEncontrada != null) {
+//            dietaEncontrada.setNombre("Dieta Modificada");
+//            dietaDAO.actualizar(dietaEncontrada);
+//            System.out.println("Dieta modificada con éxito.");
+//        }
+//
+//        // eliminación lógica de una dieta (cambio de estado)
+//        if (dietaEncontrada != null) {
+//            dietaDAO.anularDieta(dietaEncontrada.getIdDieta());
+//            System.out.println("Dieta anulada.");
+//        }
+//
+///////////////////////////////////////////////////////////////////////////////////////
+////////                      Prueba Crud clase DietaComida              //////////////
+////////                                                                //////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//        DietaComidaDAO dietaComidaDAO = new DietaComidaDAO();
+//        ComidaDAO comidaDAO = new ComidaDAO();
+//        DietaDAO dietaDAO = new DietaDAO();
+//        PacienteDAO pacienteDAO = new PacienteDAO();
+//
+//        // inserción de  comida
+//        Comida nuevaComida = new Comida(250, "desayuno", "tostadas con mermelada", true);//("Desayuno", "Tostadas con mermelada", 250.0);
+//        comidaDAO.insertar(nuevaComida);
+//
+//        // Crea  paciente 
+//        Paciente paciente = new Paciente("Maria Rodriguez", 987654321, "Avenida 456", 555555, 60.0, true);
+//        // inserción de un paciente
+//        pacienteDAO.guardarPaciente(paciente);        
+//
+//        // inserción de una dieta
+//        Dieta nuevaDieta = new Dieta("Dieta de prueba", paciente, LocalDate.now(), LocalDate.now(), 55.0, true);
+//        dietaDAO.insertar(nuevaDieta);        
+//        
+//        // inserción de una relación DietaComida
+//        Horario miHorario=Horario.DESAYUNO;
+//        DietaComida nuevaDietaComida = new DietaComida(nuevaComida,nuevaDieta, 250,miHorario,true);
+//        dietaComidaDAO.insertar(nuevaDietaComida);
+//
+//        // búsqueda de comidas para una dieta específica
+//        int idDietaABuscar = nuevaDieta.getIdDieta(); 
+//        System.out.println("Comidas para la Dieta con ID " + idDietaABuscar + ":");
+//        for (DietaComida dietaComida : dietaComidaDAO.buscarPorIdDieta(idDietaABuscar,1)) {
+//            int idComida = dietaComida.getComida().getIdComida();
+//            System.out.println("ID de Comida: " + idComida);
+//        }
+//
+//        // eliminación 
+//        if (nuevaDietaComida.getId() != 0) {
+//            dietaComidaDAO.eliminarDietaComida(nuevaDietaComida.getId());
+//            System.out.println("DietaComida eliminada.");
+//        }
+//
+//        // listado de todas las DietaComida
+//        System.out.println("Listado de todas las relaciones DietaComida:");
+//        for (DietaComida dietaComida : dietaComidaDAO.buscar(3)) {
+//            System.out.println("ID de Dieta: " + dietaComida.getDieta().getIdDieta()+ ", ID de Comida: " + dietaComida.getComida().getIdComida());
+//        }
+//
     }
 }
