@@ -93,13 +93,13 @@ public class DietaComidaDAO {
 
         switch (estado) {
             case 1:
-                SQL_SELECT = "SELECT id, idComida, idDieta, porcion, horario FROM dietacomida WHERE estado=1";
+                SQL_SELECT = "SELECT iddietacomida, idComida, idDieta, porcion, horario FROM dietacomida WHERE estado=1";
                 break;
             case 0:
-                SQL_SELECT = "SELECT id, idComida, idDieta, porcion, horario FROM dietacomida WHERE estado=0";
+                SQL_SELECT = "SELECT iddietacomida, idComida, idDieta, porcion, horario FROM dietacomida WHERE estado=0";
                 break;
             default:
-                SQL_SELECT = "SELECT id, idComida, idDieta, porcion, horario FROM dietacomida";
+                SQL_SELECT = "SELECT iddietacomida, idComida, idDieta, porcion, horario FROM dietacomida";
                 break;
         }
 
@@ -111,11 +111,11 @@ public class DietaComidaDAO {
 
             while (rs.next()) {
                 dietaComida = new DietaComida();
-                dietaComida.setId(rs.getInt("id"));
+                dietaComida.setId(rs.getInt("iddietacomida"));
 
                 int idComida = rs.getInt("idComida");
                 ComidaDAO comidaDAO = new ComidaDAO(); // Debes crear una instancia de ComidaDAO
-                Comida comida = comidaDAO.buscar(idComida,3); // Implementa un método buscarPorId en ComidaDAO
+                Comida comida = comidaDAO.buscar(idComida, 3); // Implementa un método buscarPorId en ComidaDAO
                 dietaComida.setComida(comida);
 
                 int idDieta = rs.getInt("idDieta");
@@ -141,13 +141,13 @@ public class DietaComidaDAO {
 
         switch (estado) {
             case 1:
-                SQL_SELECT_ID = "SELECT id, idComida, idDieta, porcion, horario FROM dietacomida WHERE id = ? AND estado=1";
+                SQL_SELECT_ID = "SELECT iddietacomida, idComida, idDieta, porcion, horario FROM dietacomida WHERE id = ? AND estado=1";
                 break;
             case 0:
-                SQL_SELECT_ID = "SELECT id, idComida, idDieta, porcion, horario FROM dietacomida WHERE id = ? AND estado=0";
+                SQL_SELECT_ID = "SELECT iddietacomida, idComida, idDieta, porcion, horario FROM dietacomida WHERE id = ? AND estado=0";
                 break;
             default:
-                SQL_SELECT_ID = "SELECT id, idComida, idDieta, porcion, horario FROM dietacomida WHERE id = ?";
+                SQL_SELECT_ID = "SELECT iddietacomida, idComida, idDieta, porcion, horario FROM dietacomida WHERE id = ?";
                 break;
         }
 
@@ -160,7 +160,7 @@ public class DietaComidaDAO {
 
                     int idComida = rs.getInt("idComida");
                     ComidaDAO comidaDAO = new ComidaDAO();
-                    Comida comida = comidaDAO.buscar(idComida,3);
+                    Comida comida = comidaDAO.buscar(idComida, 3);
                     dietaComida.setComida(comida);
 
                     int idDieta = rs.getInt("idDieta");
@@ -179,4 +179,50 @@ public class DietaComidaDAO {
         return dietaComida;
     }
 
+    public ArrayList<DietaComida> buscarPorIdDieta(int idDieta, int estado) {
+        String SQL_SELECT_BY_DIETA_ID = null;
+
+        switch (estado) {
+            case 1:
+                SQL_SELECT_BY_DIETA_ID = "SELECT iddietacomida, idComida, idDieta, porcion, horario FROM dietacomida WHERE idDieta = ? AND estado=1";
+                break;
+            case 0:
+                SQL_SELECT_BY_DIETA_ID = "SELECT iddietacomida, idComida, idDieta, porcion, horario FROM dietacomida WHERE idDieta = ? AND estado=0";
+                break;
+            default:
+                SQL_SELECT_BY_DIETA_ID = "SELECT iddietacomida, idComida, idDieta, porcion, horario FROM dietacomida WHERE idDieta = ?";
+                break;
+        }
+
+        DietaComida dietaComida = null;
+        ArrayList<DietaComida> dietaComidaList = new ArrayList<>();
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_BY_DIETA_ID)) {
+            ps.setInt(1, idDieta);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    dietaComida = new DietaComida();
+                    dietaComida.setId(rs.getInt("iddietacomida"));
+
+                    int idComida = rs.getInt("idComida");
+                    ComidaDAO comidaDAO = new ComidaDAO();
+                    Comida comida = comidaDAO.buscar(idComida, estado);
+                    dietaComida.setComida(comida);
+
+                    DietaDAO dietaDAO = new DietaDAO();
+                    Dieta dieta = dietaDAO.buscarPorId(idDieta, estado);
+                    dietaComida.setDieta(dieta);
+
+                    dietaComida.setPorcion(rs.getInt("porcion"));
+                    dietaComida.setHorario(Horario.valueOf(rs.getString("horario")));
+
+                    dietaComidaList.add(dietaComida);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al obtener DietasComidas por ID de Dieta");
+        }
+        return dietaComidaList;
+    }
 }
