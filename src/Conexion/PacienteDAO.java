@@ -191,16 +191,15 @@ public class PacienteDAO {
 
         switch (estado) {
             case 1:
-                sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente FROM paciente WHERE idPaciente=? and estado=1";
+                sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente, estado FROM paciente WHERE idPaciente=? and estado=1";
                 break;
             case 0:
-                sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente FROM paciente WHERE idPaciente=? and estado=0";
+                sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente, estado FROM paciente WHERE idPaciente=? and estado=0";
                 break;
             default:
-                sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente FROM paciente WHERE idPaciente=?";
+                sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente, estado FROM paciente WHERE idPaciente=?";
                 break;
         }     
-                
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);//asigna el valor del parametro dni a la consulta sql
 
