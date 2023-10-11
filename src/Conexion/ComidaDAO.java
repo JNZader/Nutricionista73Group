@@ -18,7 +18,6 @@ public class ComidaDAO {
 
     public ComidaDAO() {
         con = getConnection();
-
     }
 
     public Comida insertar(Comida comida) {
@@ -207,4 +206,39 @@ public class ComidaDAO {
         }
         return comida;
     }
+
+    public Comida buscarPorNombre(String nombre, int estado) {
+        String SQL_SELECT_NOMBRE = "";
+        Comida comida = null;
+
+        switch (estado) {
+            case 1:
+                SQL_SELECT_NOMBRE = "SELECT * FROM comida WHERE nombre = ? AND estado = 1";
+                break;
+            case 0:
+                SQL_SELECT_NOMBRE = "SELECT * FROM comida WHERE nombre = ? AND estado = 0";
+                break;
+            default:
+                SQL_SELECT_NOMBRE = "SELECT * FROM comida WHERE nombre = ?";
+                break;
+        }
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_NOMBRE)) {
+            ps.setString(1, nombre);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    comida = new Comida();
+                    comida.setIdComida(rs.getInt("idcomida"));
+                    comida.setNombre(rs.getString("nombre"));
+                    comida.setDetalle(rs.getString("detalle"));
+                    comida.setCantCalorias(rs.getInt("cantcalorias"));
+                    comida.setEstado(rs.getBoolean("estado"));
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al obtener la comida por nombre");
+        }
+        return comida;
+    }
+
 }
