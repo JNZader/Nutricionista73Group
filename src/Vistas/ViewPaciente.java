@@ -388,10 +388,7 @@ public class ViewPaciente extends javax.swing.JPanel {
         jBModificar.setEnabled(false);
         jBEliminar.setEnabled(false);
     }//GEN-LAST:event_jBLimpiarActionPerformed
-    public static void main(String[] args) {
-        ViewPaciente vp = new ViewPaciente();
-        vp.setVisible(true);
-    }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBBuscar;
