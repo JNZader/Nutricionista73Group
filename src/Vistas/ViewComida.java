@@ -68,12 +68,27 @@ public class ViewComida extends javax.swing.JPanel {
         jLabel3.setText("Cant. Calorias :");
 
         jTnombreComida.setToolTipText("Ingrese el nombre de la comida");
+        jTnombreComida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTnombreComidaKeyTyped(evt);
+            }
+        });
 
         jTcantCalorias.setToolTipText("Ingrese la Cantidad de Calorias");
+        jTcantCalorias.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTcantCaloriasKeyTyped(evt);
+            }
+        });
 
         jLabel4.setText("Detalle de Comida :");
 
         jTdetalleComida.setToolTipText("Describa la comida");
+        jTdetalleComida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTdetalleComidaKeyTyped(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel5.setText("LISTA DE COMIDAS");
@@ -194,6 +209,22 @@ public class ViewComida extends javax.swing.JPanel {
         this.setVisible(false);
         db.setVisible(true);
     }//GEN-LAST:event_botonSalirActionPerformed
+
+    private void jTnombreComidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTnombreComidaKeyTyped
+        char c = evt.getKeyChar();
+        if ((c< 'a' || c> 'z') && (c< 'A' || c> 'Z') && (c< ' ' || c> ' ')) evt.consume();
+    }//GEN-LAST:event_jTnombreComidaKeyTyped
+
+    private void jTdetalleComidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTdetalleComidaKeyTyped
+         char c = evt.getKeyChar();
+        if ((c< 'a' || c> 'z') && (c< 'A' || c> 'Z') && (c< ' ' || c> ' ')) evt.consume();
+    }//GEN-LAST:event_jTdetalleComidaKeyTyped
+
+    private void jTcantCaloriasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTcantCaloriasKeyTyped
+        char c = evt.getKeyChar();
+        if ((c< '0' || c> '9'))evt.consume();
+        if(jTcantCalorias.getText().length()>3) evt.consume();
+    }//GEN-LAST:event_jTcantCaloriasKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
