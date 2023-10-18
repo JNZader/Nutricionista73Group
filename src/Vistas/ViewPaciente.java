@@ -7,6 +7,7 @@ package Vistas;
 
 import Conexion.PacienteDAO;
 import Entidades.*;
+import javax.swing.JOptionPane;
 
 
 
@@ -21,6 +22,8 @@ public class ViewPaciente extends javax.swing.JPanel {
 //    private Icon icono;
     public ViewPaciente() {
         initComponents();
+        jBModificar.setEnabled(false);
+        jBEliminar.setEnabled(false);
 //        this.pintarImagen(this.iconoPaciente, "src/Vistas/imagenPaciente.png");
     }
 
@@ -281,25 +284,34 @@ public class ViewPaciente extends javax.swing.JPanel {
     private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
         // TODO add your handling code here:
         Paciente paciente;
-        
-        String nombre = jTNombre.getText();
-        int dni = Integer.parseInt(jTDni.getText());
-        String domicilio = jTDomicilio.getText();
-        int tel = Integer.parseInt(jTTelefono.getText());
-        double pesoActual = Double.parseDouble(jTPesoActual.getText());
-        boolean estado = jChEstado.isSelected();
-        
-        paciente = new Paciente(nombre, dni, domicilio, tel,pesoActual, estado);
-        
-        pd.guardarPaciente(paciente);
-        jBGuardar.setEnabled(false);
+        try {
+            if (jTNombre.getText().isEmpty() || jTDni.getText().isEmpty() || jTDomicilio.getText().isEmpty() || jTTelefono.getText().isEmpty() || jTPesoActual.getText().isEmpty() || (!jChEstado.isSelected())) {
+                JOptionPane.showMessageDialog(null, "debe llenar todos los campos");
+                return;
+            }
+
+            String nombre = jTNombre.getText();
+            int dni = Integer.parseInt(jTDni.getText());
+            String domicilio = jTDomicilio.getText();
+            int tel = Integer.parseInt(jTTelefono.getText());
+            double pesoActual = Double.parseDouble(jTPesoActual.getText());
+            boolean estado = jChEstado.isSelected();
+
+            paciente = new Paciente(nombre, dni, domicilio, tel, pesoActual, estado);
+
+            pd.guardarPaciente(paciente);
+            jBGuardar.setEnabled(false);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar datos validos");
+        }
     }//GEN-LAST:event_jBGuardarActionPerformed
 
     private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
         // TODO add your handling code here:
         
         Paciente paciente ;
-        
+        try{
+            
         String nombre = jTNombre.getText();
         int dni = Integer.parseInt(jTDni.getText());
         String domicilio = jTDomicilio.getText();
@@ -309,37 +321,62 @@ public class ViewPaciente extends javax.swing.JPanel {
         int id = Integer.parseInt(jTID.getText());
         paciente = new Paciente(nombre, dni, domicilio, telefono,id, peso, estado);
         
-       pd.modificarPaciente(paciente);
+        pd.modificarPaciente(paciente);
+        
+        }catch(NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Debe ingresar datos validos");
+        }
     }//GEN-LAST:event_jBModificarActionPerformed
 
     private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
         // TODO add your handling code here:
+        Dashboard d = new Dashboard();
         this.setVisible(false);
+        d.setVisible(true);
     }//GEN-LAST:event_jBSalirActionPerformed
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
         // TODO add your handling code here:
         Paciente paciente = new Paciente();
+        try{
         int dni = Integer.parseInt(jTDni.getText());
         paciente=pd.buscarPacientePorDni(dni, 2);
         int id = paciente.getIdPaciente();
         pd.eliminarPacienteLogico(id);
+        }catch(NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Debe ingresar datos validos");
+        }
     }//GEN-LAST:event_jBEliminarActionPerformed
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
         // TODO add your handling code here:
-        jTID.setEditable(false);
-        jBGuardar.setEnabled(false);
+       
         Paciente paciente = new Paciente();
-        int dni = Integer.parseInt(jTDni.getText());
-        paciente=pd.buscarPacientePorDni(dni, 2);
-        jTNombre.setText(paciente.getNombre());
-        jTDomicilio.setText(paciente.getDomicilio());
-        jTTelefono.setText(paciente.getTelefono()+"");
-        jTPesoActual.setText(paciente.getPesoActual()+"");
-        jChEstado.setSelected(true);
-        jTID.setText(paciente.getIdPaciente()+"");
+        try{
         
+            if (jTDni.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "El campo dni esta vacio");
+            } else {
+                int dni = Integer.parseInt(jTDni.getText());
+                paciente = pd.buscarPacientePorDni(dni, 2);
+                jTNombre.setText(paciente.getNombre());
+                jTDomicilio.setText(paciente.getDomicilio());
+                jTTelefono.setText(paciente.getTelefono() + "");
+                jTPesoActual.setText(paciente.getPesoActual() + "");
+                jChEstado.setSelected(true);
+                jTID.setText(paciente.getIdPaciente() + "");
+
+                jTID.setEditable(false);
+                jBGuardar.setEnabled(false);
+                jBModificar.setEnabled(true);
+                jBEliminar.setEnabled(true);
+            }
+        
+        }catch(NumberFormatException ex){
+        JOptionPane.showMessageDialog(null, "Debe ingresar datos validos");
+        }catch(NullPointerException ex){
+            JOptionPane.showMessageDialog(null, "Intenta con otro dni");
+        }
     }//GEN-LAST:event_jBBuscarActionPerformed
 
     private void jBLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLimpiarActionPerformed
@@ -348,6 +385,8 @@ public class ViewPaciente extends javax.swing.JPanel {
         limpiar();
         jTID.setEditable(true);
         jBGuardar.setEnabled(true);
+        jBModificar.setEnabled(false);
+        jBEliminar.setEnabled(false);
     }//GEN-LAST:event_jBLimpiarActionPerformed
     public static void main(String[] args) {
         ViewPaciente vp = new ViewPaciente();
