@@ -197,6 +197,10 @@ public class ViewComida extends javax.swing.JPanel {
                 boolean estc = jCestadoComida.getVerifyInputWhenFocusTarget();
                 Comida comida = new Comida(cantc, nc, dc, estc);
                 ComiData.insertar(comida);
+                jTnombreComida.setText(null);
+                jTdetalleComida.setText(null);
+                jTcantCalorias.setText(null);
+                jCestadoComida.setSelected(false);
             }
         } catch (HeadlessException | NumberFormatException e) {
             e.printStackTrace(System.out);
