@@ -224,5 +224,6 @@ public class Nutricionista73Group {
 //            System.out.println("ID de Dieta: " + dietaComida.getDieta().getIdDieta()+ ", ID de Comida: " + dietaComida.getComida().getIdComida());
 //        }
 //
+
     }
 }

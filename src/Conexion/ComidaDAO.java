@@ -173,7 +173,7 @@ public class ComidaDAO {
         return comidas;
     }
 
-    Comida buscar(int idComida, int estado) {
+    public Comida buscar(int idComida, int estado) {
         String SQL_SELECT_ID = "";
         Comida comida = null;
 
