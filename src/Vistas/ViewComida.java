@@ -182,11 +182,12 @@ public class ViewComida extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBagregarComidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBagregarComidaActionPerformed
+       ComiData = new ComidaDAO();
         try {
             if (jTnombreComida.getText().isEmpty()
                     || jTdetalleComida.getText().isEmpty()
                     || jTcantCalorias.getText().isEmpty()
-                    || jCestadoComida.isSelected()) {
+                    || !jCestadoComida.isSelected()) {
                 JOptionPane.showMessageDialog(this, "Ingrese todos los valores");
             } else {
 
