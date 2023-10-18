@@ -1,25 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vistas;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import javax.swing.JPanel;
 
-/**
- *
- * @author javie
- */
 public class Dashboard extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Dashboard
-     */
+    Color defaultColor, clickedColor;
+    
     public Dashboard() {
         initComponents();
         InitContent();
+        defaultColor=new Color(119,209,135);
+        clickedColor=new Color(120, 180, 100);
+        
+        //setear color por default
+        jButton1.setBackground(defaultColor);
+        jButton2.setBackground(defaultColor);
+        jButton3.setBackground(defaultColor);
+        jButton4.setBackground(defaultColor);
+        jButton5.setBackground(defaultColor);
+        jButton6.setBackground(defaultColor);
     }
 
     private void InitContent() {
@@ -223,26 +224,62 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ShowJPanel(new Principal());
+        jButton1.setBackground(clickedColor);
+        jButton2.setBackground(defaultColor);
+        jButton3.setBackground(defaultColor);
+        jButton4.setBackground(defaultColor);
+        jButton5.setBackground(defaultColor);
+        jButton6.setBackground(defaultColor);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ShowJPanel(new ViewPaciente());
+        jButton1.setBackground(defaultColor);
+        jButton2.setBackground(clickedColor);
+        jButton3.setBackground(defaultColor);
+        jButton4.setBackground(defaultColor);
+        jButton5.setBackground(defaultColor);
+        jButton6.setBackground(defaultColor);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         ShowJPanel(new ViewConsulta());
+        jButton1.setBackground(defaultColor);
+        jButton2.setBackground(defaultColor);
+        jButton3.setBackground(clickedColor);
+        jButton4.setBackground(defaultColor);
+        jButton5.setBackground(defaultColor);
+        jButton6.setBackground(defaultColor);        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         ShowJPanel(new ViewDieta());
+        jButton1.setBackground(defaultColor);
+        jButton2.setBackground(defaultColor);
+        jButton3.setBackground(defaultColor);
+        jButton4.setBackground(clickedColor);
+        jButton5.setBackground(defaultColor);
+        jButton6.setBackground(defaultColor);        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         ShowJPanel(new ViewComida());
+        jButton1.setBackground(defaultColor);
+        jButton2.setBackground(defaultColor);
+        jButton3.setBackground(defaultColor);
+        jButton4.setBackground(defaultColor);
+        jButton5.setBackground(clickedColor);
+        jButton6.setBackground(defaultColor);        
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         ShowJPanel(new ViewBuscar());
+        jButton1.setBackground(defaultColor);
+        jButton2.setBackground(defaultColor);
+        jButton3.setBackground(defaultColor);
+        jButton4.setBackground(defaultColor);
+        jButton5.setBackground(defaultColor);
+        jButton6.setBackground(clickedColor);        
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
@@ -275,7 +312,7 @@ public class Dashboard extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-//FlatMaterialPalenightIJTheme.setup();
+//        FlatArcIJTheme.setup();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
