@@ -173,11 +173,17 @@
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="Ingrese el nombre de la comida"/>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTnombreComidaKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTcantCalorias">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="Ingrese la Cantidad de Calorias"/>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTcantCaloriasKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
@@ -188,6 +194,9 @@
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="Describa la comida"/>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTdetalleComidaKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
