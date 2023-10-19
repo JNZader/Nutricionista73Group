@@ -7,7 +7,6 @@ package Vistas;
 
 import Conexion.ComidaDAO;
 import Entidades.Comida;
-import java.awt.HeadlessException;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +19,7 @@ public class ViewComida extends javax.swing.JPanel {
     public ViewComida() {
         initComponents();
         mod = (DefaultTableModel) tablaComida.getModel();
+        llenarTabla();
     }
 
     @SuppressWarnings("unchecked")
@@ -216,7 +216,7 @@ public class ViewComida extends javax.swing.JPanel {
                 boolean estc = jCestadoComida.getVerifyInputWhenFocusTarget();
                 Comida comida = new Comida(cantc, nc, dc, estc);
                 ComiData.insertar(comida);
-//                llenarTabla();
+                llenarTabla();
                 jTnombreComida.setText(null);
                 jTdetalleComida.setText(null);
                 jTcantCalorias.setText(null);
@@ -247,7 +247,7 @@ public class ViewComida extends javax.swing.JPanel {
                 filas[4] = aux.isEstado();
                 mod.addRow(filas);
             }
-        }    
+        }
     }
 
 
