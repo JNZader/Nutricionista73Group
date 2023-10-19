@@ -45,8 +45,8 @@ public class ViewBuscar extends javax.swing.JPanel {
         DefaultTableModel mod = (DefaultTableModel) jTable1.getModel();
         mod.setRowCount(0);
     }
-    private void llenarTabla(ArrayList<?> list, String tipo) {
-        limpiarTabla();
+
+    private void llenarTabla(ArrayList<Object> list, String tipo) {
         switch (tipo) {
             case "Consulta":
                 modConsulta = new DefaultTableModel() {
@@ -163,7 +163,8 @@ public class ViewBuscar extends javax.swing.JPanel {
                 jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(5).setWidth(50);
                 break;
-            case "comida":
+            case "Comida":
+                limpiarTabla();
                 modComida = new DefaultTableModel() {
                     @Override
                     public boolean isCellEditable(int i, int i1) {
@@ -171,8 +172,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                     }
                 };
                 modComida.setColumnIdentifiers(new String[]{"Objeto", "ID", "Nombre", "Detalle", "Cantidad de calorias", "Estado"});
-
-                if (list != null) {
+                if (list != null&& !list.isEmpty()) {
                     for (Object oaux : list) {
                         if (oaux instanceof Comida) {
                             Comida aux = (Comida) oaux;
@@ -188,7 +188,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                     }
                 }
 
-                jTable1.setModel(modDieta);
+                jTable1.setModel(modComida);
                 for (int i = 0; i < jTable1.getColumnCount(); i++) {
                     jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
                 }
@@ -202,8 +202,11 @@ public class ViewBuscar extends javax.swing.JPanel {
                 jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(5).setWidth(50);
                 break;
+            default:
+                System.out.println("Opcion no valida");
         }
     }
+
     private void llenarTabla(Comida comida) {
         limpiarTabla();
         modComida = new DefaultTableModel() {
@@ -240,6 +243,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         jTable1.getColumnModel().getColumn(5).setWidth(50);
 
     }
+
     private void llenarTabla(Consulta consulta) {
         limpiarTabla();
         modConsulta = new DefaultTableModel() {
@@ -534,11 +538,18 @@ public class ViewBuscar extends javax.swing.JPanel {
                         break;
                     case "Detalle":
                         comidaDAO = new ComidaDAO();
-                        
+
                         break;
                     case "Cantidad de calorias":
+                        comidaDAO = new ComidaDAO();
+                        estado = (jRadioButtonActivo.isSelected()) ? 1 : (jRadioButtonInactivo.isSelected()) ? 0 : (jRadioButtonAmbos.isSelected()) ? -1 : -3;
+                        ArrayList<Comida> comidas = comidaDAO.buscarXCantCalorias(Integer.parseInt(atributoTF), estado);
+                        ArrayList<Object> lista = new ArrayList<>(comidas);
+                        llenarTabla(lista, "Comida");
                         break;
                     case "Estado":
+                        comidaDAO = new ComidaDAO();
+
                         break;
                 }
             } else if (entidad.equalsIgnoreCase("Consultas")) {
@@ -621,11 +632,11 @@ public class ViewBuscar extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     private void jComboBoxAtributosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxAtributosItemStateChanged
-        if(jComboBoxEntidades.getSelectedIndex()==1&&jComboBoxAtributos.getSelectedIndex()==4){
+        if (jComboBoxEntidades.getSelectedIndex() == 1 && jComboBoxAtributos.getSelectedIndex() == 4) {
             jRadioButtonActivo.setText("Mayor a");
             jRadioButtonAmbos.setText("Menor a");
             jRadioButtonInactivo.setText("Igual a");
-        }else{
+        } else {
             jRadioButtonActivo.setText("Activo");
             jRadioButtonAmbos.setText("Ambos");
             jRadioButtonInactivo.setText("Inactivo");

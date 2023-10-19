@@ -137,32 +137,33 @@ public class ComidaDAO {
         return comidaList; // retorna la lista 
     }
 
-    public List<Comida> buscarXCantCalorias(int cantCalorias, int condicion) {
+    public ArrayList<Comida> buscarXCantCalorias(int cantCalorias, int condicion) {
         String SQL_SELECT = "";
         Comida calorias = null;
-        List<Comida> comidas = new ArrayList<>();
+        ArrayList<Comida> comidas = new ArrayList<>();
         condicion = (condicion > 0) ? 1 : (condicion < 0) ? -1 : 0;
 
         switch (condicion) {
             case 0:
                 SQL_SELECT = "SELECT idComida, nombre, detalle, cantCalorias, estado FROM comida WHERE cantCalorias = ? AND estado=1";
+                break;
             case 1:
                 SQL_SELECT = "SELECT idComida, nombre, detalle, cantCalorias, estado FROM comida WHERE cantCalorias > ? AND estado=1";
+                break;
             case -1:
                 SQL_SELECT = "SELECT idComida, nombre, detalle, cantCalorias, estado FROM comida WHERE cantCalorias < ? AND estado=1";
+                break;
         }
-
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT)) {
             ps.setInt(1, cantCalorias);
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     calorias = new Comida();
                     calorias.setIdComida(rs.getInt("idcomida"));
                     calorias.setNombre(rs.getString("nombre"));
                     calorias.setDetalle(rs.getString("detalle"));
                     calorias.setCantCalorias(rs.getInt("cantcalorias"));
                     calorias.setEstado(true);
-
                     comidas.add(calorias);
                 }
             }
