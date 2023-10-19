@@ -45,7 +45,165 @@ public class ViewBuscar extends javax.swing.JPanel {
         DefaultTableModel mod = (DefaultTableModel) jTable1.getModel();
         mod.setRowCount(0);
     }
+    private void llenarTabla(ArrayList<?> list, String tipo) {
+        limpiarTabla();
+        switch (tipo) {
+            case "Consulta":
+                modConsulta = new DefaultTableModel() {
+                    @Override
+                    public boolean isCellEditable(int i, int i1) {
+                        return false;
+                    }
+                };
+                modConsulta.setColumnIdentifiers(new String[]{"Objeto", "ID", "Nombre Paciente", "Peso actual"});
 
+                if (list != null) {
+                    for (Object oaux : list) {
+                        if (oaux instanceof Consulta) {
+                            Consulta aux = (Consulta) oaux;
+                            Object[] filas = new Object[4];
+                            filas[0] = aux;
+                            filas[1] = aux.getIdConsulta();
+                            filas[2] = aux.getPaciente().getNombre();
+                            filas[3] = aux.getPesoActual();
+                            modConsulta.addRow(filas);
+                        }
+                    }
+                }
+                jTable1.setModel(modConsulta);
+                for (int i = 0; i < jTable1.getColumnCount(); i++) {
+                    jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
+                }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+                jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
+                jTable1.getColumnModel().getColumn(1).setWidth(30);
+                break;
+
+            case "Dieta":
+                modDieta = new DefaultTableModel() {
+                    @Override
+                    public boolean isCellEditable(int i, int i1) {
+                        return false;
+                    }
+                };
+                modDieta.setColumnIdentifiers(new String[]{"Objeto", "ID", "Nombre", "Detalle", "Cantidad de calorias", "Estado"});
+
+                if (list != null) {
+                    for (Object oaux : list) {
+                        if (oaux instanceof Dieta) {
+                            Dieta aux = (Dieta) oaux;
+                            Object[] filas = new Object[8];
+                            filas[0] = aux;
+                            filas[1] = aux.getIdDieta();
+                            filas[2] = aux.getNombre();
+                            filas[3] = aux.getPaciente();
+                            filas[4] = aux.getFechaInicial();
+                            filas[5] = aux.getFechaFinal();
+                            filas[6] = aux.getPesoFinal();
+                            filas[7] = aux.isEstado();
+                            modDieta.addRow(filas);
+                        }
+                    }
+                }
+                jTable1.setModel(modDieta);
+                for (int i = 0; i < jTable1.getColumnCount(); i++) {
+                    jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
+                }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+                jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
+                jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(7).setMinWidth(50);
+                jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
+                jTable1.getColumnModel().getColumn(7).setWidth(50);
+                break;
+
+            case "Paciente":
+                modPaciente = new DefaultTableModel() {
+                    @Override
+                    public boolean isCellEditable(int i, int i1) {
+                        return false;
+                    }
+                };
+                modPaciente.setColumnIdentifiers(new String[]{"Objeto", "ID", "Nombre", "DNI", "Telefono", "Domicilio", "Peso Actual", "Estado"});
+
+                if (list != null) {
+                    for (Object oaux : list) {
+                        if (oaux instanceof Paciente) {
+                            Paciente aux = (Paciente) oaux;
+                            Object[] filas = new Object[8];
+                            filas[0] = aux;
+                            filas[1] = aux.getIdPaciente();
+                            filas[2] = aux.getNombre();
+                            filas[3] = aux.getDomicilio();
+                            filas[4] = aux.getDni();
+                            filas[5] = aux.getTelefono();
+                            filas[6] = aux.getPesoActual();
+                            filas[7] = aux.isEstado();
+                            modPaciente.addRow(filas);
+                        }
+                    }
+                }
+                jTable1.setModel(modPaciente);
+                for (int i = 0; i < jTable1.getColumnCount(); i++) {
+                    jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
+                }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+                jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
+                jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(5).setMinWidth(50);
+                jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
+                jTable1.getColumnModel().getColumn(5).setWidth(50);
+                break;
+            case "comida":
+                modComida = new DefaultTableModel() {
+                    @Override
+                    public boolean isCellEditable(int i, int i1) {
+                        return false;
+                    }
+                };
+                modComida.setColumnIdentifiers(new String[]{"Objeto", "ID", "Nombre", "Detalle", "Cantidad de calorias", "Estado"});
+
+                if (list != null) {
+                    for (Object oaux : list) {
+                        if (oaux instanceof Comida) {
+                            Comida aux = (Comida) oaux;
+                            Object[] filas = new Object[6];
+                            filas[0] = aux;
+                            filas[1] = aux.getIdComida();
+                            filas[2] = aux.getNombre();
+                            filas[3] = aux.getDetalle();
+                            filas[4] = aux.getCantCalorias();
+                            filas[5] = aux.isEstado();
+                            modComida.addRow(filas);
+                        }
+                    }
+                }
+
+                jTable1.setModel(modDieta);
+                for (int i = 0; i < jTable1.getColumnCount(); i++) {
+                    jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
+                }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+                jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
+                jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(5).setMinWidth(50);
+                jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
+                jTable1.getColumnModel().getColumn(5).setWidth(50);
+                break;
+        }
+    }
     private void llenarTabla(Comida comida) {
         limpiarTabla();
         modComida = new DefaultTableModel() {
@@ -54,7 +212,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 return false;
             }
         };
-        modComida.setColumnIdentifiers(new String[]{"Comida", "ID", "Nombre", "Detalle", "Cantidad de calorias", "Estado"});
+        modComida.setColumnIdentifiers(new String[]{"Objeto", "ID", "Nombre", "Detalle", "Cantidad de calorias", "Estado"});
 
         if (comida != null) {
             Object[] filas = new Object[6];
@@ -82,37 +240,113 @@ public class ViewBuscar extends javax.swing.JPanel {
         jTable1.getColumnModel().getColumn(5).setWidth(50);
 
     }
-    private void llenarTabla(ArrayList<Comida> comidas) {
-        limpiarTabla();        
-        modComida = new DefaultTableModel() {
+    private void llenarTabla(Consulta consulta) {
+        limpiarTabla();
+        modConsulta = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int i, int i1) {
                 return false;
             }
         };
-        modComida.setColumnIdentifiers(new String[]{"Comida", "ID", "Nombre", "Detalle", "Cantidad de calorias", "Estado"});
+        modConsulta.setColumnIdentifiers(new String[]{"Objeto", "ID", "Nombre Paciente", "Peso actual"});
 
-        if (comidas != null) {
-            for (Comida aux : comidas) {
-                Object[] filas = new Object[6];
-                filas[0] = aux;
-                filas[1] = aux.getIdComida();
-                filas[2] = aux.getNombre();
-                filas[3] = aux.getDetalle();
-                filas[4] = aux.getCantCalorias();
-                filas[5] = aux.isEstado();
-                modComida.addRow(filas);
-            }
+        if (consulta != null) {
+            Object[] filas = new Object[4];
+            filas[0] = consulta;
+            filas[1] = consulta.getIdConsulta();
+            filas[2] = consulta.getPaciente().getNombre();
+            filas[3] = consulta.getPesoActual();
+            modConsulta.addRow(filas);
         }
 
-        jTable1.setModel(modComida);
-
+        jTable1.setModel(modConsulta);
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
+        }
         jTable1.getColumnModel().getColumn(0).setMinWidth(0);
         jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
+        jTable1.getColumnModel().getColumn(1).setWidth(30);
     }
 
+    private void llenarTabla(Dieta dieta) {
+        limpiarTabla();
+        modDieta = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false;
+            }
+        };
+        modDieta.setColumnIdentifiers(new String[]{"Objeto", "ID", "Nombre", "Detalle", "Cantidad de calorias", "Estado"});
 
+        if (dieta != null) {
+            Object[] filas = new Object[8];
+            filas[0] = dieta;
+            filas[1] = dieta.getIdDieta();
+            filas[2] = dieta.getNombre();
+            filas[3] = dieta.getPaciente();
+            filas[4] = dieta.getFechaInicial();
+            filas[5] = dieta.getFechaFinal();
+            filas[6] = dieta.getPesoFinal();
+            filas[7] = dieta.isEstado();
+            modDieta.addRow(filas);
+        }
+
+        jTable1.setModel(modDieta);
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
+        }
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
+        jTable1.getColumnModel().getColumn(1).setWidth(30);
+        jTable1.getColumnModel().getColumn(5).setMinWidth(50);
+        jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
+        jTable1.getColumnModel().getColumn(5).setWidth(50);
+    }
+
+    private void llenarTabla(Paciente paciente) {
+        limpiarTabla();
+        modPaciente = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false;
+            }
+        };
+        modPaciente.setColumnIdentifiers(new String[]{"Objeto", "ID", "Nombre", "DNI", "Telefono", "Domicilio", "Peso Actual", "Estado"});
+
+        if (paciente != null) {
+            Object[] filas = new Object[8];
+            filas[0] = paciente;
+            filas[1] = paciente.getIdPaciente();
+            filas[2] = paciente.getNombre();
+            filas[3] = paciente.getDomicilio();
+            filas[4] = paciente.getDni();
+            filas[5] = paciente.getTelefono();
+            filas[6] = paciente.getPesoActual();
+            filas[7] = paciente.isEstado();
+            modPaciente.addRow(filas);
+        }
+
+        jTable1.setModel(modComida);
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
+        }
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
+        jTable1.getColumnModel().getColumn(1).setWidth(30);
+        jTable1.getColumnModel().getColumn(7).setMinWidth(50);
+        jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
+        jTable1.getColumnModel().getColumn(7).setWidth(50);
+
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -147,6 +381,11 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         });
 
+        jComboBoxAtributos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxAtributosItemStateChanged(evt);
+            }
+        });
         jComboBoxAtributos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxAtributosActionPerformed(evt);
@@ -286,14 +525,16 @@ public class ViewBuscar extends javax.swing.JPanel {
                 switch (atributo) {
                     case "ID":
                         tf = Integer.parseInt(atributoTF);
-                        comidaDAO=new ComidaDAO();
+                        comidaDAO = new ComidaDAO();
                         llenarTabla(comidaDAO.buscar(tf, estado));
                         break;
                     case "Nombre":
-                        comidaDAO=new ComidaDAO();
+                        comidaDAO = new ComidaDAO();
                         llenarTabla(comidaDAO.buscarPorNombre(atributoTF, estado));
                         break;
                     case "Detalle":
+                        comidaDAO = new ComidaDAO();
+                        
                         break;
                     case "Cantidad de calorias":
                         break;
@@ -374,10 +615,22 @@ public class ViewBuscar extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBoxAtributosActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
-        Dashboard db=new Dashboard();
+        Dashboard db = new Dashboard();
         this.setVisible(false);
         db.setVisible(true);
     }//GEN-LAST:event_jButtonSalirActionPerformed
+
+    private void jComboBoxAtributosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxAtributosItemStateChanged
+        if(jComboBoxEntidades.getSelectedIndex()==1&&jComboBoxAtributos.getSelectedIndex()==4){
+            jRadioButtonActivo.setText("Mayor a");
+            jRadioButtonAmbos.setText("Menor a");
+            jRadioButtonInactivo.setText("Igual a");
+        }else{
+            jRadioButtonActivo.setText("Activo");
+            jRadioButtonAmbos.setText("Ambos");
+            jRadioButtonInactivo.setText("Inactivo");
+        }
+    }//GEN-LAST:event_jComboBoxAtributosItemStateChanged
 
     public String[] atributos(String entidad) {
         String at[] = null;
