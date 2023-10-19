@@ -538,7 +538,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                         break;
                     case "Detalle":
                         comidaDAO = new ComidaDAO();
-
+//agregar metodo
                         break;
                     case "Cantidad de calorias":
                         comidaDAO = new ComidaDAO();
@@ -549,7 +549,9 @@ public class ViewBuscar extends javax.swing.JPanel {
                         break;
                     case "Estado":
                         comidaDAO = new ComidaDAO();
-
+                       ArrayList<Comida> comidass = comidaDAO.listarComidas(estado);
+                        ArrayList<Object> listas = new ArrayList<>(comidass);
+                        llenarTabla(listas, "Comida");
                         break;
                 }
             } else if (entidad.equalsIgnoreCase("Consultas")) {
@@ -640,6 +642,9 @@ public class ViewBuscar extends javax.swing.JPanel {
             jRadioButtonActivo.setText("Activo");
             jRadioButtonAmbos.setText("Ambos");
             jRadioButtonInactivo.setText("Inactivo");
+        }
+        if (jComboBoxEntidades.getSelectedIndex() == 1 && jComboBoxAtributos.getSelectedIndex() == 5) {
+            jTextField1.setEditable(false);
         }
     }//GEN-LAST:event_jComboBoxAtributosItemStateChanged
 
