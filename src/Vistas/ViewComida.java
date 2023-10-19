@@ -8,22 +8,24 @@ package Vistas;
 import Conexion.ComidaDAO;
 import Entidades.Comida;
 import java.awt.HeadlessException;
+import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class ViewComida extends javax.swing.JPanel {
 
     ComidaDAO ComiData;
+    DefaultTableModel mod;
 
     public ViewComida() {
         initComponents();
+        mod = (DefaultTableModel) tablaComida.getModel();
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablaComidas = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -37,27 +39,8 @@ public class ViewComida extends javax.swing.JPanel {
         jCestadoComida = new javax.swing.JRadioButton();
         botonSalir = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-
-        tablaComidas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "ID COMIDA", "NOMBRE COMIDA", "C. CALORIAS", "DIETA"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tablaComidas);
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaComida = new javax.swing.JTable();
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel2.setText("INGRESO DE COMIDAS");
@@ -109,38 +92,74 @@ public class ViewComida extends javax.swing.JPanel {
             }
         });
 
+        tablaComida.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID COMIDA", "NOMBRE COMIDA", "DETALLE COMIDA", "CANT.CALORIAS", "ESTADO"
+            }
+        ));
+        jScrollPane2.setViewportView(tablaComida);
+        if (tablaComida.getColumnModel().getColumnCount() > 0) {
+            tablaComida.getColumnModel().getColumn(0).setResizable(false);
+            tablaComida.getColumnModel().getColumn(1).setResizable(false);
+            tablaComida.getColumnModel().getColumn(2).setResizable(false);
+            tablaComida.getColumnModel().getColumn(3).setResizable(false);
+            tablaComida.getColumnModel().getColumn(4).setResizable(false);
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
-                    .addComponent(botonSalir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel7))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jTnombreComida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCestadoComida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTcantCalorias, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jTdetalleComida, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jBagregarComida, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jScrollPane2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel7))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTnombreComida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCestadoComida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTcantCalorias, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTdetalleComida, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2)
-                            .addComponent(jBagregarComida, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(220, 220, 220)
-                .addComponent(jLabel5)
+                                .addGap(192, 192, 192)
+                                .addComponent(jLabel2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(208, 208, 208)
+                                .addComponent(jLabel5)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -169,20 +188,20 @@ public class ViewComida extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(jBagregarComida)))
-                .addGap(70, 70, 70)
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addComponent(botonSalir)
-                .addGap(32, 32, 32))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBagregarComidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBagregarComidaActionPerformed
-       ComiData = new ComidaDAO();
+        ComiData = new ComidaDAO();
         try {
             if (jTnombreComida.getText().isEmpty()
                     || jTdetalleComida.getText().isEmpty()
@@ -197,38 +216,69 @@ public class ViewComida extends javax.swing.JPanel {
                 boolean estc = jCestadoComida.getVerifyInputWhenFocusTarget();
                 Comida comida = new Comida(cantc, nc, dc, estc);
                 ComiData.insertar(comida);
+//                llenarTabla();
                 jTnombreComida.setText(null);
                 jTdetalleComida.setText(null);
                 jTcantCalorias.setText(null);
                 jCestadoComida.setSelected(false);
             }
-        } catch (HeadlessException | NumberFormatException e) {
+        } catch (NumberFormatException e) {
             e.printStackTrace(System.out);
         }
-
-
+        llenarTabla();
     }//GEN-LAST:event_jBagregarComidaActionPerformed
 
+    public void limpiarTabla() {
+        mod.setRowCount(0);
+    }
+
+    public void llenarTabla() {
+
+        ComidaDAO codao = new ComidaDAO();
+        ArrayList<Comida> comidas = codao.listarComidas(3);
+        limpiarTabla();
+        if (comidas != null) {
+            for (Comida aux : comidas) {
+                Object[] filas = new Object[5];
+                filas[0] = aux.getIdComida();
+                filas[1] = aux.getNombre();
+                filas[2] = aux.getDetalle();
+                filas[3] = aux.getCantCalorias();
+                filas[4] = aux.isEstado();
+                mod.addRow(filas);
+            }
+        }    
+    }
+
+
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
-        Dashboard db=new Dashboard();
+        Dashboard db = new Dashboard();
         this.setVisible(false);
         db.setVisible(true);
     }//GEN-LAST:event_botonSalirActionPerformed
 
     private void jTnombreComidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTnombreComidaKeyTyped
         char c = evt.getKeyChar();
-        if ((c< 'a' || c> 'z') && (c< 'A' || c> 'Z') && (c< ' ' || c> ' ')) evt.consume();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c < ' ' || c > ' ')) {
+            evt.consume();
+        }
     }//GEN-LAST:event_jTnombreComidaKeyTyped
 
     private void jTdetalleComidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTdetalleComidaKeyTyped
-         char c = evt.getKeyChar();
-        if ((c< 'a' || c> 'z') && (c< 'A' || c> 'Z') && (c< ' ' || c> ' ')) evt.consume();
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c < ' ' || c > ' ')) {
+            evt.consume();
+        }
     }//GEN-LAST:event_jTdetalleComidaKeyTyped
 
     private void jTcantCaloriasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTcantCaloriasKeyTyped
         char c = evt.getKeyChar();
-        if ((c< '0' || c> '9'))evt.consume();
-        if(jTcantCalorias.getText().length()>3) evt.consume();
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
+        if (jTcantCalorias.getText().length() > 3) {
+            evt.consume();
+        }
     }//GEN-LAST:event_jTcantCaloriasKeyTyped
 
 
@@ -242,11 +292,11 @@ public class ViewComida extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTcantCalorias;
     private javax.swing.JTextField jTdetalleComida;
     private javax.swing.JTextField jTnombreComida;
-    private javax.swing.JTable tablaComidas;
+    private javax.swing.JTable tablaComida;
     // End of variables declaration//GEN-END:variables
 }
