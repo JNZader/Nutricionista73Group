@@ -46,17 +46,41 @@ public class ConsultaDAO {
         return consultaList; // retorna la lista 
     }
 
-    public Consulta buscar(Paciente paciente) {
+    public ArrayList<Consulta> buscar(Paciente paciente) {
         String SQL_SELECT_ID = "SELECT * FROM consulta WHERE idPaciente = ?";
         Consulta consulta= null;
-
+        ArrayList<Consulta> consultas=null;
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
             ps.setInt(1, paciente.getIdPaciente());
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     consulta = new Consulta();
                     consulta.setIdConsulta(rs.getInt("idConsulta"));
                     consulta.setPaciente(paciente);
+                    consulta.setFecha(rs.getDate("fecha").toLocalDate());
+                    consulta.setPesoActual(rs.getDouble("pesoActual"));
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al obtener la Consulta por Paciente");
+        }
+        return consultas;
+    }
+    public Consulta buscar(int idConsulta) {
+        String SQL_SELECT_ID = "SELECT * FROM consulta WHERE idConsulta = ?";
+        Consulta consulta= null;
+        PacienteDAO pdao=null;
+        Paciente p=null;
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
+            ps.setInt(1, idConsulta);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    consulta = new Consulta();
+                    pdao=new PacienteDAO();
+                    p=pdao.buscarPaciente(rs.getInt("idPaciente"), 1);
+                    consulta.setIdConsulta(idConsulta);
+                    consulta.setPaciente(p);
                     consulta.setFecha(rs.getDate("fecha").toLocalDate());
                     consulta.setPesoActual(rs.getDouble("pesoActual"));
                 }
