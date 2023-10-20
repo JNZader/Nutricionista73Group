@@ -7,7 +7,6 @@ package Vistas;
 
 import Conexion.ComidaDAO;
 import Entidades.Comida;
-import java.awt.HeadlessException;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +19,7 @@ public class ViewComida extends javax.swing.JPanel {
     public ViewComida() {
         initComponents();
         mod = (DefaultTableModel) tablaComida.getModel();
+        llenarTabla();
     }
 
     @SuppressWarnings("unchecked")
@@ -108,7 +108,15 @@ public class ViewComida extends javax.swing.JPanel {
             new String [] {
                 "ID COMIDA", "NOMBRE COMIDA", "DETALLE COMIDA", "CANT.CALORIAS", "ESTADO"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tablaComida);
         if (tablaComida.getColumnModel().getColumnCount() > 0) {
             tablaComida.getColumnModel().getColumn(0).setResizable(false);
@@ -216,7 +224,7 @@ public class ViewComida extends javax.swing.JPanel {
                 boolean estc = jCestadoComida.getVerifyInputWhenFocusTarget();
                 Comida comida = new Comida(cantc, nc, dc, estc);
                 ComiData.insertar(comida);
-//                llenarTabla();
+                llenarTabla();
                 jTnombreComida.setText(null);
                 jTdetalleComida.setText(null);
                 jTcantCalorias.setText(null);
@@ -244,10 +252,14 @@ public class ViewComida extends javax.swing.JPanel {
                 filas[1] = aux.getNombre();
                 filas[2] = aux.getDetalle();
                 filas[3] = aux.getCantCalorias();
-                filas[4] = aux.isEstado();
+                if (aux.isEstado()) {
+                    filas[4] = "Activo";
+                } else {
+                    filas[4] = "Inactivo";
+                }
                 mod.addRow(filas);
             }
-        }    
+        }
     }
 
 
