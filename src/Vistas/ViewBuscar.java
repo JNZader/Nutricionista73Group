@@ -89,7 +89,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                         return false;
                     }
                 };
-                modDieta.setColumnIdentifiers(new String[]{"Objeto", "ID", "Nombre", "Detalle", "Cantidad de calorias", "Estado"});
+                modDieta.setColumnIdentifiers(new String[]{"Objeto", "ID", "Nombre", "Paciente", "Fecha de inicio","Fecha de Fin","Peso final", "Estado"});
 
                 if (list != null && !list.isEmpty()) {
                     for (Object oaux : list) {
@@ -283,7 +283,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 return false;
             }
         };
-        modDieta.setColumnIdentifiers(new String[]{"Objeto", "ID", "Nombre", "Detalle", "Cantidad de calorias", "Estado"});
+        modDieta.setColumnIdentifiers(new String[]{"Objeto", "ID", "Nombre", "Paciente", "Fecha de inicio","Fecha de Fin","Peso final", "Estado"});
 
         if (dieta != null) {
             Object[] filas = new Object[8];
@@ -308,9 +308,9 @@ public class ViewBuscar extends javax.swing.JPanel {
         jTable1.getColumnModel().getColumn(1).setMinWidth(30);
         jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
         jTable1.getColumnModel().getColumn(1).setWidth(30);
-        jTable1.getColumnModel().getColumn(5).setMinWidth(50);
-        jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
-        jTable1.getColumnModel().getColumn(5).setWidth(50);
+        jTable1.getColumnModel().getColumn(7).setMinWidth(50);
+        jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
+        jTable1.getColumnModel().getColumn(7).setWidth(50);
     }
 
     private void llenarTabla(Paciente paciente) {
@@ -328,15 +328,15 @@ public class ViewBuscar extends javax.swing.JPanel {
             filas[0] = paciente;
             filas[1] = paciente.getIdPaciente();
             filas[2] = paciente.getNombre();
-            filas[3] = paciente.getDomicilio();
-            filas[4] = paciente.getDni();
-            filas[5] = paciente.getTelefono();
+            filas[5] = paciente.getDomicilio();
+            filas[3] = paciente.getDni();
+            filas[4] = paciente.getTelefono();
             filas[6] = paciente.getPesoActual();
             filas[7] = paciente.isEstado();
             modPaciente.addRow(filas);
         }
 
-        jTable1.setModel(modComida);
+        jTable1.setModel(modPaciente);
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
         }
@@ -596,7 +596,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
                             tf = Integer.parseInt(atributoTF);
                             DietaDAO dieDAO = new DietaDAO();
-                            llenarTabla(dieDAO.buscarPorId(tf,estado));
+                            llenarTabla(dieDAO.buscarPorId(tf, estado));
                         } else {
                             DietaDAO dieDAO = new DietaDAO();
                             ArrayList<Dieta> dietas = dieDAO.buscar(estado);
@@ -613,6 +613,10 @@ public class ViewBuscar extends javax.swing.JPanel {
                     case "Fecha Final":
                         break;
                     case "Estado":
+                        DietaDAO dieDAO = new DietaDAO();
+                        ArrayList<Dieta> dietas = dieDAO.buscar(estado);
+                        ArrayList<Object> lista = new ArrayList<>(dietas);
+                        llenarTabla(lista, "Dieta");
                         break;
                 }
             } else if (entidad.equalsIgnoreCase("Pacientes")) {
@@ -621,7 +625,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
                             tf = Integer.parseInt(atributoTF);
                             PacienteDAO paDAO = new PacienteDAO();
-                            llenarTabla(paDAO.buscarPaciente(tf,estado));
+                            llenarTabla(paDAO.buscarPaciente(tf, estado));
                         } else {
                             PacienteDAO paDAO = new PacienteDAO();
                             ArrayList<Paciente> pacientes = paDAO.listarPaciente(estado);
@@ -634,10 +638,19 @@ public class ViewBuscar extends javax.swing.JPanel {
                     case "Domicilio":
                         break;
                     case "DNI":
+                        if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
+                            tf = Integer.parseInt(atributoTF);
+                            PacienteDAO paDAO = new PacienteDAO();
+                            llenarTabla(paDAO.buscarPacientePorDni(tf, estado));
+                        }
                         break;
                     case "Peso actual":
                         break;
                     case "Estado":
+                        PacienteDAO paDAO = new PacienteDAO();
+                        ArrayList<Paciente> pacientes = paDAO.listarPaciente(estado);
+                        ArrayList<Object> lista = new ArrayList<>(pacientes);
+                        llenarTabla(lista, "Paciente");
                         break;
                 }
             }

@@ -22,21 +22,20 @@ public class ConsultaDAO {
 
     public ArrayList<Consulta> buscar() {
         String SQL_SELECT = "SELECT * FROM consulta";
-        Consulta consulta= null;
+        Consulta consulta = null;
         ArrayList<Consulta> consultaList = new ArrayList<>();
-
+        PacienteDAO pdao = new PacienteDAO();
+        Paciente paciente = new Paciente();
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT);
                 ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                    consulta = new Consulta();
-                    consulta.setIdConsulta(rs.getInt("idConsulta"));
-                    Paciente paciente=new Paciente();
-                    paciente.setIdPaciente(rs.getInt("idPaciente"));
-                    consulta.setPaciente(paciente);
-                    consulta.setFecha(rs.getDate("fecha").toLocalDate());
-                    consulta.setPesoActual(rs.getDouble("pesoActual"));
-
+                consulta = new Consulta();
+                consulta.setIdConsulta(rs.getInt("idConsulta"));
+                paciente = pdao.buscarPaciente((rs.getInt("idPaciente")), 3);
+                consulta.setPaciente(paciente);
+                consulta.setFecha(rs.getDate("fecha").toLocalDate());
+                consulta.setPesoActual(rs.getDouble("pesoActual"));
                 consultaList.add(consulta);
             }
         } catch (SQLException ex) {
@@ -48,8 +47,8 @@ public class ConsultaDAO {
 
     public ArrayList<Consulta> buscar(Paciente paciente) {
         String SQL_SELECT_ID = "SELECT * FROM consulta WHERE idPaciente = ?";
-        Consulta consulta= null;
-        ArrayList<Consulta> consultas=null;
+        Consulta consulta = null;
+        ArrayList<Consulta> consultas = null;
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
             ps.setInt(1, paciente.getIdPaciente());
             try (ResultSet rs = ps.executeQuery()) {
@@ -67,18 +66,19 @@ public class ConsultaDAO {
         }
         return consultas;
     }
+
     public Consulta buscar(int idConsulta) {
         String SQL_SELECT_ID = "SELECT * FROM consulta WHERE idConsulta = ?";
-        Consulta consulta= null;
-        PacienteDAO pdao=null;
-        Paciente p=null;
+        Consulta consulta = null;
+        PacienteDAO pdao = null;
+        Paciente p = null;
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
             ps.setInt(1, idConsulta);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     consulta = new Consulta();
-                    pdao=new PacienteDAO();
-                    p=pdao.buscarPaciente(rs.getInt("idPaciente"), 1);
+                    pdao = new PacienteDAO();
+                    p = pdao.buscarPaciente(rs.getInt("idPaciente"), 1);
                     consulta.setIdConsulta(idConsulta);
                     consulta.setPaciente(p);
                     consulta.setFecha(rs.getDate("fecha").toLocalDate());

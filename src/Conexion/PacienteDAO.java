@@ -151,13 +151,13 @@ public class PacienteDAO {
 
         switch (estado) {
             case 1:
-                sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente,estado FROM paciente WHERE dni=? and estado=1";
+                sql = "SELECT * FROM paciente WHERE dni=? and estado=1";
                 break;
             case 0:
-                sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente,estado FROM paciente WHERE dni=? and estado=0";
+                sql = "SELECT * FROM paciente WHERE dni=? and estado=0";
                 break;
             default:
-                sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente,estado FROM paciente WHERE dni=?";
+                sql = "SELECT * FROM paciente WHERE dni=?";
                 break;
         }        
         
@@ -168,7 +168,7 @@ public class PacienteDAO {
                 if (rs.next()) {
                     paciente = new Paciente();
                     paciente.setIdPaciente(rs.getInt("idPaciente"));
-                    paciente.setDni(dni);
+                    paciente.setDni(rs.getInt("dni"));
                     paciente.setNombre(rs.getString("nombreCompleto"));
                     paciente.setDomicilio(rs.getString("domicilio"));
                     paciente.setTelefono(rs.getInt("celular"));
