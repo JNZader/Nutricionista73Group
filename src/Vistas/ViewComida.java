@@ -108,7 +108,15 @@ public class ViewComida extends javax.swing.JPanel {
             new String [] {
                 "ID COMIDA", "NOMBRE COMIDA", "DETALLE COMIDA", "CANT.CALORIAS", "ESTADO"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tablaComida);
         if (tablaComida.getColumnModel().getColumnCount() > 0) {
             tablaComida.getColumnModel().getColumn(0).setResizable(false);
@@ -244,7 +252,11 @@ public class ViewComida extends javax.swing.JPanel {
                 filas[1] = aux.getNombre();
                 filas[2] = aux.getDetalle();
                 filas[3] = aux.getCantCalorias();
-                filas[4] = aux.isEstado();
+                if (aux.isEstado()) {
+                    filas[4] = "Activo";
+                } else {
+                    filas[4] = "Inactivo";
+                }
                 mod.addRow(filas);
             }
         }
