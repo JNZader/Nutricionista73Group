@@ -7,6 +7,8 @@ package Vistas;
 
 import Conexion.ComidaDAO;
 import Entidades.Comida;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -41,6 +43,10 @@ public class ViewComida extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaComida = new javax.swing.JTable();
+        checkTodos = new javax.swing.JCheckBox();
+        checkActivos = new javax.swing.JCheckBox();
+        checkInactivos = new javax.swing.JCheckBox();
+        botonEliminar = new javax.swing.JButton();
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel2.setText("INGRESO DE COMIDAS");
@@ -77,6 +83,7 @@ public class ViewComida extends javax.swing.JPanel {
         jLabel5.setText("LISTA DE COMIDAS");
 
         jBagregarComida.setText("Agregar Comida");
+        jBagregarComida.setToolTipText("Inserta Una Comida");
         jBagregarComida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBagregarComidaActionPerformed(evt);
@@ -86,6 +93,7 @@ public class ViewComida extends javax.swing.JPanel {
         jLabel7.setText("Estado :");
 
         botonSalir.setText("Salir");
+        botonSalir.setToolTipText("Salir Al Principal");
         botonSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonSalirActionPerformed(evt);
@@ -126,6 +134,34 @@ public class ViewComida extends javax.swing.JPanel {
             tablaComida.getColumnModel().getColumn(4).setResizable(false);
         }
 
+        checkTodos.setText("Todos");
+        checkTodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkTodosActionPerformed(evt);
+            }
+        });
+
+        checkActivos.setText("Activos");
+        checkActivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkActivosActionPerformed(evt);
+            }
+        });
+
+        checkInactivos.setText("Inactivos");
+        checkInactivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkInactivosActionPerformed(evt);
+            }
+        });
+
+        botonEliminar.setText("Eliminar");
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -156,9 +192,6 @@ public class ViewComida extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(jScrollPane2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -167,7 +200,18 @@ public class ViewComida extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(208, 208, 208)
                                 .addComponent(jLabel5)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(botonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(checkInactivos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(checkActivos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(checkTodos)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -203,7 +247,12 @@ public class ViewComida extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addComponent(botonSalir)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonSalir)
+                    .addComponent(checkTodos)
+                    .addComponent(checkActivos)
+                    .addComponent(checkInactivos)
+                    .addComponent(botonEliminar))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -262,6 +311,49 @@ public class ViewComida extends javax.swing.JPanel {
         }
     }
 
+public void llenarTablaActivos() {
+
+        ComidaDAO codao = new ComidaDAO();
+        ArrayList<Comida> comidas = codao.listarComidas(1);
+        limpiarTabla();
+        if (comidas != null) {
+            for (Comida aux : comidas) {
+                Object[] filas = new Object[5];
+                filas[0] = aux.getIdComida();
+                filas[1] = aux.getNombre();
+                filas[2] = aux.getDetalle();
+                filas[3] = aux.getCantCalorias();
+                if (aux.isEstado()) {
+                    filas[4] = "Activo";
+                } else {
+                    filas[4] = "Inactivo";
+                }
+                mod.addRow(filas);
+            }
+        }
+    }
+
+public void llenarTablaInactivos() {
+
+        ComidaDAO codao = new ComidaDAO();
+        ArrayList<Comida> comidas = codao.listarComidas(0);
+        limpiarTabla();
+        if (comidas != null) {
+            for (Comida aux : comidas) {
+                Object[] filas = new Object[5];
+                filas[0] = aux.getIdComida();
+                filas[1] = aux.getNombre();
+                filas[2] = aux.getDetalle();
+                filas[3] = aux.getCantCalorias();
+                if (aux.isEstado()) {
+                    filas[4] = "Activo";
+                } else {
+                    filas[4] = "Inactivo";
+                }
+                mod.addRow(filas);
+            }
+        }
+    }
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
         Dashboard db = new Dashboard();
@@ -293,9 +385,54 @@ public class ViewComida extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTcantCaloriasKeyTyped
 
+    private void checkTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkTodosActionPerformed
+        llenarTabla();
+        checkTodos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Deseleccionar los otros checkboxes
+                checkActivos.setSelected(false);
+                checkInactivos.setSelected(false);
+            }
+        });
+    }//GEN-LAST:event_checkTodosActionPerformed
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonEliminarActionPerformed
+
+    private void checkInactivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInactivosActionPerformed
+        llenarTablaInactivos();
+        checkInactivos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Deseleccionar los otros checkboxes
+                checkTodos.setSelected(false);
+                checkActivos.setSelected(false);
+            }
+        });
+    }//GEN-LAST:event_checkInactivosActionPerformed
+
+    private void checkActivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkActivosActionPerformed
+       // limpiarTabla();
+        llenarTablaActivos();
+      checkActivos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Deseleccionar los otros checkboxes
+                checkTodos.setSelected(false);
+                checkInactivos.setSelected(false);
+            }
+        });
+    }//GEN-LAST:event_checkActivosActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonSalir;
+    private javax.swing.JCheckBox checkActivos;
+    private javax.swing.JCheckBox checkInactivos;
+    private javax.swing.JCheckBox checkTodos;
     private javax.swing.JButton jBagregarComida;
     private javax.swing.JRadioButton jCestadoComida;
     private javax.swing.JLabel jLabel1;
