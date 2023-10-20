@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -177,5 +178,180 @@ public class DietaDAO {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error SQL al eliminar Dieta");
         }
+    }
+
+    public ArrayList<Dieta> buscarDietasPorFecha(LocalDate fecha, int estado, boolean buscarPorFI) {
+        String SQL_SELECT = "";
+        String fechaColumn = buscarPorFI ? "fechaInicio" : "fechaFin";
+
+        Dieta dieta = null;
+        ArrayList<Dieta> dietas = new ArrayList<>();
+        pd = new PacienteDAO();
+
+        switch (estado) {
+            case 1:
+                SQL_SELECT = "SELECT * FROM dieta WHERE " + fechaColumn + " = ? AND estado = 1";
+                break;
+            case 0:
+                SQL_SELECT = "SELECT * FROM dieta WHERE " + fechaColumn + " = ? AND estado = 0";
+                break;
+            default:
+                SQL_SELECT = "SELECT * FROM dieta WHERE " + fechaColumn + " = ?";
+                break;
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT)) {
+            ps.setDate(1, Date.valueOf(fecha));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    dieta = new Dieta();
+                    dieta.setIdDieta(rs.getInt("idDieta"));
+                    dieta.setNombre(rs.getString("nombre"));
+                    int idPaciente = rs.getInt("idPaciente");
+                    Paciente p = pd.buscarPaciente(idPaciente, 3);
+                    dieta.setPaciente(p);
+                    dieta.setFechaInicial(rs.getDate("fechaInicio").toLocalDate());
+                    dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
+                    dieta.setPesoFinal(rs.getDouble("pesoFinal"));
+                    dieta.setEstado(rs.getBoolean("estado"));
+                    dietas.add(dieta);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al buscar dietas por fecha");
+        }
+        return dietas;
+    }
+
+    public ArrayList<Dieta> buscarDietasPorPaciente(int idPaciente, int estado) {
+        String SQL_SELECT = "";
+        Dieta dieta = null;
+        ArrayList<Dieta> dietas = new ArrayList<>();
+        pd = new PacienteDAO();
+
+        switch (estado) {
+            case 1:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE idPaciente = ? AND estado = 1";
+                break;
+            case 0:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE idPaciente = ? AND estado = 0";
+                break;
+            default:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE idPaciente = ?";
+                break;
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT)) {
+            ps.setInt(1, idPaciente);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    dieta = new Dieta();
+                    dieta.setIdDieta(rs.getInt("idDieta"));
+                    dieta.setNombre(rs.getString("nombre"));
+                    int pacienteId = rs.getInt("idPaciente");
+                    Paciente p = pd.buscarPaciente(pacienteId, 3);
+                    dieta.setPaciente(p);
+                    dieta.setFechaInicial(rs.getDate("fechaInicio").toLocalDate());
+                    dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
+                    dieta.setPesoFinal(rs.getDouble("pesoFinal"));
+                    dieta.setEstado(rs.getBoolean("estado"));
+                    dietas.add(dieta);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al buscar dietas por paciente");
+        }
+        return dietas;
+    }
+
+    public ArrayList<Dieta> buscarDietasPorNombre(String nombre, int estado) {
+        String SQL_SELECT = "";
+        Dieta dieta = null;
+        ArrayList<Dieta> dietas = new ArrayList<>();
+        pd = new PacienteDAO();
+
+        switch (estado) {
+            case 1:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE nombre LIKE ? AND estado = 1";
+                break;
+            case 0:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE nombre LIKE ? AND estado = 0";
+                break;
+            default:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE nombre LIKE ?";
+                break;
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT)) {
+            ps.setString(1, "%" + nombre + "%"); // Usa "%" para buscar el nombre en cualquier parte del campo
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    dieta = new Dieta();
+                    dieta.setIdDieta(rs.getInt("idDieta"));
+                    dieta.setNombre(rs.getString("nombre"));
+                    int idPaciente = rs.getInt("idPaciente");
+                    Paciente p = pd.buscarPaciente(idPaciente, 3);
+                    dieta.setPaciente(p);
+                    dieta.setFechaInicial(rs.getDate("fechaInicio").toLocalDate());
+                    dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
+                    dieta.setPesoFinal(rs.getDouble("pesoFinal"));
+                    dieta.setEstado(rs.getBoolean("estado"));
+                    dietas.add(dieta);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al buscar dietas por nombre");
+        }
+        return dietas;
+    }
+
+    public ArrayList<Dieta> buscarDietasPorPesoFinal(double pesoFinal, int estado) {
+        String SQL_SELECT = "";
+
+        Dieta dieta = null;
+        ArrayList<Dieta> dietas = new ArrayList<>();
+        pd = new PacienteDAO();
+
+        switch (estado) {
+            case 1:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE pesoFinal = ? AND estado = 1";
+                break;
+            case 0:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE pesoFinal = ? AND estado = 0";
+                break;
+            default:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE pesoFinal = ?";
+                break;
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT)) {
+            ps.setDouble(1, pesoFinal);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    dieta = new Dieta();
+                    dieta.setIdDieta(rs.getInt("idDieta"));
+                    dieta.setNombre(rs.getString("nombre"));
+                    int idPaciente = rs.getInt("idPaciente");
+                    Paciente p = pd.buscarPaciente(idPaciente, 3);
+                    dieta.setPaciente(p);
+                    dieta.setFechaInicial(rs.getDate("fechaInicio").toLocalDate());
+                    dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
+                    dieta.setPesoFinal(rs.getDouble("pesoFinal"));
+                    dieta.setEstado(rs.getBoolean("estado"));
+                    dietas.add(dieta);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al buscar dietas por peso final");
+        }
+        return dietas;
     }
 }

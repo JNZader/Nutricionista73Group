@@ -242,4 +242,39 @@ public class ComidaDAO {
         return comida;
     }
 
+    public Comida buscarPorDetalle(String detalle, int estado) {
+        String SQL_SELECT_DETALLE = "";
+        Comida comida = null;
+
+        switch (estado) {
+            case 1:
+                SQL_SELECT_DETALLE = "SELECT * FROM comida WHERE detalle LIKE ? AND estado = 1";
+                break;
+            case 0:
+                SQL_SELECT_DETALLE = "SELECT * FROM comida WHERE detalle LIKE ? AND estado = 0";
+                break;
+            default:
+                SQL_SELECT_DETALLE = "SELECT * FROM comida WHERE detalle LIKE ?";
+                break;
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_DETALLE)) {
+            ps.setString(1,"%"+ detalle+"%");
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    comida = new Comida();
+                    comida.setIdComida(rs.getInt("idcomida"));
+                    comida.setNombre(rs.getString("nombre"));
+                    comida.setDetalle(rs.getString("detalle"));
+                    comida.setCantCalorias(rs.getInt("cantcalorias"));
+                    comida.setEstado(rs.getBoolean("estado"));
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al obtener la comida por detalle");
+        }
+
+        return comida;
+    }
 }
