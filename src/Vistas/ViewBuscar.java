@@ -8,6 +8,7 @@ import Entidades.Comida;
 import Entidades.Consulta;
 import Entidades.Dieta;
 import Entidades.Paciente;
+import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -17,6 +18,10 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.DocumentFilter;
 
 public class ViewBuscar extends javax.swing.JPanel {
 
@@ -32,9 +37,15 @@ public class ViewBuscar extends javax.swing.JPanel {
     ArrayList<Object> lista;
     ArrayList<Dieta> dietas;
     ArrayList<Paciente> pacientes;
+    DocumentFilter filtroNumeros;
+    DocumentFilter filtroLetras;
+    NumericRangeFilter3 rangeFilter;
 
     public ViewBuscar() {
         initComponents();
+        rangeFilter = new NumericRangeFilter3();
+        filtroNumeros = new FiltraEntrada(FiltraEntrada.SOLO_NUMEROS);
+        filtroLetras = new FiltraEntrada(FiltraEntrada.SOLO_LETRAS);
         jComboBoxPacientes.setEnabled(false);
         jDateChooser1.setEnabled(false);
         jButtonBuscar.setEnabled(false);
@@ -500,7 +511,6 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         });
 
-        jDateChooser1.setDoubleBuffered(false);
         jDateChooser1.setMaxSelectableDate(new java.util.Date(1735704071000L));
         jDateChooser1.setMinSelectableDate(new java.util.Date(1577851271000L));
 
@@ -954,4 +964,118 @@ public class ViewBuscar extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+class FiltraEntrada extends DocumentFilter {
+
+        public static final char SOLO_NUMEROS = 'N';
+        public static final char SOLO_LETRAS = 'L';
+        public static final char NUM_LETRAS = 'M';
+        public static final char DEFAULT = '*';
+
+        private char tipoEntrada;
+        private int longitudCadena = 0;
+        private int longitudActual = 0;
+
+        public FiltraEntrada() {
+            tipoEntrada = DEFAULT;
+        }
+
+        public FiltraEntrada(char tipoEntrada) {
+            this.tipoEntrada = tipoEntrada;
+        }
+
+        public FiltraEntrada(char tipoEntrada, int longitudCadena) {
+            this.tipoEntrada = tipoEntrada;
+            this.longitudCadena = longitudCadena;
+        }
+
+        @Override
+        public void insertString(DocumentFilter.FilterBypass fb, int i, String string, javax.swing.text.AttributeSet as) throws BadLocationException {
+            if (string != null && !string.isEmpty()) { // verifica que el texto no sea nulo ni este vacio
+                Document dc = fb.getDocument();
+                longitudActual = dc.getLength();
+                if (longitudCadena == 0 || longitudActual < longitudCadena) {
+                    fb.insertString(i, string, as); // Inserta el texto si no se supera la longitud máxima
+                }
+            }
+        }
+
+        @Override
+        public void remove(DocumentFilter.FilterBypass fb, int offset, int length) throws BadLocationException {
+            super.remove(fb, offset, length);
+        }
+
+        /*
+        En este método:
+        /// @Override: Indica que estás anulando el método remove de la superclase DocumentFilter.
+
+        /// public void remove(DocumentFilter.FilterBypass fb, int offset, int length) throws BadLocationException:
+        Esto es la declaración del método, que acepta tres parámetros: fb (un objeto FilterBypass que permite realizar la eliminación),
+        offset (la posición desde la cual se eliminará el texto) y length (la cantidad de caracteres a eliminar).  
+        
+        ///super.remove(fb, offset, length);: Este es el llamado al método remove de la superclase DocumentFilter, 
+        que se encarga de realizar la eliminación del texto en el documento. 
+        No se requiere ninguna lógica adicional en este método, ya que simplemente delega la operación de eliminación a la implementación predeterminada de la superclase.
+         */
+        @Override
+        public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, javax.swing.text.AttributeSet as) throws BadLocationException {
+            Document dc = fb.getDocument();
+            if (string == null) {
+                fb.replace(0, i1, "", as);
+                return;
+            }
+            if (string.isEmpty()) {
+                fb.replace(0, i1, "", as);
+                return;
+            }
+            longitudActual = dc.getLength();
+            if (esValido(string)) {
+                if (this.longitudCadena == 0 || longitudActual < longitudCadena) {
+                    fb.replace(i, i1, string, as);
+                }
+            }
+        }
+
+        private boolean esValido(String valor) {
+            char[] letras = valor.toCharArray();
+            boolean valido = false;
+            for (int i = 0; i < letras.length; i++) {
+
+                switch (tipoEntrada) {
+                    case SOLO_NUMEROS:
+                        return valor.matches("[0-9]+");// verifica si solo contiene numeros
+                    case SOLO_LETRAS:
+                        return valor.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+");// verifica si solo contiene letras y espacios
+                    case NUM_LETRAS:
+                        return valor.matches("[0-9a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+");// verifica si contiene números, letras y espacios
+                    default:
+                        valido = true;
+                        return valido;
+                }
+            }
+            return valido;
+        }
+    }
+}
+
+class NumericRangeFilter3 extends DocumentFilter {
+
+    @Override
+    public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, AttributeSet as) throws BadLocationException {
+        String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());//obtiene el texto actual del jtf
+
+        String nextText = currentText.substring(0, i) + string + currentText.substring(i + i1);//concatena el texto a insertar con el texto acutal
+
+        try {
+            int num = Integer.parseInt(nextText);//intenta convertir el texto en numero
+
+            if (num >= 1 && num <= 100000000) {//verifica si el numero esta en el rango de 1 a 100.000.000
+                super.replace(fb, i, i1, string, as);
+            } else {
+                //fuera de rango
+                Toolkit.getDefaultToolkit().beep();//sonido de error
+            }
+        } catch (NumberFormatException e) {
+            Toolkit.getDefaultToolkit().beep(); //El texto no es un número válido...Emite un sonido de error.
+        }
+    }
 }
