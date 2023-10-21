@@ -26,6 +26,11 @@ public class ViewBuscar extends javax.swing.JPanel {
     private DietaDAO dietaDAO;
     private PacienteDAO pacienteDAO;
     private ConsultaDAO consultaDAO;
+    ArrayList<Consulta> consultas;
+    ArrayList<Comida> comidas;
+    ArrayList<Object> lista;
+    ArrayList<Dieta> dietas; 
+    ArrayList<Paciente> pacientes;
 
     public ViewBuscar() {
         initComponents();
@@ -107,7 +112,11 @@ public class ViewBuscar extends javax.swing.JPanel {
                             filas[4] = aux.getFechaInicial();
                             filas[5] = aux.getFechaFinal();
                             filas[6] = aux.getPesoFinal();
-                            filas[7] = aux.isEstado();
+                            if (aux.isEstado()) {
+                                filas[7] = "Activo";
+                            } else {
+                                filas[7] = "Inactivo";
+                            }
                             modDieta.addRow(filas);
                         }
                     }
@@ -148,7 +157,11 @@ public class ViewBuscar extends javax.swing.JPanel {
                             filas[4] = aux.getDni();
                             filas[5] = aux.getTelefono();
                             filas[6] = aux.getPesoActual();
-                            filas[7] = aux.isEstado();
+                            if (aux.isEstado()) {
+                                filas[7] = "Activo";
+                            } else {
+                                filas[7] = "Inactivo";
+                            }
                             modPaciente.addRow(filas);
                         }
                     }
@@ -186,7 +199,11 @@ public class ViewBuscar extends javax.swing.JPanel {
                             filas[2] = aux.getNombre();
                             filas[3] = aux.getDetalle();
                             filas[4] = aux.getCantCalorias();
-                            filas[5] = aux.isEstado();
+                            if (aux.isEstado()) {
+                                filas[5] = "Activo";
+                            } else {
+                                filas[5] = "Inactivo";
+                            }
                             modComida.addRow(filas);
                         }
                     }
@@ -228,7 +245,11 @@ public class ViewBuscar extends javax.swing.JPanel {
             filas[2] = comida.getNombre();
             filas[3] = comida.getDetalle();
             filas[4] = comida.getCantCalorias();
-            filas[5] = comida.isEstado();
+            if (comida.isEstado()) {
+                filas[5] = "Activo";
+            } else {
+                filas[5] = "Inactivo";
+            }
             modComida.addRow(filas);
         }
 
@@ -298,7 +319,11 @@ public class ViewBuscar extends javax.swing.JPanel {
             filas[4] = dieta.getFechaInicial();
             filas[5] = dieta.getFechaFinal();
             filas[6] = dieta.getPesoFinal();
-            filas[7] = dieta.isEstado();
+            if (dieta.isEstado()) {
+                filas[7] = "Activo";
+            } else {
+                filas[7] = "Inactivo";
+            }
             modDieta.addRow(filas);
         }
 
@@ -336,7 +361,11 @@ public class ViewBuscar extends javax.swing.JPanel {
             filas[3] = paciente.getDni();
             filas[4] = paciente.getTelefono();
             filas[6] = paciente.getPesoActual();
-            filas[7] = paciente.isEstado();
+            if (paciente.isEstado()) {
+                filas[7] = "Activo";
+            } else {
+                filas[7] = "Inactivo";
+            }
             modPaciente.addRow(filas);
         }
 
@@ -357,8 +386,8 @@ public class ViewBuscar extends javax.swing.JPanel {
     }
 
     private void llenarComboBox() {
-        PacienteDAO pdao = new PacienteDAO();
-        ArrayList<Paciente> pacientes = pdao.listarPaciente(1);
+        pacienteDAO = new PacienteDAO();
+        pacientes = pacienteDAO.listarPaciente(1);
 
         jComboBoxPacientes.addItem(null);
 
@@ -571,8 +600,8 @@ public class ViewBuscar extends javax.swing.JPanel {
                             llenarTabla(comidaDAO.buscar(tf, estado));
                         } else {
                             comidaDAO = new ComidaDAO();
-                            ArrayList<Comida> comidas = comidaDAO.listarComidas(estado);
-                            ArrayList<Object> lista = new ArrayList<>(comidas);
+                            comidas= comidaDAO.listarComidas(estado);
+                            lista= new ArrayList<>(comidas);
                             llenarTabla(lista, "Comida");
                         }
                         break;
@@ -582,20 +611,22 @@ public class ViewBuscar extends javax.swing.JPanel {
                         break;
                     case "Detalle":
                         comidaDAO = new ComidaDAO();
-//agregar metodo
+                        comidas= comidaDAO.buscarPorDetalle(atributoTF, estado);
+                        lista = new ArrayList<>(comidas);
+                        llenarTabla(lista, "Comida");
                         break;
                     case "Cantidad de calorias":
                         comidaDAO = new ComidaDAO();
                         estado = (jRadioButtonActivo.isSelected()) ? 1 : (jRadioButtonInactivo.isSelected()) ? 0 : (jRadioButtonAmbos.isSelected()) ? -1 : -3;
-                        ArrayList<Comida> comidas = comidaDAO.buscarXCantCalorias(Integer.parseInt(atributoTF), estado);
-                        ArrayList<Object> lista = new ArrayList<>(comidas);
+                        comidas = comidaDAO.buscarXCantCalorias(Integer.parseInt(atributoTF), estado);
+                        lista = new ArrayList<>(comidas);
                         llenarTabla(lista, "Comida");
                         break;
                     case "Estado":
                         comidaDAO = new ComidaDAO();
-                        ArrayList<Comida> comidass = comidaDAO.listarComidas(estado);
-                        ArrayList<Object> listas = new ArrayList<>(comidass);
-                        llenarTabla(listas, "Comida");
+                        comidas= comidaDAO.listarComidas(estado);
+                        lista = new ArrayList<>(comidas);
+                        llenarTabla(lista, "Comida");
                         break;
                 }
             } else if (entidad.equalsIgnoreCase("Consultas")) {
@@ -603,19 +634,19 @@ public class ViewBuscar extends javax.swing.JPanel {
                     case "ID"://id consulta
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
                             tf = Integer.parseInt(atributoTF);
-                            ConsultaDAO conDAO = new ConsultaDAO();
-                            llenarTabla(conDAO.buscar(tf));
+                            consultaDAO = new ConsultaDAO();
+                            llenarTabla(consultaDAO.buscar(tf));
                         } else {
-                            ConsultaDAO conDAO = new ConsultaDAO();
-                            ArrayList<Consulta> consultas = conDAO.buscar();
-                            ArrayList<Object> lista = new ArrayList<>(consultas);
+                            consultaDAO = new ConsultaDAO();
+                            consultas = consultaDAO.buscar();
+                            lista = new ArrayList<>(consultas);
                             llenarTabla(lista, "Consulta");
                         }
                         break;
                     case "Paciente":
-                        ConsultaDAO conDAO = new ConsultaDAO();
-                        ArrayList<Consulta> consultas = conDAO.buscar((Paciente) jComboBoxPacientes.getSelectedItem());
-                        ArrayList<Object> lista = new ArrayList<>(consultas);
+                        consultaDAO = new ConsultaDAO();
+                        consultas= consultaDAO.buscar((Paciente) jComboBoxPacientes.getSelectedItem());
+                        lista = new ArrayList<>(consultas);
                         llenarTabla(lista, "Consulta");
                         break;
                     case "Fecha":
@@ -628,50 +659,50 @@ public class ViewBuscar extends javax.swing.JPanel {
                     case "ID":
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
                             tf = Integer.parseInt(atributoTF);
-                            DietaDAO dieDAO = new DietaDAO();
-                            llenarTabla(dieDAO.buscarPorId(tf, estado));
+                            dietaDAO= new DietaDAO();
+                            llenarTabla(dietaDAO.buscarPorId(tf, estado));
                         } else {
-                            DietaDAO dieDAO = new DietaDAO();
-                            ArrayList<Dieta> dietas = dieDAO.buscar(estado);
-                            ArrayList<Object> lista = new ArrayList<>(dietas);
+                            dietaDAO= new DietaDAO();
+                            dietas= dietaDAO.buscar(estado);
+                            lista = new ArrayList<>(dietas);
                             llenarTabla(lista, "Dieta");
                         }
                         break;
                     case "Nombre":
-                        DietaDAO dieDAO = new DietaDAO();
-                        ArrayList<Dieta> dietas = dieDAO.buscarDietasPorNombre(atributoTF, estado);
-                        ArrayList<Object> lista = new ArrayList<>(dietas);
+                        dietaDAO= new DietaDAO();
+                        dietas = dietaDAO.buscarDietasPorNombre(atributoTF, estado);
+                        lista = new ArrayList<>(dietas);
                         llenarTabla(lista, "Dieta");
                         break;
                     case "Paciente":
                         Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
-                        dieDAO = new DietaDAO();
-                        llenarTabla(dieDAO.buscarPorId(p.getIdPaciente(), estado));
+                        dietaDAO = new DietaDAO();
+                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
                         break;
                     case "Fecha Inicial"://falta x modif vista
-                        dieDAO = new DietaDAO();
+                        dietaDAO = new DietaDAO();
                         LocalDate fechaInicial = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                        dietas = dieDAO.buscarDietasPorFecha(fechaInicial, estado, true);
+                        dietas = dietaDAO.buscarDietasPorFecha(fechaInicial, estado, true);
                         lista = new ArrayList<>(dietas);
                         llenarTabla(lista, "Dieta");
                         break;
                     case "Fecha Final"://falta x modif vista
-                        dieDAO = new DietaDAO();
+                        dietaDAO = new DietaDAO();
                         LocalDate fechaFinal = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                        dietas = dieDAO.buscarDietasPorFecha(fechaFinal, estado, false);
+                        dietas = dietaDAO.buscarDietasPorFecha(fechaFinal, estado, false);
                         lista = new ArrayList<>(dietas);
                         llenarTabla(lista, "Dieta");
                         break;
                     case "Peso Final":
-                        dieDAO = new DietaDAO();
+                        dietaDAO = new DietaDAO();
                         double tfp = Double.parseDouble(atributoTF);
-                        dietas = dieDAO.buscarDietasPorPesoFinal(tfp, estado);
+                        dietas = dietaDAO.buscarDietasPorPesoFinal(tfp, estado);
                         lista = new ArrayList<>(dietas);
                         llenarTabla(lista, "Dieta");
                         break;
                     case "Estado":
-                        dieDAO = new DietaDAO();
-                        dietas = dieDAO.buscar(estado);
+                        dietaDAO = new DietaDAO();
+                        dietas = dietaDAO.buscar(estado);
                         lista = new ArrayList<>(dietas);
                         llenarTabla(lista, "Dieta");
                         break;
@@ -681,64 +712,64 @@ public class ViewBuscar extends javax.swing.JPanel {
                     case "ID":
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
                             tf = Integer.parseInt(atributoTF);
-                            PacienteDAO paDAO = new PacienteDAO();
-                            llenarTabla(paDAO.buscarPaciente(tf, estado));
+                            pacienteDAO= new PacienteDAO();
+                            llenarTabla(pacienteDAO.buscarPaciente(tf, estado));
                         } else {
-                            PacienteDAO paDAO = new PacienteDAO();
-                            ArrayList<Paciente> pacientes = paDAO.listarPaciente(estado);
-                            ArrayList<Object> lista = new ArrayList<>(pacientes);
+                            pacienteDAO = new PacienteDAO();
+                            pacientes = pacienteDAO.listarPaciente(estado);
+                            lista = new ArrayList<>(pacientes);
                             llenarTabla(lista, "Paciente");
                         }
                         break;
                     case "Nombre Completo":
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
-                            PacienteDAO paDAO = new PacienteDAO();
-                            ArrayList<Paciente> pacientes = paDAO.buscarPacientesPorNombre(atributoTF, estado);
-                            ArrayList<Object> lista = new ArrayList<>(pacientes);
+                            pacienteDAO = new PacienteDAO();
+                            pacientes = pacienteDAO.buscarPacientesPorNombre(atributoTF, estado);
+                            lista = new ArrayList<>(pacientes);
                             llenarTabla(lista, "Paciente");
                         }
                         break;
                     case "Domicilio":
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
-                            PacienteDAO paDAO = new PacienteDAO();
-                            ArrayList<Paciente> pacientes = paDAO.buscarPacientesPorDomicilio(atributoTF, estado);
-                            ArrayList<Object> lista = new ArrayList<>(pacientes);
+                            pacienteDAO = new PacienteDAO();
+                            pacientes = pacienteDAO.buscarPacientesPorDomicilio(atributoTF, estado);
+                            lista = new ArrayList<>(pacientes);
                             llenarTabla(lista, "Paciente");
                         }
                         break;
                     case "DNI":
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
                             tf = Integer.parseInt(atributoTF);
-                            PacienteDAO paDAO = new PacienteDAO();
-                            llenarTabla(paDAO.buscarPacientePorDni(tf, estado));
+                            pacienteDAO = new PacienteDAO();
+                            llenarTabla(pacienteDAO.buscarPacientePorDni(tf, estado));
                         }
                         break;
                     case "Peso actual":
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
                             double tfp = Double.parseDouble(atributoTF);
-                            PacienteDAO paDAO = new PacienteDAO();
+                            pacienteDAO = new PacienteDAO();
                             estado = (jRadioButtonActivo.isSelected()) ? 1 : (jRadioButtonInactivo.isSelected()) ? 0 : (jRadioButtonAmbos.isSelected()) ? -1 : 3;
-                            ArrayList<Paciente> pacientes = paDAO.buscarPacientesPorPesoActual(tfp, estado);
-                            ArrayList<Object> lista = new ArrayList<>(pacientes);
+                            pacientes = pacienteDAO.buscarPacientesPorPesoActual(tfp, estado);
+                            lista = new ArrayList<>(pacientes);
                             llenarTabla(lista, "Paciente");
                         }
                         break;
                     case "Estado":
-                        PacienteDAO paDAO = new PacienteDAO();
-                        ArrayList<Paciente> pacientes = paDAO.listarPaciente(estado);
-                        ArrayList<Object> lista = new ArrayList<>(pacientes);
+                        pacienteDAO = new PacienteDAO();
+                        pacientes = pacienteDAO.listarPaciente(estado);
+                        lista = new ArrayList<>(pacientes);
                         llenarTabla(lista, "Paciente");
                         break;
                     case "Celular":
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
                             tf = Integer.parseInt(atributoTF);
-                            paDAO = new PacienteDAO();
-                            pacientes = paDAO.buscarPacientesPorCelular(tf, estado);
+                            pacienteDAO = new PacienteDAO();
+                            pacientes = pacienteDAO.buscarPacientesPorCelular(tf, estado);
                             lista = new ArrayList<>(pacientes);
                             llenarTabla(lista, "Paciente");
                         } else {
-                            paDAO = new PacienteDAO();
-                            pacientes = paDAO.listarPaciente(estado);
+                            pacienteDAO = new PacienteDAO();
+                            pacientes = pacienteDAO.listarPaciente(estado);
                             lista = new ArrayList<>(pacientes);
                             llenarTabla(lista, "Paciente");
                         }
