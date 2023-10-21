@@ -9,6 +9,8 @@ import Entidades.Consulta;
 import Entidades.Dieta;
 import Entidades.Paciente;
 import java.awt.event.ItemEvent;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -354,6 +356,17 @@ public class ViewBuscar extends javax.swing.JPanel {
 
     }
 
+    private void llenarComboBox() {
+        PacienteDAO pdao = new PacienteDAO();
+        ArrayList<Paciente> pacientes = pdao.listarPaciente(1);
+
+        jComboBoxPacientes.addItem(null);
+
+        for (Paciente aux : pacientes) {
+            jComboBoxPacientes.addItem(aux);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -601,10 +614,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                         break;
                     case "Paciente":
                         ConsultaDAO conDAO = new ConsultaDAO();
-                        PacienteDAO paDAO = new PacienteDAO();
-                        System.out.println(estado);
-                        Paciente paciente = paDAO.buscarPaciente(tf, estado);
-                        ArrayList<Consulta> consultas = conDAO.buscar(paciente);
+                        ArrayList<Consulta> consultas = conDAO.buscar((Paciente) jComboBoxPacientes.getSelectedItem());
                         ArrayList<Object> lista = new ArrayList<>(consultas);
                         llenarTabla(lista, "Consulta");
                         break;
@@ -633,24 +643,29 @@ public class ViewBuscar extends javax.swing.JPanel {
                         ArrayList<Object> lista = new ArrayList<>(dietas);
                         llenarTabla(lista, "Dieta");
                         break;
-                    case "Paciente"://falta x modif vista
+                    case "Paciente":
+                        Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
+                        dieDAO = new DietaDAO();
+                        llenarTabla(dieDAO.buscarPorId(p.getIdPaciente(), estado));
                         break;
                     case "Fecha Inicial"://falta x modif vista
                         dieDAO = new DietaDAO();
-                        dietas = dieDAO.buscar(estado);
+                        LocalDate fechaInicial = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                        dietas = dieDAO.buscarDietasPorFecha(fechaInicial, estado, true);
                         lista = new ArrayList<>(dietas);
                         llenarTabla(lista, "Dieta");
                         break;
                     case "Fecha Final"://falta x modif vista
                         dieDAO = new DietaDAO();
-                        dietas = dieDAO.buscar(estado);
+                        LocalDate fechaFinal = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                        dietas = dieDAO.buscarDietasPorFecha(fechaFinal, estado, false);
                         lista = new ArrayList<>(dietas);
                         llenarTabla(lista, "Dieta");
                         break;
                     case "Peso Final":
                         dieDAO = new DietaDAO();
                         double tfp = Double.parseDouble(atributoTF);
-                        dietas = dieDAO.buscarDietasPorPesoFinal(tfp,estado);
+                        dietas = dieDAO.buscarDietasPorPesoFinal(tfp, estado);
                         lista = new ArrayList<>(dietas);
                         llenarTabla(lista, "Dieta");
                         break;
@@ -796,12 +811,16 @@ public class ViewBuscar extends javax.swing.JPanel {
             jTextField1.setEditable(true);
             jDateChooser1.setEnabled(false);
         }
-        if ((entidadSelect.equals("Consultas") && atributoSelect.equals("Paciente"))) {
+        if ((entidadSelect.equals("Consultas") && atributoSelect.equals("Paciente"))
+                || (entidadSelect.equals("Dietas") && atributoSelect.equals("Paciente"))) {
             jTextField1.setEditable(false);
             jComboBoxPacientes.setEnabled(true);
+            jComboBoxPacientes.removeAllItems();
+            llenarComboBox();
         } else {
             jTextField1.setEditable(true);
             jComboBoxPacientes.setEnabled(false);
+            jComboBoxPacientes.removeAllItems();
         }
     }//GEN-LAST:event_jComboBoxAtributosItemStateChanged
 
@@ -837,7 +856,7 @@ public class ViewBuscar extends javax.swing.JPanel {
     private javax.swing.JButton jButtonSalir;
     private javax.swing.JComboBox<String> jComboBoxAtributos;
     private javax.swing.JComboBox<String> jComboBoxEntidades;
-    private javax.swing.JComboBox<String> jComboBoxPacientes;
+    private javax.swing.JComboBox<Paciente> jComboBoxPacientes;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

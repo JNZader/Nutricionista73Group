@@ -48,7 +48,7 @@ public class ConsultaDAO {
     public ArrayList<Consulta> buscar(Paciente paciente) {
         String SQL_SELECT_ID = "SELECT * FROM consulta WHERE idPaciente = ?";
         Consulta consulta = null;
-        ArrayList<Consulta> consultas = null;
+        ArrayList<Consulta> consultas = new ArrayList<>();;
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
             ps.setInt(1, paciente.getIdPaciente());
             try (ResultSet rs = ps.executeQuery()) {
@@ -58,6 +58,7 @@ public class ConsultaDAO {
                     consulta.setPaciente(paciente);
                     consulta.setFecha(rs.getDate("fecha").toLocalDate());
                     consulta.setPesoActual(rs.getDouble("pesoActual"));
+                    consultas.add(consulta);
                 }
             }
         } catch (SQLException ex) {
@@ -148,4 +149,5 @@ public class ConsultaDAO {
             JOptionPane.showMessageDialog(null, "Error al eliminar Consulta");
         }
     }
+    
 }
