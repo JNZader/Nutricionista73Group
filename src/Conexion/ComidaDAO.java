@@ -242,9 +242,9 @@ public class ComidaDAO {
         return comida;
     }
 
-    public Comida buscarPorDetalle(String detalle, int estado) {
+    public ArrayList<Comida> buscarPorDetalle(String detalle, int estado) {
         String SQL_SELECT_DETALLE = "";
-        Comida comida = null;
+        ArrayList<Comida> comidas = new ArrayList<>();
 
         switch (estado) {
             case 1:
@@ -259,22 +259,23 @@ public class ComidaDAO {
         }
 
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_DETALLE)) {
-            ps.setString(1,"%"+ detalle+"%");
+            ps.setString(1, "%" + detalle + "%"); // Usamos "%" para buscar el detalle en cualquier parte del campo
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    comida = new Comida();
+                while (rs.next()) {
+                    Comida comida = new Comida();
                     comida.setIdComida(rs.getInt("idcomida"));
                     comida.setNombre(rs.getString("nombre"));
                     comida.setDetalle(rs.getString("detalle"));
                     comida.setCantCalorias(rs.getInt("cantcalorias"));
                     comida.setEstado(rs.getBoolean("estado"));
+                    comidas.add(comida);
                 }
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
-            JOptionPane.showMessageDialog(null, "Error al obtener la comida por detalle");
+            JOptionPane.showMessageDialog(null, "Error al obtener comidas por detalle");
         }
 
-        return comida;
+        return comidas;
     }
 }
