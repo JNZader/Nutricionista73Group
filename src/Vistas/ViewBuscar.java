@@ -39,27 +39,35 @@ public class ViewBuscar extends javax.swing.JPanel {
     ArrayList<Paciente> pacientes;
     DocumentFilter filtroNumeros;
     DocumentFilter filtroLetras;
-    NumericRangeFilter3 rangeFilter;
+    DocumentFilter filtroMix;
+    NumericRangeFilter3 rangeFilterCel;
+    NumericRangeFilter rangeFilterPeso;
 
     public ViewBuscar() {
         initComponents();
-        rangeFilter = new NumericRangeFilter3();
+        rangeFilterCel = new NumericRangeFilter3();
+        rangeFilterPeso = new NumericRangeFilter();
         filtroNumeros = new FiltraEntrada(FiltraEntrada.SOLO_NUMEROS);
         filtroLetras = new FiltraEntrada(FiltraEntrada.SOLO_LETRAS);
+        filtroMix = new FiltraEntrada(FiltraEntrada.NUM_LETRAS);
+
         jComboBoxPacientes.setEnabled(false);
         jDateChooser1.setEnabled(false);
         jButtonBuscar.setEnabled(false);
         jButtonEditar.setEnabled(false);
         jButtonEliminar.setEnabled(false);
         jRadioButtonActivo.setSelected(true);
+
         jComboBoxAtributos.addItemListener(event -> {
             if (event.getStateChange() == ItemEvent.SELECTED) {
                 jLabel3.setText(event.getItem().toString() + ":");
-            }//lambda que agrega un itemlistener al combobox  y modifica el label de acuerdo al item seleccionado en el combo
-        });
+            }//lambda que agrega un itemlistener al combobox  
+        });  //y modifica el label de acuerdo al item seleccionado en el combo
+
         JTableHeader tbh = jTable1.getTableHeader();
         tbh.setReorderingAllowed(false);
         jTable1.setTableHeader(tbh);
+
         ListSelectionModel selectionModel = jTable1.getSelectionModel();
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
@@ -472,12 +480,6 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         });
 
-        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jScrollPane1MouseReleased(evt);
-            }
-        });
-
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -486,6 +488,11 @@ public class ViewBuscar extends javax.swing.JPanel {
 
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTable1MouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButtonEditar.setText("Editar");
@@ -857,40 +864,34 @@ public class ViewBuscar extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     private void jComboBoxAtributosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxAtributosItemStateChanged
-        String entidadSelect = (String) jComboBoxEntidades.getSelectedItem();
         String atributoSelect = (String) jComboBoxAtributos.getSelectedItem();
+
+        jTextField1.setEnabled(true);
+        jDateChooser1.setEnabled(false);
+        jTextField1.setEditable(true);
+        jComboBoxPacientes.setEnabled(false);
+        jComboBoxPacientes.removeAllItems();
 
         if (atributoSelect.equals("Estado") || atributoSelect.equals("Paciente")) {
             jTextField1.setEnabled(false);
-        } else {
-            jTextField1.setEnabled(true);
         }
+
         if (atributoSelect.equals("Cantidad de calorias") || atributoSelect.equals("Peso Final")) {
             jRadioButtonActivo.setText("Mayor a");
             jRadioButtonAmbos.setText("Menor a");
             jRadioButtonInactivo.setText("Igual a");
-        } else {
-            jRadioButtonActivo.setText("Activo");
-            jRadioButtonAmbos.setText("Ambos");
-            jRadioButtonInactivo.setText("Inactivo");
         }
 
         if (atributoSelect.equals("Fecha Inicial") || atributoSelect.equals("Fecha Final")) {
             jTextField1.setEnabled(false);
             jDateChooser1.setEnabled(true);
-        } else {
-            jTextField1.setEnabled(true);
-            jDateChooser1.setEnabled(false);
         }
-        if (atributoSelect.equals("Paciente") || atributoSelect.equals("Paciente")) {
+
+        if (atributoSelect.equals("Paciente")) {
             jTextField1.setEditable(false);
             jComboBoxPacientes.setEnabled(true);
             jComboBoxPacientes.removeAllItems();
             llenarComboBox();
-        } else {
-            jTextField1.setEditable(true);
-            jComboBoxPacientes.setEnabled(false);
-            jComboBoxPacientes.removeAllItems();
         }
     }//GEN-LAST:event_jComboBoxAtributosItemStateChanged
 
@@ -911,14 +912,14 @@ public class ViewBuscar extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jComboBoxPacientesActionPerformed
 
-    private void jScrollPane1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseReleased
+    private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
         int sRow = jTable1.getSelectedRow();//obtiene el índice de la fila seleccionada y lo guarda en nRow
         DefaultTableModel mod12 = (DefaultTableModel) jTable1.getModel();
         if (sRow != -1 && sRow < mod12.getRowCount()) {//getRowCount=devuelve el número total de filas en el modelo de la tabla
             jButtonEditar.setEnabled(true);
             jButtonEliminar.setEnabled(true);
         }
-    }//GEN-LAST:event_jScrollPane1MouseReleased
+    }//GEN-LAST:event_jTable1MouseReleased
 
     public String[] atributos(String entidad) {
         String at[] = null;
@@ -1061,14 +1062,36 @@ class NumericRangeFilter3 extends DocumentFilter {
 
     @Override
     public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, AttributeSet as) throws BadLocationException {
+        String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());
+
+        String nextText = currentText.substring(0, i) + string + currentText.substring(i + i1);
+
+        try {
+            long num = Long.parseLong(nextText);
+
+            if (num >= 1 && num <= 9999999999L) {
+                super.replace(fb, i, i1, string, as);
+            } else {
+                Toolkit.getDefaultToolkit().beep();
+            }
+        } catch (NumberFormatException e) {
+            Toolkit.getDefaultToolkit().beep();
+        }
+    }
+}
+
+class NumericRangeFilter extends DocumentFilter {
+
+    @Override
+    public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, AttributeSet as) throws BadLocationException {
         String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());//obtiene el texto actual del jtf
 
         String nextText = currentText.substring(0, i) + string + currentText.substring(i + i1);//concatena el texto a insertar con el texto acutal
 
         try {
-            int num = Integer.parseInt(nextText);//intenta convertir el texto en numero
+            double num = Double.parseDouble(nextText);//intenta convertir el texto en numero
 
-            if (num >= 1 && num <= 100000000) {//verifica si el numero esta en el rango de 1 a 100.000.000
+            if (num >= 0.0 && num <= 500.0) {//verifica si el numero esta en el rango de 0.0 a 10.0
                 super.replace(fb, i, i1, string, as);
             } else {
                 //fuera de rango
