@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -510,6 +511,12 @@ public class ViewBuscar extends javax.swing.JPanel {
 
         jLabel2.setText("Atributo:");
 
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
+            }
+        });
+
         jLabel3.setText(" ");
 
         jComboBoxPacientes.addActionListener(new java.awt.event.ActionListener() {
@@ -893,6 +900,27 @@ public class ViewBuscar extends javax.swing.JPanel {
             jComboBoxPacientes.removeAllItems();
             llenarComboBox();
         }
+        switch ((String) jComboBoxAtributos.getSelectedItem()) {
+            case "Nombre":
+                ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(filtroLetras);
+                break;
+            case "Detalle":
+            case "Domicilio":
+                ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(filtroMix);
+                break;
+            case "Cantidad de calorias":
+            case "DNI":
+            case "ID":
+            case "Celular":
+                ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(rangeFilterCel);
+                break;
+            case "Peso Inicial":
+            case "Peso Final":
+                ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(rangeFilterPeso);
+                break;
+            default:
+                ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(null);
+        }
     }//GEN-LAST:event_jComboBoxAtributosItemStateChanged
 
     private void jComboBoxPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPacientesActionPerformed
@@ -920,6 +948,24 @@ public class ViewBuscar extends javax.swing.JPanel {
             jButtonEliminar.setEnabled(true);
         }
     }//GEN-LAST:event_jTable1MouseReleased
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+        char c = evt.getKeyChar();
+        if (Character.isDigit(c)) { // comprueba si es un numero
+            if (jTextField1.getText().length() >= 11) {
+                evt.consume(); // limita los caracteres a 11
+            }
+        } else if (Character.isLetter(c)) {
+            if (jTextField1.getText().length() >= 100) {
+                evt.consume();
+            }
+        } else if (Character.isWhitespace(c)) {
+            int length = jTextField1.getText().length();
+            if (length > 0 && jTextField1.getText().charAt(length - 1) == ' ') {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_jTextField1KeyTyped
 
     public String[] atributos(String entidad) {
         String at[] = null;
