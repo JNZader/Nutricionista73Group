@@ -43,10 +43,12 @@ public class ViewBuscar extends javax.swing.JPanel {
     DocumentFilter filtroMix;
     NumericRangeFilter3 rangeFilterCel;
     NumericRangeFilter rangeFilterPeso;
+    NumericRangeFilter2 rangeFilterCal;
 
     public ViewBuscar() {
         initComponents();
         rangeFilterCel = new NumericRangeFilter3();
+        rangeFilterCal = new NumericRangeFilter2();
         rangeFilterPeso = new NumericRangeFilter();
         filtroNumeros = new FiltraEntrada(FiltraEntrada.SOLO_NUMEROS);
         filtroLetras = new FiltraEntrada(FiltraEntrada.SOLO_LETRAS);
@@ -58,6 +60,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         jButtonEditar.setEnabled(false);
         jButtonEliminar.setEnabled(false);
         jRadioButtonActivo.setSelected(true);
+        jButtonAnular.setEnabled(false);
 
         jComboBoxAtributos.addItemListener(event -> {
             if (event.getStateChange() == ItemEvent.SELECTED) {
@@ -419,6 +422,29 @@ public class ViewBuscar extends javax.swing.JPanel {
         }
     }
 
+    public void actualizarBotones() {
+        if (jComboBoxEntidades.getSelectedIndex() > 0
+                && jComboBoxAtributos.getSelectedIndex() > 0
+                && (jComboBoxAtributos.getSelectedItem() == null || !jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
+                || (jComboBoxPacientes.getSelectedItem() != null))) {
+            jButtonBuscar.setEnabled(true);
+            if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
+                jButtonEditar.setEnabled(true);
+                jButtonEliminar.setEnabled(true);
+                // Verifica el JComboBoxEntidades antes de habilitar jButtonAnular
+                if (!jComboBoxEntidades.getSelectedItem().toString().equals("Consultas")) {
+                    jButtonAnular.setEnabled(true);
+                }
+            }
+        } else {
+            jButtonBuscar.setEnabled(false);
+            jButtonEditar.setEnabled(false);
+            jButtonEliminar.setEnabled(false);
+            jButtonAnular.setEnabled(false); // Deshabilita jButtonAnular
+        }
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -441,6 +467,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jComboBoxPacientes = new javax.swing.JComboBox<>();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jButtonAnular = new javax.swing.JButton();
 
         jComboBoxEntidades.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Comidas", "Consultas", "Dietas", "Pacientes" }));
         jComboBoxEntidades.addItemListener(new java.awt.event.ItemListener() {
@@ -499,6 +526,11 @@ public class ViewBuscar extends javax.swing.JPanel {
         jButtonEditar.setText("Editar");
 
         jButtonEliminar.setText("Eliminar");
+        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarActionPerformed(evt);
+            }
+        });
 
         jButtonSalir.setText("Salir");
         jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -528,6 +560,8 @@ public class ViewBuscar extends javax.swing.JPanel {
         jDateChooser1.setMaxSelectableDate(new java.util.Date(1735704071000L));
         jDateChooser1.setMinSelectableDate(new java.util.Date(1577851271000L));
 
+        jButtonAnular.setText("Anular");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -540,9 +574,11 @@ public class ViewBuscar extends javax.swing.JPanel {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButtonEditar)
-                                .addGap(251, 251, 251)
+                                .addGap(148, 148, 148)
                                 .addComponent(jButtonEliminar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonAnular)
+                                .addGap(148, 148, 148)
                                 .addComponent(jButtonSalir)))
                         .addGap(35, 35, 35))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -609,7 +645,8 @@ public class ViewBuscar extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonEditar)
                     .addComponent(jButtonEliminar)
-                    .addComponent(jButtonSalir))
+                    .addComponent(jButtonSalir)
+                    .addComponent(jButtonAnular))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -624,6 +661,8 @@ public class ViewBuscar extends javax.swing.JPanel {
                 this.jComboBoxAtributos.setModel(new DefaultComboBoxModel<>(atributos("")));
             }
         }
+        actualizarBotones();
+        limpiarTabla();
     }//GEN-LAST:event_jComboBoxEntidadesItemStateChanged
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
@@ -659,11 +698,15 @@ public class ViewBuscar extends javax.swing.JPanel {
                         llenarTabla(lista, "Comida");
                         break;
                     case "Cantidad de calorias":
-                        comidaDAO = new ComidaDAO();
-                        estado = (jRadioButtonActivo.isSelected()) ? 1 : (jRadioButtonInactivo.isSelected()) ? 0 : (jRadioButtonAmbos.isSelected()) ? -1 : -3;
-                        comidas = comidaDAO.buscarXCantCalorias(Integer.parseInt(atributoTF), estado);
-                        lista = new ArrayList<>(comidas);
-                        llenarTabla(lista, "Comida");
+                        if (!jTextField1.getText().isEmpty()) {
+                            comidaDAO = new ComidaDAO();
+                            estado = (jRadioButtonActivo.isSelected()) ? 1 : (jRadioButtonInactivo.isSelected()) ? 0 : (jRadioButtonAmbos.isSelected()) ? -1 : -3;
+                            comidas = comidaDAO.buscarXCantCalorias(Integer.parseInt(jTextField1.getText()), estado);
+                            lista = new ArrayList<>(comidas);
+                            llenarTabla(lista, "Comida");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Ingrese la cantidad de calorias a buscar", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                         break;
                     case "Estado":
                         comidaDAO = new ComidaDAO();
@@ -693,8 +736,28 @@ public class ViewBuscar extends javax.swing.JPanel {
                         llenarTabla(lista, "Consulta");
                         break;
                     case "Fecha":
+                        consultaDAO = new ConsultaDAO();
+                        estado = (jRadioButtonActivo.isSelected()) ? 1 : (jRadioButtonInactivo.isSelected()) ? 0 : (jRadioButtonAmbos.isSelected()) ? -1 : -3;
+                        if (jDateChooser1.getDate() != null) {
+                            LocalDate fecha = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                            consultas = consultaDAO.buscarPorFecha(fecha, estado);
+                            lista = new ArrayList<>(consultas);
+                            llenarTabla(lista, "Consulta");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Ingrese una fecha valida", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                         break;
                     case "Peso actual":
+                        if (!jTextField1.getText().isEmpty()) {
+                            double tfp = Double.parseDouble(atributoTF);
+                            consultaDAO = new ConsultaDAO();
+                            estado = (jRadioButtonActivo.isSelected()) ? 1 : (jRadioButtonInactivo.isSelected()) ? 0 : (jRadioButtonAmbos.isSelected()) ? -1 : 0;
+                            consultas = consultaDAO.buscarPorPesoActual(tfp, estado);
+                            lista = new ArrayList<>(consultas);
+                            llenarTabla(lista, "Consulta");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Ingrese el peso actual a buscar", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                         break;
                 }
             } else if (entidad.equalsIgnoreCase("Dietas")) {
@@ -730,7 +793,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                             lista = new ArrayList<>(dietas);
                             llenarTabla(lista, "Dieta");
                         } else {
-                            JOptionPane.showMessageDialog(this, "Ingrese una fecha valida");
+                            JOptionPane.showMessageDialog(this, "Ingrese una fecha valida", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
                     case "Fecha Final"://falta x modif vista
@@ -741,15 +804,19 @@ public class ViewBuscar extends javax.swing.JPanel {
                             lista = new ArrayList<>(dietas);
                             llenarTabla(lista, "Dieta");
                         } else {
-                            JOptionPane.showMessageDialog(this, "Ingrese una fecha valida");
+                            JOptionPane.showMessageDialog(this, "Ingrese una fecha valida", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
                     case "Peso Final":
                         dietaDAO = new DietaDAO();
-                        double tfp = Double.parseDouble(atributoTF);
-                        dietas = dietaDAO.buscarDietasPorPesoFinal(tfp, estado);
-                        lista = new ArrayList<>(dietas);
-                        llenarTabla(lista, "Dieta");
+                        if (!jTextField1.getText().isEmpty()) {
+                            double tfp = Double.parseDouble(atributoTF);
+                            dietas = dietaDAO.buscarDietasPorPesoFinal(tfp, estado);
+                            lista = new ArrayList<>(dietas);
+                            llenarTabla(lista, "Dieta");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Ingrese el peso final a buscar", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                         break;
                     case "Estado":
                         dietaDAO = new DietaDAO();
@@ -796,13 +863,15 @@ public class ViewBuscar extends javax.swing.JPanel {
                         }
                         break;
                     case "Peso actual":
-                        if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
+                        if (!jTextField1.getText().isEmpty()) {
                             double tfp = Double.parseDouble(atributoTF);
                             pacienteDAO = new PacienteDAO();
                             estado = (jRadioButtonActivo.isSelected()) ? 1 : (jRadioButtonInactivo.isSelected()) ? 0 : (jRadioButtonAmbos.isSelected()) ? -1 : 0;
                             pacientes = pacienteDAO.buscarPacientesPorPesoActual(tfp, estado);
                             lista = new ArrayList<>(pacientes);
                             llenarTabla(lista, "Paciente");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Ingrese el peso actual a buscar", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
                     case "Estado":
@@ -828,40 +897,30 @@ public class ViewBuscar extends javax.swing.JPanel {
                 }
             }
         }
+        actualizarBotones();
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jComboBoxEntidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEntidadesActionPerformed
-        if (jComboBoxEntidades.getSelectedIndex() > 0
-                && jComboBoxAtributos.getSelectedIndex() > 0
-                && (jComboBoxAtributos.getSelectedItem() == null || !jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
-                || (jComboBoxPacientes.getSelectedItem() != null))) {
-            jButtonBuscar.setEnabled(true);
-            if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
-                jButtonEditar.setEnabled(true);
-                jButtonEliminar.setEnabled(true);
-            }
-        } else {
-            jButtonBuscar.setEnabled(false);
-            jButtonEditar.setEnabled(false);
-            jButtonEliminar.setEnabled(false);
-        }
+        actualizarBotones();
     }//GEN-LAST:event_jComboBoxEntidadesActionPerformed
 
     private void jComboBoxAtributosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAtributosActionPerformed
-        if (jComboBoxEntidades.getSelectedIndex() > 0
-                && jComboBoxAtributos.getSelectedIndex() > 0
-                && (jComboBoxAtributos.getSelectedItem() == null || !jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
-                || (jComboBoxPacientes.getSelectedItem() != null))) {
-            jButtonBuscar.setEnabled(true);
-            if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
-                jButtonEditar.setEnabled(true);
-                jButtonEliminar.setEnabled(true);
-            }
-        } else {
-            jButtonBuscar.setEnabled(false);
-            jButtonEditar.setEnabled(false);
-            jButtonEliminar.setEnabled(false);
-        }
+//        if (jComboBoxEntidades.getSelectedIndex() > 0
+//                && jComboBoxAtributos.getSelectedIndex() > 0
+//                && (jComboBoxAtributos.getSelectedItem() == null || !jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
+//                || (jComboBoxPacientes.getSelectedItem() != null))) {
+//            jButtonBuscar.setEnabled(true);
+//            if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
+//                jButtonEditar.setEnabled(true);
+//                jButtonEliminar.setEnabled(true);
+//            }
+//        } else {
+//            jButtonBuscar.setEnabled(false);
+//            jButtonEditar.setEnabled(false);
+//            jButtonEliminar.setEnabled(false);
+//        }
+        limpiarTabla();
+        actualizarBotones();
     }//GEN-LAST:event_jComboBoxAtributosActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
@@ -883,13 +942,18 @@ public class ViewBuscar extends javax.swing.JPanel {
             jTextField1.setEnabled(false);
         }
 
-        if (atributoSelect.equals("Cantidad de calorias") || atributoSelect.equals("Peso Final")) {
+        if (atributoSelect.equals("Cantidad de calorias")
+                || atributoSelect.equals("Peso Final")
+                || atributoSelect.equals("Fecha")
+                || atributoSelect.equals("Peso actual")) {
             jRadioButtonActivo.setText("Mayor a");
             jRadioButtonAmbos.setText("Menor a");
             jRadioButtonInactivo.setText("Igual a");
         }
 
-        if (atributoSelect.equals("Fecha Inicial") || atributoSelect.equals("Fecha Final")) {
+        if (atributoSelect.equals("Fecha Inicial")
+                || atributoSelect.equals("Fecha Final")
+                || atributoSelect.equals("Fecha")) {
             jTextField1.setEnabled(false);
             jDateChooser1.setEnabled(true);
         }
@@ -909,6 +973,8 @@ public class ViewBuscar extends javax.swing.JPanel {
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(filtroMix);
                 break;
             case "Cantidad de calorias":
+                ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(rangeFilterCal);
+                break;
             case "DNI":
             case "ID":
             case "Celular":
@@ -924,29 +990,31 @@ public class ViewBuscar extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBoxAtributosItemStateChanged
 
     private void jComboBoxPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPacientesActionPerformed
-        if (jComboBoxEntidades.getSelectedIndex() > 0
-                && jComboBoxAtributos.getSelectedIndex() > 0
-                && (jComboBoxAtributos.getSelectedItem() == null || !jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
-                || (jComboBoxPacientes.getSelectedItem() != null))) {
-            jButtonBuscar.setEnabled(true);
-            if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
-                jButtonEditar.setEnabled(true);
-                jButtonEliminar.setEnabled(true);
-            }
-        } else {
-            jButtonBuscar.setEnabled(false);
-            jButtonEditar.setEnabled(false);
-            jButtonEliminar.setEnabled(false);
-        }
+//        if (jComboBoxEntidades.getSelectedIndex() > 0
+//                && jComboBoxAtributos.getSelectedIndex() > 0
+//                && (jComboBoxAtributos.getSelectedItem() == null || !jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
+//                || (jComboBoxPacientes.getSelectedItem() != null))) {
+//            jButtonBuscar.setEnabled(true);
+//            if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
+//                jButtonEditar.setEnabled(true);
+//                jButtonEliminar.setEnabled(true);
+//            }
+//        } else {
+//            jButtonBuscar.setEnabled(false);
+//            jButtonEditar.setEnabled(false);
+//            jButtonEliminar.setEnabled(false);
+//        }
+        actualizarBotones();
     }//GEN-LAST:event_jComboBoxPacientesActionPerformed
 
     private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
-        int sRow = jTable1.getSelectedRow();//obtiene el índice de la fila seleccionada y lo guarda en nRow
-        DefaultTableModel mod12 = (DefaultTableModel) jTable1.getModel();
-        if (sRow != -1 && sRow < mod12.getRowCount()) {//getRowCount=devuelve el número total de filas en el modelo de la tabla
-            jButtonEditar.setEnabled(true);
-            jButtonEliminar.setEnabled(true);
-        }
+//        int sRow = jTable1.getSelectedRow();//obtiene el índice de la fila seleccionada y lo guarda en nRow
+//        DefaultTableModel mod12 = (DefaultTableModel) jTable1.getModel();
+//        if (sRow != -1 && sRow < mod12.getRowCount()) {//getRowCount=devuelve el número total de filas en el modelo de la tabla
+//            jButtonEditar.setEnabled(true);
+//            jButtonEliminar.setEnabled(true);
+//        }
+        actualizarBotones();
     }//GEN-LAST:event_jTable1MouseReleased
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
@@ -966,6 +1034,10 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jTextField1KeyTyped
+
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     public String[] atributos(String entidad) {
         String at[] = null;
@@ -993,6 +1065,7 @@ public class ViewBuscar extends javax.swing.JPanel {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButtonAnular;
     private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonEliminar;
@@ -1145,6 +1218,28 @@ class NumericRangeFilter extends DocumentFilter {
             }
         } catch (NumberFormatException e) {
             Toolkit.getDefaultToolkit().beep(); //El texto no es un número válido...Emite un sonido de error.
+        }
+    }
+}
+
+class NumericRangeFilter2 extends DocumentFilter {
+
+    @Override
+    public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, AttributeSet as) throws BadLocationException {
+        String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());
+
+        String nextText = currentText.substring(0, i) + string + currentText.substring(i + i1);
+
+        try {
+            int num = Integer.parseInt(nextText);
+
+            if (num >= 0 && num <= 10000) {
+                super.replace(fb, i, i1, string, as);
+            } else {
+                Toolkit.getDefaultToolkit().beep();
+            }
+        } catch (NumberFormatException e) {
+            Toolkit.getDefaultToolkit().beep();
         }
     }
 }
