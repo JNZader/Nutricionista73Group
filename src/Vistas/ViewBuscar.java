@@ -8,14 +8,20 @@ import Entidades.Comida;
 import Entidades.Consulta;
 import Entidades.Dieta;
 import Entidades.Paciente;
+import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.DocumentFilter;
 
 public class ViewBuscar extends javax.swing.JPanel {
 
@@ -29,11 +35,17 @@ public class ViewBuscar extends javax.swing.JPanel {
     ArrayList<Consulta> consultas;
     ArrayList<Comida> comidas;
     ArrayList<Object> lista;
-    ArrayList<Dieta> dietas; 
+    ArrayList<Dieta> dietas;
     ArrayList<Paciente> pacientes;
+    DocumentFilter filtroNumeros;
+    DocumentFilter filtroLetras;
+    NumericRangeFilter3 rangeFilter;
 
     public ViewBuscar() {
         initComponents();
+        rangeFilter = new NumericRangeFilter3();
+        filtroNumeros = new FiltraEntrada(FiltraEntrada.SOLO_NUMEROS);
+        filtroLetras = new FiltraEntrada(FiltraEntrada.SOLO_LETRAS);
         jComboBoxPacientes.setEnabled(false);
         jDateChooser1.setEnabled(false);
         jButtonBuscar.setEnabled(false);
@@ -48,6 +60,8 @@ public class ViewBuscar extends javax.swing.JPanel {
         JTableHeader tbh = jTable1.getTableHeader();
         tbh.setReorderingAllowed(false);
         jTable1.setTableHeader(tbh);
+        ListSelectionModel selectionModel = jTable1.getSelectionModel();
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     private void limpiarTabla() {
@@ -458,6 +472,12 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         });
 
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jScrollPane1MouseReleased(evt);
+            }
+        });
+
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -484,6 +504,15 @@ public class ViewBuscar extends javax.swing.JPanel {
         jLabel2.setText("Atributo:");
 
         jLabel3.setText(" ");
+
+        jComboBoxPacientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxPacientesActionPerformed(evt);
+            }
+        });
+
+        jDateChooser1.setMaxSelectableDate(new java.util.Date(1735704071000L));
+        jDateChooser1.setMinSelectableDate(new java.util.Date(1577851271000L));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -600,8 +629,8 @@ public class ViewBuscar extends javax.swing.JPanel {
                             llenarTabla(comidaDAO.buscar(tf, estado));
                         } else {
                             comidaDAO = new ComidaDAO();
-                            comidas= comidaDAO.listarComidas(estado);
-                            lista= new ArrayList<>(comidas);
+                            comidas = comidaDAO.listarComidas(estado);
+                            lista = new ArrayList<>(comidas);
                             llenarTabla(lista, "Comida");
                         }
                         break;
@@ -611,7 +640,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                         break;
                     case "Detalle":
                         comidaDAO = new ComidaDAO();
-                        comidas= comidaDAO.buscarPorDetalle(atributoTF, estado);
+                        comidas = comidaDAO.buscarPorDetalle(atributoTF, estado);
                         lista = new ArrayList<>(comidas);
                         llenarTabla(lista, "Comida");
                         break;
@@ -624,7 +653,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                         break;
                     case "Estado":
                         comidaDAO = new ComidaDAO();
-                        comidas= comidaDAO.listarComidas(estado);
+                        comidas = comidaDAO.listarComidas(estado);
                         lista = new ArrayList<>(comidas);
                         llenarTabla(lista, "Comida");
                         break;
@@ -645,7 +674,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                         break;
                     case "Paciente":
                         consultaDAO = new ConsultaDAO();
-                        consultas= consultaDAO.buscar((Paciente) jComboBoxPacientes.getSelectedItem());
+                        consultas = consultaDAO.buscar((Paciente) jComboBoxPacientes.getSelectedItem());
                         lista = new ArrayList<>(consultas);
                         llenarTabla(lista, "Consulta");
                         break;
@@ -659,17 +688,17 @@ public class ViewBuscar extends javax.swing.JPanel {
                     case "ID":
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
                             tf = Integer.parseInt(atributoTF);
-                            dietaDAO= new DietaDAO();
+                            dietaDAO = new DietaDAO();
                             llenarTabla(dietaDAO.buscarPorId(tf, estado));
                         } else {
-                            dietaDAO= new DietaDAO();
-                            dietas= dietaDAO.buscar(estado);
+                            dietaDAO = new DietaDAO();
+                            dietas = dietaDAO.buscar(estado);
                             lista = new ArrayList<>(dietas);
                             llenarTabla(lista, "Dieta");
                         }
                         break;
                     case "Nombre":
-                        dietaDAO= new DietaDAO();
+                        dietaDAO = new DietaDAO();
                         dietas = dietaDAO.buscarDietasPorNombre(atributoTF, estado);
                         lista = new ArrayList<>(dietas);
                         llenarTabla(lista, "Dieta");
@@ -681,17 +710,25 @@ public class ViewBuscar extends javax.swing.JPanel {
                         break;
                     case "Fecha Inicial"://falta x modif vista
                         dietaDAO = new DietaDAO();
-                        LocalDate fechaInicial = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                        dietas = dietaDAO.buscarDietasPorFecha(fechaInicial, estado, true);
-                        lista = new ArrayList<>(dietas);
-                        llenarTabla(lista, "Dieta");
+                        if (jDateChooser1.getDate() != null) {
+                            LocalDate fechaInicial = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                            dietas = dietaDAO.buscarDietasPorFecha(fechaInicial, estado, true);
+                            lista = new ArrayList<>(dietas);
+                            llenarTabla(lista, "Dieta");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Ingrese una fecha valida");
+                        }
                         break;
                     case "Fecha Final"://falta x modif vista
                         dietaDAO = new DietaDAO();
-                        LocalDate fechaFinal = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                        dietas = dietaDAO.buscarDietasPorFecha(fechaFinal, estado, false);
-                        lista = new ArrayList<>(dietas);
-                        llenarTabla(lista, "Dieta");
+                        if (jDateChooser1.getDate() != null) {
+                            LocalDate fechaFinal = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                            dietas = dietaDAO.buscarDietasPorFecha(fechaFinal, estado, false);
+                            lista = new ArrayList<>(dietas);
+                            llenarTabla(lista, "Dieta");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Ingrese una fecha valida");
+                        }
                         break;
                     case "Peso Final":
                         dietaDAO = new DietaDAO();
@@ -712,7 +749,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                     case "ID":
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
                             tf = Integer.parseInt(atributoTF);
-                            pacienteDAO= new PacienteDAO();
+                            pacienteDAO = new PacienteDAO();
                             llenarTabla(pacienteDAO.buscarPaciente(tf, estado));
                         } else {
                             pacienteDAO = new PacienteDAO();
@@ -748,7 +785,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
                             double tfp = Double.parseDouble(atributoTF);
                             pacienteDAO = new PacienteDAO();
-                            estado = (jRadioButtonActivo.isSelected()) ? 1 : (jRadioButtonInactivo.isSelected()) ? 0 : (jRadioButtonAmbos.isSelected()) ? -1 : 3;
+                            estado = (jRadioButtonActivo.isSelected()) ? 1 : (jRadioButtonInactivo.isSelected()) ? 0 : (jRadioButtonAmbos.isSelected()) ? -1 : 0;
                             pacientes = pacienteDAO.buscarPacientesPorPesoActual(tfp, estado);
                             lista = new ArrayList<>(pacientes);
                             llenarTabla(lista, "Paciente");
@@ -780,7 +817,10 @@ public class ViewBuscar extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jComboBoxEntidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEntidadesActionPerformed
-        if (jComboBoxEntidades.getSelectedIndex() > 0 && jComboBoxAtributos.getSelectedIndex() > 0) {
+        if (jComboBoxEntidades.getSelectedIndex() > 0
+                && jComboBoxAtributos.getSelectedIndex() > 0
+                && (jComboBoxAtributos.getSelectedItem() == null || !jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
+                || (jComboBoxPacientes.getSelectedItem() != null))) {
             jButtonBuscar.setEnabled(true);
             if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
                 jButtonEditar.setEnabled(true);
@@ -794,7 +834,10 @@ public class ViewBuscar extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBoxEntidadesActionPerformed
 
     private void jComboBoxAtributosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAtributosActionPerformed
-        if (jComboBoxEntidades.getSelectedIndex() > 0 && jComboBoxAtributos.getSelectedIndex() > 0) {
+        if (jComboBoxEntidades.getSelectedIndex() > 0
+                && jComboBoxAtributos.getSelectedIndex() > 0
+                && (jComboBoxAtributos.getSelectedItem() == null || !jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
+                || (jComboBoxPacientes.getSelectedItem() != null))) {
             jButtonBuscar.setEnabled(true);
             if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
                 jButtonEditar.setEnabled(true);
@@ -817,8 +860,12 @@ public class ViewBuscar extends javax.swing.JPanel {
         String entidadSelect = (String) jComboBoxEntidades.getSelectedItem();
         String atributoSelect = (String) jComboBoxAtributos.getSelectedItem();
 
-        if ((entidadSelect.equals("Comidas") && atributoSelect.equals("Cantidad de calorias"))
-                || (entidadSelect.equals("Dietas") && atributoSelect.equals("Peso Final"))) {
+        if (atributoSelect.equals("Estado") || atributoSelect.equals("Paciente")) {
+            jTextField1.setEnabled(false);
+        } else {
+            jTextField1.setEnabled(true);
+        }
+        if (atributoSelect.equals("Cantidad de calorias") || atributoSelect.equals("Peso Final")) {
             jRadioButtonActivo.setText("Mayor a");
             jRadioButtonAmbos.setText("Menor a");
             jRadioButtonInactivo.setText("Igual a");
@@ -827,23 +874,15 @@ public class ViewBuscar extends javax.swing.JPanel {
             jRadioButtonAmbos.setText("Ambos");
             jRadioButtonInactivo.setText("Inactivo");
         }
-        if ((entidadSelect.equals("Comidas") && atributoSelect.equals("Estado"))
-                || (entidadSelect.equals("Pacientes") && atributoSelect.equals("Estado"))
-                || (entidadSelect.equals("Dietas") && atributoSelect.equals("Estado"))) {
-            jTextField1.setEditable(false);
-        } else {
-            jTextField1.setEditable(true);
-        }
-        if ((entidadSelect.equals("Dietas") && atributoSelect.equals("Fecha Inicial"))
-                || (entidadSelect.equals("Dietas") && atributoSelect.equals("Fecha Final"))) {
-            jTextField1.setEditable(false);
+
+        if (atributoSelect.equals("Fecha Inicial") || atributoSelect.equals("Fecha Final")) {
+            jTextField1.setEnabled(false);
             jDateChooser1.setEnabled(true);
         } else {
-            jTextField1.setEditable(true);
+            jTextField1.setEnabled(true);
             jDateChooser1.setEnabled(false);
         }
-        if ((entidadSelect.equals("Consultas") && atributoSelect.equals("Paciente"))
-                || (entidadSelect.equals("Dietas") && atributoSelect.equals("Paciente"))) {
+        if (atributoSelect.equals("Paciente") || atributoSelect.equals("Paciente")) {
             jTextField1.setEditable(false);
             jComboBoxPacientes.setEnabled(true);
             jComboBoxPacientes.removeAllItems();
@@ -854,6 +893,32 @@ public class ViewBuscar extends javax.swing.JPanel {
             jComboBoxPacientes.removeAllItems();
         }
     }//GEN-LAST:event_jComboBoxAtributosItemStateChanged
+
+    private void jComboBoxPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPacientesActionPerformed
+        if (jComboBoxEntidades.getSelectedIndex() > 0
+                && jComboBoxAtributos.getSelectedIndex() > 0
+                && (jComboBoxAtributos.getSelectedItem() == null || !jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
+                || (jComboBoxPacientes.getSelectedItem() != null))) {
+            jButtonBuscar.setEnabled(true);
+            if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
+                jButtonEditar.setEnabled(true);
+                jButtonEliminar.setEnabled(true);
+            }
+        } else {
+            jButtonBuscar.setEnabled(false);
+            jButtonEditar.setEnabled(false);
+            jButtonEliminar.setEnabled(false);
+        }
+    }//GEN-LAST:event_jComboBoxPacientesActionPerformed
+
+    private void jScrollPane1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseReleased
+        int sRow = jTable1.getSelectedRow();//obtiene el índice de la fila seleccionada y lo guarda en nRow
+        DefaultTableModel mod12 = (DefaultTableModel) jTable1.getModel();
+        if (sRow != -1 && sRow < mod12.getRowCount()) {//getRowCount=devuelve el número total de filas en el modelo de la tabla
+            jButtonEditar.setEnabled(true);
+            jButtonEliminar.setEnabled(true);
+        }
+    }//GEN-LAST:event_jScrollPane1MouseReleased
 
     public String[] atributos(String entidad) {
         String at[] = null;
@@ -899,4 +964,118 @@ public class ViewBuscar extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+class FiltraEntrada extends DocumentFilter {
+
+        public static final char SOLO_NUMEROS = 'N';
+        public static final char SOLO_LETRAS = 'L';
+        public static final char NUM_LETRAS = 'M';
+        public static final char DEFAULT = '*';
+
+        private char tipoEntrada;
+        private int longitudCadena = 0;
+        private int longitudActual = 0;
+
+        public FiltraEntrada() {
+            tipoEntrada = DEFAULT;
+        }
+
+        public FiltraEntrada(char tipoEntrada) {
+            this.tipoEntrada = tipoEntrada;
+        }
+
+        public FiltraEntrada(char tipoEntrada, int longitudCadena) {
+            this.tipoEntrada = tipoEntrada;
+            this.longitudCadena = longitudCadena;
+        }
+
+        @Override
+        public void insertString(DocumentFilter.FilterBypass fb, int i, String string, javax.swing.text.AttributeSet as) throws BadLocationException {
+            if (string != null && !string.isEmpty()) { // verifica que el texto no sea nulo ni este vacio
+                Document dc = fb.getDocument();
+                longitudActual = dc.getLength();
+                if (longitudCadena == 0 || longitudActual < longitudCadena) {
+                    fb.insertString(i, string, as); // Inserta el texto si no se supera la longitud máxima
+                }
+            }
+        }
+
+        @Override
+        public void remove(DocumentFilter.FilterBypass fb, int offset, int length) throws BadLocationException {
+            super.remove(fb, offset, length);
+        }
+
+        /*
+        En este método:
+        /// @Override: Indica que estás anulando el método remove de la superclase DocumentFilter.
+
+        /// public void remove(DocumentFilter.FilterBypass fb, int offset, int length) throws BadLocationException:
+        Esto es la declaración del método, que acepta tres parámetros: fb (un objeto FilterBypass que permite realizar la eliminación),
+        offset (la posición desde la cual se eliminará el texto) y length (la cantidad de caracteres a eliminar).  
+        
+        ///super.remove(fb, offset, length);: Este es el llamado al método remove de la superclase DocumentFilter, 
+        que se encarga de realizar la eliminación del texto en el documento. 
+        No se requiere ninguna lógica adicional en este método, ya que simplemente delega la operación de eliminación a la implementación predeterminada de la superclase.
+         */
+        @Override
+        public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, javax.swing.text.AttributeSet as) throws BadLocationException {
+            Document dc = fb.getDocument();
+            if (string == null) {
+                fb.replace(0, i1, "", as);
+                return;
+            }
+            if (string.isEmpty()) {
+                fb.replace(0, i1, "", as);
+                return;
+            }
+            longitudActual = dc.getLength();
+            if (esValido(string)) {
+                if (this.longitudCadena == 0 || longitudActual < longitudCadena) {
+                    fb.replace(i, i1, string, as);
+                }
+            }
+        }
+
+        private boolean esValido(String valor) {
+            char[] letras = valor.toCharArray();
+            boolean valido = false;
+            for (int i = 0; i < letras.length; i++) {
+
+                switch (tipoEntrada) {
+                    case SOLO_NUMEROS:
+                        return valor.matches("[0-9]+");// verifica si solo contiene numeros
+                    case SOLO_LETRAS:
+                        return valor.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+");// verifica si solo contiene letras y espacios
+                    case NUM_LETRAS:
+                        return valor.matches("[0-9a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+");// verifica si contiene números, letras y espacios
+                    default:
+                        valido = true;
+                        return valido;
+                }
+            }
+            return valido;
+        }
+    }
+}
+
+class NumericRangeFilter3 extends DocumentFilter {
+
+    @Override
+    public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, AttributeSet as) throws BadLocationException {
+        String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());//obtiene el texto actual del jtf
+
+        String nextText = currentText.substring(0, i) + string + currentText.substring(i + i1);//concatena el texto a insertar con el texto acutal
+
+        try {
+            int num = Integer.parseInt(nextText);//intenta convertir el texto en numero
+
+            if (num >= 1 && num <= 100000000) {//verifica si el numero esta en el rango de 1 a 100.000.000
+                super.replace(fb, i, i1, string, as);
+            } else {
+                //fuera de rango
+                Toolkit.getDefaultToolkit().beep();//sonido de error
+            }
+        } catch (NumberFormatException e) {
+            Toolkit.getDefaultToolkit().beep(); //El texto no es un número válido...Emite un sonido de error.
+        }
+    }
 }
