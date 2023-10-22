@@ -1010,9 +1010,6 @@ public class ViewBuscar extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1KeyTyped
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
-        jButtonEliminar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
                 int selectedRow = jTable1.getSelectedRow();
 
                 if (selectedRow != -1) { 
@@ -1032,8 +1029,6 @@ public class ViewBuscar extends javax.swing.JPanel {
                         consultaDAO.eliminar(consulta.getIdConsulta());
                     }
                 }
-            }
-        });
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     private void jButtonAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnularActionPerformed
