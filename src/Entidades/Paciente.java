@@ -95,7 +95,9 @@ public class Paciente {
     
      @Override
     public String toString() {
-        return idPaciente+", "+nombre+", "+dni+ ", "+ domicilio+ ", "+telefono+", ";
+
+        return nombre;
+
     }
     
     

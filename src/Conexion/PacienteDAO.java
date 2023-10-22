@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class PacienteDAO {
@@ -68,7 +69,7 @@ public class PacienteDAO {
     }
 
     public void eliminarPacienteFisico(int id) {
-        String sql = "DELETE FROM paciente WHERE idPaciente = ?";
+        String sql = "DELETE FROM paciente WHERE idPaciente = ? AND idPaciente NOT IN (SELECT idPaciente FROM consulta) AND idPaciente NOT IN (SELECT idPaciente FROM dieta)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
 
@@ -77,7 +78,7 @@ public class PacienteDAO {
             if (fila == 1) {
                 JOptionPane.showMessageDialog(null, " Se eliminó el paciente.");
             } else {
-                JOptionPane.showMessageDialog(null, "El paciente no existe");
+                JOptionPane.showMessageDialog(null, "El paciente no se pudo eliminar");
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
@@ -103,11 +104,21 @@ public class PacienteDAO {
         }
     }
 
-    public ArrayList<Paciente> listarPaciente() {
-        String sql = "SELECT * FROM paciente where estado=1 ";
-        
-        
+    public ArrayList<Paciente> listarPaciente(int estado) {
+        String sql = "";
         ArrayList<Paciente> pacientes = new ArrayList<>();
+
+        switch (estado) {
+            case 1:
+                sql = "SELECT * FROM paciente where estado=1 ";
+                break;
+            case 0:
+                sql = "SELECT * FROM paciente where estado=0 ";
+                break;
+            default:
+                sql = "SELECT * FROM paciente";
+                break;
+        }
 
         try (PreparedStatement ps = con.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery()) {
@@ -124,7 +135,8 @@ public class PacienteDAO {
                 paciente.setTelefono(rs.getInt("celular"));
                 paciente.setIdPaciente(rs.getInt("idPaciente"));
                 paciente.setPesoActual(rs.getDouble("pesoActual"));
-                paciente.setEstado(true);
+                paciente.setEstado(rs.getBoolean("estado"));
+
                 pacientes.add(paciente);// Agregar el alumno a la lista
             }
         } catch (SQLException ex) {
@@ -134,9 +146,21 @@ public class PacienteDAO {
         return pacientes;
     }
 
-    public Paciente buscarPacientePorDni(int dni) {
-        String sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente FROM paciente WHERE dni=? and estado=1";
+    public Paciente buscarPacientePorDni(int dni, int estado) {
+        String sql = "";
         Paciente paciente = null;
+
+        switch (estado) {
+            case 1:
+                sql = "SELECT * FROM paciente WHERE dni=? and estado=1";
+                break;
+            case 0:
+                sql = "SELECT * FROM paciente WHERE dni=? and estado=0";
+                break;
+            default:
+                sql = "SELECT * FROM paciente WHERE dni=?";
+                break;
+        }
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, dni);//asigna el valor del parametro dni a la consulta sql
@@ -145,30 +169,38 @@ public class PacienteDAO {
                 if (rs.next()) {
                     paciente = new Paciente();
                     paciente.setIdPaciente(rs.getInt("idPaciente"));
-                    paciente.setDni(dni);
+                    paciente.setDni(rs.getInt("dni"));
                     paciente.setNombre(rs.getString("nombreCompleto"));
                     paciente.setDomicilio(rs.getString("domicilio"));
                     paciente.setTelefono(rs.getInt("celular"));
                     paciente.setPesoActual(rs.getDouble("pesoActual"));
-                    paciente.setEstado(true);
-
+                    paciente.setEstado(rs.getBoolean("estado"));
                 } else {
                     JOptionPane.showMessageDialog(null, "No existe el paciente");
-
                 }
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al acceder la tabla paciente");
         }
-
         return paciente;
     }
 
-    public Paciente buscarPaciente(int id) {
-        String sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente FROM paciente WHERE idPaciente=? and estado=1 ";
+    public Paciente buscarPaciente(int id, int estado) {
+        String sql = "";
         Paciente paciente = null;
 
+        switch (estado) {
+            case 1:
+                sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente, estado FROM paciente WHERE idPaciente=? and estado=1";
+                break;
+            case 0:
+                sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente, estado FROM paciente WHERE idPaciente=? and estado=0";
+                break;
+            default:
+                sql = "SELECT nombreCompleto,DNI,nombreCompleto,domicilio,celular,pesoActual,idPaciente, estado FROM paciente WHERE idPaciente=?";
+                break;
+        }
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);//asigna el valor del parametro dni a la consulta sql
 
@@ -181,19 +213,175 @@ public class PacienteDAO {
                     paciente.setDomicilio(rs.getString("domicilio"));
                     paciente.setTelefono(rs.getInt("celular"));
                     paciente.setPesoActual(rs.getDouble("pesoActual"));
-                    paciente.setEstado(true);
-
+                    paciente.setEstado(rs.getBoolean("estado"));
                 } else {
                     JOptionPane.showMessageDialog(null, "No existe el paciente");
-
                 }
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al acceder la tabla paciente");
         }
-
         return paciente;
+    }
 
+    public ArrayList<Paciente> buscarPacientesPorNombre(String nombre, int estado) {
+        String sql = "";
+        ArrayList<Paciente> pacientes = new ArrayList<>();
+
+        switch (estado) {
+            case 1:
+                sql = "SELECT * FROM paciente WHERE nombreCompleto LIKE ? AND estado=1";
+                break;
+            case 0:
+                sql = "SELECT * FROM paciente WHERE nombreCompleto LIKE ? AND estado=0";
+                break;
+            default:
+                sql = "SELECT * FROM paciente WHERE nombreCompleto LIKE ?";
+                break;
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, "%" + nombre + "%"); // Agrega '%' para buscar en cualquier parte del nombre
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Paciente paciente = new Paciente();
+                    paciente.setIdPaciente(rs.getInt("idPaciente"));
+                    paciente.setDni(rs.getInt("dni"));
+                    paciente.setNombre(rs.getString("nombreCompleto"));
+                    paciente.setDomicilio(rs.getString("domicilio"));
+                    paciente.setTelefono(rs.getInt("celular"));
+                    paciente.setPesoActual(rs.getDouble("pesoActual"));
+                    paciente.setEstado(rs.getBoolean("estado"));
+                    pacientes.add(paciente);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla paciente");
+        }
+
+        return pacientes;
+    }
+
+    public ArrayList<Paciente> buscarPacientesPorDomicilio(String domicilio, int estado) {
+        String sql = "";
+        ArrayList<Paciente> pacientes = new ArrayList<>();
+
+        switch (estado) {
+            case 1:
+                sql = "SELECT * FROM paciente WHERE domicilio LIKE ? AND estado=1";
+                break;
+            case 0:
+                sql = "SELECT * FROM paciente WHERE domicilio LIKE ? AND estado=0";
+                break;
+            default:
+                sql = "SELECT * FROM paciente WHERE domicilio LIKE ?";
+                break;
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, "%" + domicilio + "%"); // Agrega '%' para buscar en cualquier parte del domicilio
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Paciente paciente = new Paciente();
+                    paciente.setIdPaciente(rs.getInt("idPaciente"));
+                    paciente.setDni(rs.getInt("dni"));
+                    paciente.setNombre(rs.getString("nombreCompleto"));
+                    paciente.setDomicilio(rs.getString("domicilio"));
+                    paciente.setTelefono(rs.getInt("celular"));
+                    paciente.setPesoActual(rs.getDouble("pesoActual"));
+                    paciente.setEstado(rs.getBoolean("estado"));
+                    pacientes.add(paciente);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla paciente");
+        }
+
+        return pacientes;
+    }
+    public ArrayList<Paciente> buscarPacientesPorCelular(int celular, int estado) {
+        String sql = "";
+        ArrayList<Paciente> pacientes = new ArrayList<>();
+
+        switch (estado) {
+            case 1:
+                sql = "SELECT * FROM paciente WHERE celular LIKE ? AND estado=1";
+                break;
+            case 0:
+                sql = "SELECT * FROM paciente WHERE celular LIKE ? AND estado=0";
+                break;
+            default:
+                sql = "SELECT * FROM paciente WHERE celular LIKE ?";
+                break;
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, "%" + celular + "%"); // Agrega '%' para buscar en cualquier parte del domicilio
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Paciente paciente = new Paciente();
+                    paciente.setIdPaciente(rs.getInt("idPaciente"));
+                    paciente.setDni(rs.getInt("dni"));
+                    paciente.setNombre(rs.getString("nombreCompleto"));
+                    paciente.setDomicilio(rs.getString("domicilio"));
+                    paciente.setTelefono(rs.getInt("celular"));
+                    paciente.setPesoActual(rs.getDouble("pesoActual"));
+                    paciente.setEstado(rs.getBoolean("estado"));
+                    pacientes.add(paciente);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla paciente");
+        }
+
+        return pacientes;
+    }
+
+    public ArrayList<Paciente> buscarPacientesPorPesoActual(double peso, int condicion) {
+        String SQL_SELECT = "";
+        Paciente paciente = null;
+        ArrayList<Paciente> pacientes = new ArrayList<>();
+        condicion = (condicion > 0) ? 1 : (condicion < 0) ? -1 : 0;
+
+        switch (condicion) {
+            case 0:
+                SQL_SELECT = "SELECT * FROM paciente WHERE pesoActual = ? AND estado = 1";
+                break;
+            case 1:
+                SQL_SELECT = "SELECT * FROM paciente WHERE pesoActual > ? AND estado = 1";
+                break;
+            case -1:
+                SQL_SELECT = "SELECT * FROM paciente WHERE pesoActual < ? AND estado = 1";
+                break;
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT)) {
+            ps.setDouble(1, peso);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    paciente = new Paciente();
+                    paciente.setIdPaciente(rs.getInt("idPaciente"));
+                    paciente.setNombre(rs.getString("nombreCompleto"));
+                    paciente.setDni(rs.getInt("DNI"));
+                    paciente.setDomicilio(rs.getString("domicilio"));
+                    paciente.setTelefono(rs.getInt("celular"));
+                    paciente.setPesoActual(rs.getDouble("pesoActual"));
+                    paciente.setEstado(rs.getBoolean("estado"));
+                    pacientes.add(paciente);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al buscar pacientes por peso actual");
+        }
+        return pacientes;
     }
 }
