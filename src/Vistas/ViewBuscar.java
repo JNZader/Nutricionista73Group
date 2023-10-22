@@ -9,6 +9,8 @@ import Entidades.Consulta;
 import Entidades.Dieta;
 import Entidades.Paciente;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -905,20 +907,6 @@ public class ViewBuscar extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBoxEntidadesActionPerformed
 
     private void jComboBoxAtributosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAtributosActionPerformed
-//        if (jComboBoxEntidades.getSelectedIndex() > 0
-//                && jComboBoxAtributos.getSelectedIndex() > 0
-//                && (jComboBoxAtributos.getSelectedItem() == null || !jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
-//                || (jComboBoxPacientes.getSelectedItem() != null))) {
-//            jButtonBuscar.setEnabled(true);
-//            if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
-//                jButtonEditar.setEnabled(true);
-//                jButtonEliminar.setEnabled(true);
-//            }
-//        } else {
-//            jButtonBuscar.setEnabled(false);
-//            jButtonEditar.setEnabled(false);
-//            jButtonEliminar.setEnabled(false);
-//        }
         limpiarTabla();
         actualizarBotones();
     }//GEN-LAST:event_jComboBoxAtributosActionPerformed
@@ -990,30 +978,11 @@ public class ViewBuscar extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBoxAtributosItemStateChanged
 
     private void jComboBoxPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPacientesActionPerformed
-//        if (jComboBoxEntidades.getSelectedIndex() > 0
-//                && jComboBoxAtributos.getSelectedIndex() > 0
-//                && (jComboBoxAtributos.getSelectedItem() == null || !jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
-//                || (jComboBoxPacientes.getSelectedItem() != null))) {
-//            jButtonBuscar.setEnabled(true);
-//            if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
-//                jButtonEditar.setEnabled(true);
-//                jButtonEliminar.setEnabled(true);
-//            }
-//        } else {
-//            jButtonBuscar.setEnabled(false);
-//            jButtonEditar.setEnabled(false);
-//            jButtonEliminar.setEnabled(false);
-//        }
+        limpiarTabla();
         actualizarBotones();
     }//GEN-LAST:event_jComboBoxPacientesActionPerformed
 
     private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
-//        int sRow = jTable1.getSelectedRow();//obtiene el índice de la fila seleccionada y lo guarda en nRow
-//        DefaultTableModel mod12 = (DefaultTableModel) jTable1.getModel();
-//        if (sRow != -1 && sRow < mod12.getRowCount()) {//getRowCount=devuelve el número total de filas en el modelo de la tabla
-//            jButtonEditar.setEnabled(true);
-//            jButtonEliminar.setEnabled(true);
-//        }
         actualizarBotones();
     }//GEN-LAST:event_jTable1MouseReleased
 
@@ -1036,7 +1005,30 @@ public class ViewBuscar extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1KeyTyped
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
-        // TODO add your handling code here:
+        jButtonEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = jTable1.getSelectedRow();
+
+                if (selectedRow != -1) { 
+                    Object selectedObject = jTable1.getValueAt(selectedRow, 0); 
+
+                    if (selectedObject instanceof Paciente) {
+                        Paciente paciente = (Paciente) selectedObject;
+                        pacienteDAO.eliminarPacienteFisico(paciente.getIdPaciente());
+                    } else if (selectedObject instanceof Dieta) {
+                        Dieta dieta = (Dieta) selectedObject;
+                        dietaDAO.eliminarDieta(dieta.getIdDieta());
+                    } else if (selectedObject instanceof Comida) {
+                        Comida comida = (Comida) selectedObject;
+                        comidaDAO.borrarTotal(comida);
+                    } else if (selectedObject instanceof Consulta) {
+                        Consulta consulta = (Consulta) selectedObject;
+                        consultaDAO.eliminar(consulta.getIdConsulta());
+                    }
+                }
+            }
+        });
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     public String[] atributos(String entidad) {
