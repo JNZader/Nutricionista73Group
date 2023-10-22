@@ -563,6 +563,11 @@ public class ViewBuscar extends javax.swing.JPanel {
         jDateChooser1.setMinSelectableDate(new java.util.Date(1577851271000L));
 
         jButtonAnular.setText("Anular");
+        jButtonAnular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAnularActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -1030,6 +1035,10 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         });
     }//GEN-LAST:event_jButtonEliminarActionPerformed
+
+    private void jButtonAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnularActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonAnularActionPerformed
 
     public String[] atributos(String entidad) {
         String at[] = null;
