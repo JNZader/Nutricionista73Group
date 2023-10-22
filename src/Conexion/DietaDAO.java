@@ -85,8 +85,10 @@ public class DietaDAO {
                 if (rs.next()) {
                     dieta = new Dieta();
                     dieta.setNombre(rs.getString("nombre"));
+
                     int idPaciente = rs.getInt("idpaciente");
                     Paciente p = pd.buscarPaciente(idPaciente, 3);
+
                     dieta.setPaciente(p);
                     dieta.setFechaInicial(rs.getDate("fechaInicio").toLocalDate());
                     dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
