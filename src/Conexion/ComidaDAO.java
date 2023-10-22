@@ -67,15 +67,15 @@ public class ComidaDAO {
     }
 
     public void borrarTotal(Comida comida) {
-        String SQL_DELETE = "DELETE FROM comida WHERE idComida = ?";
+        String SQL_DELETE = "DELETE FROM comida WHERE idComida = ? AND idComida NOT IN (SELECT idComida FROM dieta UNION SELECT idComida FROM dietacomida)";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_DELETE)) {
             ps.setInt(1, comida.getIdComida());
             int del = ps.executeUpdate();
             if (del == 1) {
-                System.out.println("se ha eliminado la comida");
+                JOptionPane.showMessageDialog(null, "Comida eliminada con éxito");
             } else {
-                System.out.println("error al eliminar comida");
+                JOptionPane.showMessageDialog(null, "No se puede eliminar la comida debido a relaciones con otras tablas.");
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
