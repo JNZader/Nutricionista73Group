@@ -38,7 +38,7 @@ public class DietaDAO {
         }
 
         Dieta dieta = null;
-        ArrayList<Dieta> dietaList = new ArrayList<>();
+        ArrayList<Dieta> dietas = new ArrayList<>();
         pd = new PacienteDAO();
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT);
                 ResultSet rs = ps.executeQuery()) {
@@ -53,14 +53,15 @@ public class DietaDAO {
                 dieta.setFechaFinal(rs.getDate("fechaFin").toLocalDate());
                 dieta.setPesoFinal(rs.getDouble("pesoFinal"));
                 dieta.setEstado(rs.getBoolean("estado"));
-
-                dietaList.add(dieta);
+                dieta.setIdDieta(rs.getInt("idDieta"));
+                
+                dietas.add(dieta);
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al obtener Dietas");
         }
-        return dietaList; // retorna la lista 
+        return dietas; // retorna la lista 
     }
 
     public Dieta buscarPorId(int idDieta, int estado) {
@@ -154,10 +155,15 @@ public class DietaDAO {
     }
 
     public void eliminarDieta(int idDieta) {
-        String sql = "DELETE FROM dieta WHERE idDieta = ?";
+        String sql = "DELETE FROM dieta WHERE idDieta = ? AND idDieta NOT IN (SELECT idDieta FROM dietacomida)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idDieta);
-            ps.executeUpdate();
+            int del = ps.executeUpdate();
+            if (del == 1) {
+                JOptionPane.showMessageDialog(null, "Dieta eliminada con éxito");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo eliminar la dieta");
+            }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al eliminar Dieta");

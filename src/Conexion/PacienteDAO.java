@@ -69,7 +69,7 @@ public class PacienteDAO {
     }
 
     public void eliminarPacienteFisico(int id) {
-        String sql = "DELETE FROM paciente WHERE idPaciente = ?";
+        String sql = "DELETE FROM paciente WHERE idPaciente = ? AND idPaciente NOT IN (SELECT idPaciente FROM consulta) AND idPaciente NOT IN (SELECT idPaciente FROM dieta)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
 
@@ -78,7 +78,7 @@ public class PacienteDAO {
             if (fila == 1) {
                 JOptionPane.showMessageDialog(null, " Se eliminó el paciente.");
             } else {
-                JOptionPane.showMessageDialog(null, "El paciente no existe");
+                JOptionPane.showMessageDialog(null, "El paciente no se pudo eliminar");
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);

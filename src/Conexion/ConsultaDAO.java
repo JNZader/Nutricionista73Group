@@ -144,7 +144,12 @@ public class ConsultaDAO {
         String sql = "DELETE FROM consulta WHERE idConsulta = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idConsulta);
-            ps.executeUpdate();
+            int del = ps.executeUpdate();
+            if (del == 1) {
+                JOptionPane.showMessageDialog(null, "Comida consulta con éxito");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se puede eliminar la consulta.");
+            }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al eliminar Consulta");
