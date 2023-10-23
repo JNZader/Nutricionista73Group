@@ -47,7 +47,7 @@ public class ViewDieta extends javax.swing.JPanel {
 
       private void llenarComboBox() {
        PacienteDAO pacient =new  PacienteDAO ();
-        ArrayList<Paciente> pacientes = pacient.listarPaciente();//obtiene la una lista de materias activas de la base de datos
+        ArrayList<Paciente> pacientes = pacient.listarPaciente(1);//obtiene la una lista de materias activas de la base de datos
 //        jComboPaciente.removeAllItems();
         jComboPaciente.addItem(null);
 //agrega un espacio vacio en el primer elemento del combobox
@@ -613,7 +613,7 @@ try {
     }
 }
 
-class NumericRangeFilter2 extends DocumentFilter {
+class NumericRangeFilter4 extends DocumentFilter {
 
     @Override
     public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, AttributeSet as) throws BadLocationException {
