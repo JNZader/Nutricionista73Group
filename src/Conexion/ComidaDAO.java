@@ -18,7 +18,6 @@ public class ComidaDAO {
 
     public ComidaDAO() {
         con = getConnection();
-
     }
 
     public Comida insertar(Comida comida) {
@@ -68,15 +67,15 @@ public class ComidaDAO {
     }
 
     public void borrarTotal(Comida comida) {
-        String SQL_DELETE = "DELETE FROM comida WHERE idComida = ?";
+        String SQL_DELETE = "DELETE FROM comida WHERE idComida = ? AND idComida NOT IN (SELECT idComida FROM dieta UNION SELECT idComida FROM dietacomida)";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_DELETE)) {
             ps.setInt(1, comida.getIdComida());
             int del = ps.executeUpdate();
             if (del == 1) {
-                System.out.println("se ha eliminado la comida");
+                JOptionPane.showMessageDialog(null, "Comida eliminada con éxito");
             } else {
-                System.out.println("error al eliminar comida");
+                JOptionPane.showMessageDialog(null, "No se puede eliminar la comida debido a relaciones con otras tablas.");
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
@@ -138,32 +137,33 @@ public class ComidaDAO {
         return comidaList; // retorna la lista 
     }
 
-    public List<Comida> buscarXCantCalorias(int cantCalorias, int condicion) {
+    public ArrayList<Comida> buscarXCantCalorias(int cantCalorias, int condicion) {
         String SQL_SELECT = "";
         Comida calorias = null;
-        List<Comida> comidas = new ArrayList<>();
+        ArrayList<Comida> comidas = new ArrayList<>();
         condicion = (condicion > 0) ? 1 : (condicion < 0) ? -1 : 0;
 
         switch (condicion) {
             case 0:
                 SQL_SELECT = "SELECT idComida, nombre, detalle, cantCalorias, estado FROM comida WHERE cantCalorias = ? AND estado=1";
+                break;
             case 1:
                 SQL_SELECT = "SELECT idComida, nombre, detalle, cantCalorias, estado FROM comida WHERE cantCalorias > ? AND estado=1";
+                break;
             case -1:
                 SQL_SELECT = "SELECT idComida, nombre, detalle, cantCalorias, estado FROM comida WHERE cantCalorias < ? AND estado=1";
+                break;
         }
-
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT)) {
             ps.setInt(1, cantCalorias);
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     calorias = new Comida();
                     calorias.setIdComida(rs.getInt("idcomida"));
                     calorias.setNombre(rs.getString("nombre"));
                     calorias.setDetalle(rs.getString("detalle"));
                     calorias.setCantCalorias(rs.getInt("cantcalorias"));
                     calorias.setEstado(true);
-
                     comidas.add(calorias);
                 }
             }
@@ -174,7 +174,7 @@ public class ComidaDAO {
         return comidas;
     }
 
-    Comida buscar(int idComida, int estado) {
+    public Comida buscar(int idComida, int estado) {
         String SQL_SELECT_ID = "";
         Comida comida = null;
 
@@ -206,5 +206,76 @@ public class ComidaDAO {
             JOptionPane.showMessageDialog(null, "Error al obtener la Dieta por ID");
         }
         return comida;
+    }
+
+    public Comida buscarPorNombre(String nombre, int estado) {
+        String SQL_SELECT_NOMBRE = "";
+        Comida comida = null;
+
+        switch (estado) {
+            case 1:
+                SQL_SELECT_NOMBRE = "SELECT * FROM comida WHERE nombre = ? AND estado = 1";
+                break;
+            case 0:
+                SQL_SELECT_NOMBRE = "SELECT * FROM comida WHERE nombre = ? AND estado = 0";
+                break;
+            default:
+                SQL_SELECT_NOMBRE = "SELECT * FROM comida WHERE nombre = ?";
+                break;
+        }
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_NOMBRE)) {
+            ps.setString(1, nombre);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    comida = new Comida();
+                    comida.setIdComida(rs.getInt("idcomida"));
+                    comida.setNombre(rs.getString("nombre"));
+                    comida.setDetalle(rs.getString("detalle"));
+                    comida.setCantCalorias(rs.getInt("cantcalorias"));
+                    comida.setEstado(rs.getBoolean("estado"));
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al obtener la comida por nombre");
+        }
+        return comida;
+    }
+
+    public ArrayList<Comida> buscarPorDetalle(String detalle, int estado) {
+        String SQL_SELECT_DETALLE = "";
+        ArrayList<Comida> comidas = new ArrayList<>();
+
+        switch (estado) {
+            case 1:
+                SQL_SELECT_DETALLE = "SELECT * FROM comida WHERE detalle LIKE ? AND estado = 1";
+                break;
+            case 0:
+                SQL_SELECT_DETALLE = "SELECT * FROM comida WHERE detalle LIKE ? AND estado = 0";
+                break;
+            default:
+                SQL_SELECT_DETALLE = "SELECT * FROM comida WHERE detalle LIKE ?";
+                break;
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_DETALLE)) {
+            ps.setString(1, "%" + detalle + "%"); // Usamos "%" para buscar el detalle en cualquier parte del campo
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Comida comida = new Comida();
+                    comida.setIdComida(rs.getInt("idcomida"));
+                    comida.setNombre(rs.getString("nombre"));
+                    comida.setDetalle(rs.getString("detalle"));
+                    comida.setCantCalorias(rs.getInt("cantcalorias"));
+                    comida.setEstado(rs.getBoolean("estado"));
+                    comidas.add(comida);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al obtener comidas por detalle");
+        }
+
+        return comidas;
     }
 }

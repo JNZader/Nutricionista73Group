@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -22,21 +23,20 @@ public class ConsultaDAO {
 
     public ArrayList<Consulta> buscar() {
         String SQL_SELECT = "SELECT * FROM consulta";
-        Consulta consulta= null;
+        Consulta consulta = null;
         ArrayList<Consulta> consultaList = new ArrayList<>();
-
+        PacienteDAO pdao = new PacienteDAO();
+        Paciente paciente = new Paciente();
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT);
                 ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                    consulta = new Consulta();
-                    consulta.setIdConsulta(rs.getInt("idConsulta"));
-                    Paciente paciente=new Paciente();
-                    paciente.setIdPaciente(rs.getInt("idPaciente"));
-                    consulta.setPaciente(paciente);
-                    consulta.setFecha(rs.getDate("fecha").toLocalDate());
-                    consulta.setPesoActual(rs.getDouble("pesoActual"));
-
+                consulta = new Consulta();
+                consulta.setIdConsulta(rs.getInt("idConsulta"));
+                paciente = pdao.buscarPaciente((rs.getInt("idPaciente")), 3);
+                consulta.setPaciente(paciente);
+                consulta.setFecha(rs.getDate("fecha").toLocalDate());
+                consulta.setPesoActual(rs.getDouble("pesoActual"));
                 consultaList.add(consulta);
             }
         } catch (SQLException ex) {
@@ -46,17 +46,43 @@ public class ConsultaDAO {
         return consultaList; // retorna la lista 
     }
 
-    public Consulta buscar(Paciente paciente) {
+    public ArrayList<Consulta> buscar(Paciente paciente) {
         String SQL_SELECT_ID = "SELECT * FROM consulta WHERE idPaciente = ?";
-        Consulta consulta= null;
-
+        Consulta consulta = null;
+        ArrayList<Consulta> consultas = new ArrayList<>();;
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
             ps.setInt(1, paciente.getIdPaciente());
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     consulta = new Consulta();
                     consulta.setIdConsulta(rs.getInt("idConsulta"));
                     consulta.setPaciente(paciente);
+                    consulta.setFecha(rs.getDate("fecha").toLocalDate());
+                    consulta.setPesoActual(rs.getDouble("pesoActual"));
+                    consultas.add(consulta);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al obtener la Consulta por Paciente");
+        }
+        return consultas;
+    }
+
+    public Consulta buscar(int idConsulta) {
+        String SQL_SELECT_ID = "SELECT * FROM consulta WHERE idConsulta = ?";
+        Consulta consulta = null;
+        PacienteDAO pdao = null;
+        Paciente p = null;
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
+            ps.setInt(1, idConsulta);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    consulta = new Consulta();
+                    pdao = new PacienteDAO();
+                    p = pdao.buscarPaciente(rs.getInt("idPaciente"), 1);
+                    consulta.setIdConsulta(idConsulta);
+                    consulta.setPaciente(p);
                     consulta.setFecha(rs.getDate("fecha").toLocalDate());
                     consulta.setPesoActual(rs.getDouble("pesoActual"));
                 }
@@ -118,11 +144,97 @@ public class ConsultaDAO {
         String sql = "DELETE FROM consulta WHERE idConsulta = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idConsulta);
-            ps.executeUpdate();
+            int del = ps.executeUpdate();
+            if (del == 1) {
+                JOptionPane.showMessageDialog(null, "Comida consulta con éxito");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se puede eliminar la consulta.");
+            }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al eliminar Consulta");
         }
     }
 
+    public ArrayList<Consulta> buscarPorFecha(LocalDate fecha, int comparador) {
+        String operador = "";
+
+        switch (comparador) {
+            case 1:
+                operador = ">";
+                break;
+            case 0:
+                operador = "=";
+                break;
+            case -1:
+                operador = "<";
+                break;
+        }
+        String SQL_SELECT = "SELECT * FROM consulta WHERE fecha " + operador + " ?";
+
+        ArrayList<Consulta> consultas = new ArrayList<>();
+        PacienteDAO pdao = new PacienteDAO();
+        Paciente paciente = new Paciente();
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT)) {
+            ps.setDate(1, Date.valueOf(fecha));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Consulta consulta = new Consulta();
+                    consulta.setIdConsulta(rs.getInt("idConsulta"));
+                    paciente = pdao.buscarPaciente((rs.getInt("idPaciente")), 3);
+                    consulta.setPaciente(paciente);
+                    consulta.setFecha(rs.getDate("fecha").toLocalDate());
+                    consulta.setPesoActual(rs.getDouble("pesoActual"));
+                    consultas.add(consulta);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al obtener consultas por fecha");
+        }
+
+        return consultas;
+    }
+
+    public ArrayList<Consulta> buscarPorPesoActual(double peso, int comparador) {
+        String operador = "";
+
+        switch (comparador) {
+            case 1:
+                operador = ">";
+                break;
+            case 0:
+                operador = "=";
+                break;
+            case -1:
+                operador = "<";
+                break;
+        }
+        String SQL_SELECT = "SELECT * FROM consulta WHERE pesoActual " + operador + " ?";
+
+        ArrayList<Consulta> consultas = new ArrayList<>();
+        PacienteDAO pdao = new PacienteDAO();
+        Paciente paciente = new Paciente();
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT)) {
+            ps.setDouble(1, peso);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Consulta consulta = new Consulta();
+                    consulta.setIdConsulta(rs.getInt("idConsulta"));
+                    paciente = pdao.buscarPaciente((rs.getInt("idPaciente")), 3);
+                    consulta.setPaciente(paciente);
+                    consulta.setFecha(rs.getDate("fecha").toLocalDate());
+                    consulta.setPesoActual(rs.getDouble("pesoActual"));
+                    consultas.add(consulta);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al obtener consultas por peso actual");
+        }
+
+        return consultas;
+    }
 }

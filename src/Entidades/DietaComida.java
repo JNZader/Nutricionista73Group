@@ -1,23 +1,24 @@
 package Entidades;
 
 public class DietaComida {
+
     private int id;
     private Comida comida;
     private Dieta dieta;
-    private int porcion ;
-    private Horario horario ;
-    private boolean estado ;
+    private int porcion;
+    private Horario horario;
+    private boolean estado;
 
     public DietaComida() {
     }
 
-    public DietaComida(Comida comida, Dieta dieta, int porcion, Horario horario,boolean estado) {
- 
+    public DietaComida(Comida comida, Dieta dieta, int porcion, Horario horario, boolean estado) {
+
         this.comida = comida;
         this.dieta = dieta;
         this.porcion = porcion;
         this.horario = horario;
-        this.estado  = estado ;
+        this.estado = estado;
     }
 
     public DietaComida(int id, Comida comida, Dieta dieta, int porcion, Horario horario, boolean estado) {
@@ -27,7 +28,7 @@ public class DietaComida {
         this.dieta = dieta;
         this.porcion = porcion;
         this.horario = horario;
-        this.estado = estado ;
+        this.estado = estado;
     }
 
     public int getId() {
@@ -82,10 +83,4 @@ public class DietaComida {
     public String toString() {
         return "DietaComida{" + "id=" + id + ", comida=" + comida + ", dieta=" + dieta + ", porcion=" + porcion + ", horario=" + horario + ", estado=" + estado + '}';
     }
-
-    
-    
-    
 }
-
-    
