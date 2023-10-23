@@ -31,10 +31,10 @@ public class Dashboard extends javax.swing.JFrame {
         p.setSize(755, 692);
         p.setLocation(0, 0);
 
-        jPanelContenedor.removeAll();
-        jPanelContenedor.add(p, BorderLayout.CENTER);
-        jPanelContenedor.revalidate();
-        jPanelContenedor.repaint();
+        jPanelContenedor1.removeAll();
+        jPanelContenedor1.add(p, BorderLayout.CENTER);
+        jPanelContenedor1.revalidate();
+        jPanelContenedor1.repaint();
     }
 
     /**
@@ -58,7 +58,7 @@ public class Dashboard extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanelContenedor = new javax.swing.JPanel();
+        jPanelContenedor1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -186,24 +186,24 @@ public class Dashboard extends javax.swing.JFrame {
 
         jLabel2.setText("jLabel2");
 
-        javax.swing.GroupLayout jPanelContenedorLayout = new javax.swing.GroupLayout(jPanelContenedor);
-        jPanelContenedor.setLayout(jPanelContenedorLayout);
-        jPanelContenedorLayout.setHorizontalGroup(
-            jPanelContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelContenedorLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelContenedor1Layout = new javax.swing.GroupLayout(jPanelContenedor1);
+        jPanelContenedor1.setLayout(jPanelContenedor1Layout);
+        jPanelContenedor1Layout.setHorizontalGroup(
+            jPanelContenedor1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelContenedor1Layout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(491, Short.MAX_VALUE))
         );
-        jPanelContenedorLayout.setVerticalGroup(
-            jPanelContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelContenedorLayout.createSequentialGroup()
+        jPanelContenedor1Layout.setVerticalGroup(
+            jPanelContenedor1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelContenedor1Layout.createSequentialGroup()
                 .addGap(58, 58, 58)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(486, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("tab1", jPanelContenedor);
+        jTabbedPane1.addTab("tab1", jPanelContenedor1);
 
         jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 760, 720));
 
@@ -334,7 +334,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanelContenedor;
+    private javax.swing.JPanel jPanelContenedor1;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }
