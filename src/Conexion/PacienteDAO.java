@@ -304,6 +304,7 @@ public class PacienteDAO {
 
         return pacientes;
     }
+    
     public ArrayList<Paciente> buscarPacientesPorCelular(int celular, int estado) {
         String sql = "";
         ArrayList<Paciente> pacientes = new ArrayList<>();
