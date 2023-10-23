@@ -1022,15 +1022,19 @@ public class ViewBuscar extends javax.swing.JPanel {
             if (selectedObject instanceof Paciente) {
                 Paciente paciente = (Paciente) selectedObject;
                 pacienteDAO.eliminarPacienteFisico(paciente.getIdPaciente());
+                jButtonBuscarActionPerformed(evt);
             } else if (selectedObject instanceof Dieta) {
                 Dieta dieta = (Dieta) selectedObject;
                 dietaDAO.eliminarDieta(dieta.getIdDieta());
+                jButtonBuscarActionPerformed(evt);
             } else if (selectedObject instanceof Comida) {
                 Comida comida = (Comida) selectedObject;
                 comidaDAO.borrarTotal(comida);
+                jButtonBuscarActionPerformed(evt);
             } else if (selectedObject instanceof Consulta) {
                 Consulta consulta = (Consulta) selectedObject;
                 consultaDAO.eliminar(consulta.getIdConsulta());
+                jButtonBuscarActionPerformed(evt);
             }
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
@@ -1057,6 +1061,8 @@ public class ViewBuscar extends javax.swing.JPanel {
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         int selectedRow = jTable1.getSelectedRow();
 
+                    
+                    
         if (selectedRow != -1) {
             Object selectedObject = jTable1.getValueAt(selectedRow, 0);
 
@@ -1065,7 +1071,9 @@ public class ViewBuscar extends javax.swing.JPanel {
                 if (pct != null) {
                     ViewPaciente VP = new ViewPaciente(pct);
                     this.setVisible(false);
-                    VP.setVisible(true);
+                    Dashboard db=new Dashboard();
+                    db.ShowJPanel(VP);
+                    db.setVisible(true);
                 }
             } else if (selectedObject instanceof Dieta) {
                 Dieta dieta = (Dieta) selectedObject;
