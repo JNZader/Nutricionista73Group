@@ -9,8 +9,6 @@ import Entidades.Consulta;
 import Entidades.Dieta;
 import Entidades.Paciente;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -35,17 +33,21 @@ public class ViewBuscar extends javax.swing.JPanel {
     private DietaDAO dietaDAO;
     private PacienteDAO pacienteDAO;
     private ConsultaDAO consultaDAO;
-    ArrayList<Consulta> consultas;
-    ArrayList<Comida> comidas;
-    ArrayList<Object> lista;
-    ArrayList<Dieta> dietas;
-    ArrayList<Paciente> pacientes;
-    DocumentFilter filtroNumeros;
-    DocumentFilter filtroLetras;
-    DocumentFilter filtroMix;
-    NumericRangeFilter3 rangeFilterCel;
-    NumericRangeFilter rangeFilterPeso;
-    NumericRangeFilter2 rangeFilterCal;
+    private ArrayList<Consulta> consultas;
+    private ArrayList<Comida> comidas;
+    private ArrayList<Object> lista;
+    private ArrayList<Dieta> dietas;
+    private ArrayList<Paciente> pacientes;
+    private DocumentFilter filtroNumeros;
+    private DocumentFilter filtroLetras;
+    private DocumentFilter filtroMix;
+    private NumericRangeFilter3 rangeFilterCel;
+    private NumericRangeFilter rangeFilterPeso;
+    private NumericRangeFilter2 rangeFilterCal;
+    public static Paciente pct;
+    public static Dieta diet;
+    public static Consulta consul;
+    public static Comida com;
 
     public ViewBuscar() {
         initComponents();
@@ -526,6 +528,11 @@ public class ViewBuscar extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTable1);
 
         jButtonEditar.setText("Editar");
+        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarActionPerformed(evt);
+            }
+        });
 
         jButtonEliminar.setText("Eliminar");
         jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -803,7 +810,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                             JOptionPane.showMessageDialog(this, "Ingrese una fecha valida", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
-                    case "Fecha Final"://falta x modif vista
+                    case "Fecha Final":
                         dietaDAO = new DietaDAO();
                         if (jDateChooser1.getDate() != null) {
                             LocalDate fechaFinal = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -1010,35 +1017,97 @@ public class ViewBuscar extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1KeyTyped
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
-        jButtonEliminar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selectedRow = jTable1.getSelectedRow();
+        int selectedRow = jTable1.getSelectedRow();
 
-                if (selectedRow != -1) { 
-                    Object selectedObject = jTable1.getValueAt(selectedRow, 0); 
+        if (selectedRow != -1) {
+            Object selectedObject = jTable1.getValueAt(selectedRow, 0);
 
-                    if (selectedObject instanceof Paciente) {
-                        Paciente paciente = (Paciente) selectedObject;
-                        pacienteDAO.eliminarPacienteFisico(paciente.getIdPaciente());
-                    } else if (selectedObject instanceof Dieta) {
-                        Dieta dieta = (Dieta) selectedObject;
-                        dietaDAO.eliminarDieta(dieta.getIdDieta());
-                    } else if (selectedObject instanceof Comida) {
-                        Comida comida = (Comida) selectedObject;
-                        comidaDAO.borrarTotal(comida);
-                    } else if (selectedObject instanceof Consulta) {
-                        Consulta consulta = (Consulta) selectedObject;
-                        consultaDAO.eliminar(consulta.getIdConsulta());
-                    }
-                }
+            if (selectedObject instanceof Paciente) {
+                Paciente paciente = (Paciente) selectedObject;
+                pacienteDAO.eliminarPacienteFisico(paciente.getIdPaciente());
+                jButtonBuscarActionPerformed(evt);
+            } else if (selectedObject instanceof Dieta) {
+                Dieta dieta = (Dieta) selectedObject;
+                dietaDAO.eliminarDieta(dieta.getIdDieta());
+                jButtonBuscarActionPerformed(evt);
+            } else if (selectedObject instanceof Comida) {
+                Comida comida = (Comida) selectedObject;
+                comidaDAO.borrarTotal(comida);
+                jButtonBuscarActionPerformed(evt);
+            } else if (selectedObject instanceof Consulta) {
+                Consulta consulta = (Consulta) selectedObject;
+                consultaDAO.eliminar(consulta.getIdConsulta());
+                jButtonBuscarActionPerformed(evt);
             }
-        });
+        }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     private void jButtonAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnularActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+
+        if (selectedRow != -1) {
+            Object selectedObject = jTable1.getValueAt(selectedRow, 0);
+            if (selectedObject instanceof Paciente) {
+                Paciente paciente = (Paciente) selectedObject;
+                pacienteDAO.eliminarPacienteLogico(paciente.getIdPaciente());
+                jButtonBuscarActionPerformed(evt);
+            } else if (selectedObject instanceof Dieta) {
+                Dieta dieta = (Dieta) selectedObject;
+                dietaDAO.anularDieta(dieta.getIdDieta());
+                jButtonBuscarActionPerformed(evt);
+            } else if (selectedObject instanceof Comida) {
+                Comida comida = (Comida) selectedObject;
+                comidaDAO.borrar(comida.getIdComida());
+                jButtonBuscarActionPerformed(evt);
+            }
+        }
     }//GEN-LAST:event_jButtonAnularActionPerformed
+
+    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+
+        if (selectedRow != -1) {
+            Object selectedObject = jTable1.getValueAt(selectedRow, 0);
+
+            if (selectedObject instanceof Paciente) {
+                pct = (Paciente) selectedObject;
+                if (pct != null) {
+                    ViewPaciente VP = new ViewPaciente(pct);
+                    this.setVisible(false);
+                    Dashboard db = new Dashboard();
+                    db.ShowJPanel(VP);
+                    db.setVisible(true);
+                }
+            } else if (selectedObject instanceof Dieta) {
+                diet = (Dieta) selectedObject;
+                if (diet != null) {
+                    ViewDieta VD = new ViewDieta(diet);
+                    this.setVisible(false);
+                    Dashboard db = new Dashboard();
+                    db.ShowJPanel(VD);
+                    db.setVisible(true);
+                }
+            } else if (selectedObject instanceof Comida) {
+                com = (Comida) selectedObject;
+                if (pct != null) {
+                    ViewComida VCom = new ViewComida(com);
+                    this.setVisible(false);
+                    Dashboard db = new Dashboard();
+                    db.ShowJPanel(VCom);
+                    db.setVisible(true);
+                }
+            } else if (selectedObject instanceof Consulta) {
+                consul = (Consulta) selectedObject;
+                if (pct != null) {
+                    ViewConsulta VCon = new ViewConsulta(consul);
+                    this.setVisible(false);
+                    Dashboard db = new Dashboard();
+                    db.ShowJPanel(VCon);
+                    db.setVisible(true);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButtonEditarActionPerformed
 
     public String[] atributos(String entidad) {
         String at[] = null;

@@ -27,45 +27,58 @@ import javax.swing.text.DocumentFilter;
  * @author javie
  */
 public class ViewDieta extends javax.swing.JPanel {
-    
-  DocumentFilter filtroLetras;
- DocumentFilter filtroNumeros;
- 
- 
+
+    DocumentFilter filtroLetras;
+    DocumentFilter filtroNumeros;
+
     public ViewDieta() {
         initComponents();
         llenarComboBox();
         filtroNumeros = new FiltraEntrada(FiltraEntrada.SOLO_NUMEROS);
         filtroLetras = new FiltraEntrada(FiltraEntrada.SOLO_LETRAS);
-        
+
         ((AbstractDocument) jTid.getDocument()).setDocumentFilter(filtroNumeros);
         ((AbstractDocument) jtnombre.getDocument()).setDocumentFilter(filtroLetras);
 
-        
         ((AbstractDocument) jtpesofinal.getDocument()).setDocumentFilter(filtroNumeros);
     }
 
-      private void llenarComboBox() {
-       PacienteDAO pacient =new  PacienteDAO ();
-        ArrayList<Paciente> pacientes = pacient.listarPaciente();//obtiene la una lista de materias activas de la base de datos
+    public ViewDieta(Dieta dieta) {
+        this();
+
+    }
+
+    public void cargarDatos(Dieta dieta) {
+        jTid.setText(dieta.getIdDieta()+"");
+        jtnombre.setText("");
+        jComboPaciente.setSelectedIndex(0);
+        jCboxEstado.setSelected(false);
+        jDChoFeInicial.setDate(null);
+        jdatechoFechaFinal.setDate(null);
+        jtpesofinal.setText("");
+    }
+
+    private void llenarComboBox() {
+        PacienteDAO pacient = new PacienteDAO();
+        ArrayList<Paciente> pacientes = pacient.listarPaciente(1);//obtiene la una lista de materias activas de la base de datos
 //        jComboPaciente.removeAllItems();
         jComboPaciente.addItem(null);
 //agrega un espacio vacio en el primer elemento del combobox
         for (Paciente aux : pacientes) {//itera a traves de la lista y agrega cada materia al combobox
             jComboPaciente.addItem(aux);
-            
-            
+
         }
-      } 
-  public void habilitarBoton() {
-     if (!jTid.getText().isEmpty() && !jtnombre.getText().isEmpty()) {// verifica que jTapellido y jTnombre no esten vacios
+    }
+
+    public void habilitarBoton() {
+        if (!jTid.getText().isEmpty() && !jtnombre.getText().isEmpty()) {// verifica que jTapellido y jTnombre no esten vacios
             jBlimpiar.setEnabled(true);//si ambos campos tienen contenido habilita el boton Nuevo
         } else {
             jBlimpiar.setEnabled(false);// si alguno de los campos esta vacio deshabilita el boton Nuevo
         }
-    
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -308,7 +321,7 @@ public class ViewDieta extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-   
+
 //        try{
 //   
 //       int id =Integer.parseInt(jTid.getText());
@@ -329,90 +342,86 @@ public class ViewDieta extends javax.swing.JPanel {
 //  } catch (NumberFormatException e) {
 //            JOptionPane.showMessageDialog(this, "Ingresa un dato valido");
 //            jTid.setText("");
-      
-    
+
     }//GEN-LAST:event_jbBuscarActionPerformed
-    
+
     private void jComboPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboPacienteActionPerformed
         // TODO add your handling code here:
         llenarComboBox();
     }//GEN-LAST:event_jComboPacienteActionPerformed
 
     private void jBlimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBlimpiarActionPerformed
-       
+
         ((AbstractDocument) jTid.getDocument()).setDocumentFilter(null);
         jTid.setText("");
-        
+
         jtnombre.setText("");
         jComboPaciente.setSelectedIndex(0);
         jCboxEstado.setSelected(false);
         jDChoFeInicial.setDate(null);
         jdatechoFechaFinal.setDate(null);
         jtpesofinal.setText("");
-        
+
     }//GEN-LAST:event_jBlimpiarActionPerformed
 
     private void jtnombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtnombreKeyReleased
         // TODO add your handling code here:
-        habilitarBoton(); 
+        habilitarBoton();
     }//GEN-LAST:event_jtnombreKeyReleased
 
     private void jTidKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTidKeyReleased
         // TODO add your handling code here:
-       
-        
+
+
     }//GEN-LAST:event_jTidKeyReleased
 
     private void jComboPacienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboPacienteKeyReleased
         // TODO add your handling code here:
-        habilitarBoton(); 
+        habilitarBoton();
     }//GEN-LAST:event_jComboPacienteKeyReleased
 
     private void jtpesofinalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtpesofinalKeyReleased
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_jtpesofinalKeyReleased
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-   
-           // TODO add your handling code here:
-       try {//recopila los datos de los textfield, radio button y jdatechosser y los guarda en diferentes variables
+
+        // TODO add your handling code here:
+        try {//recopila los datos de los textfield, radio button y jdatechosser y los guarda en diferentes variables
             if (jTid.getText().isEmpty()
-                  || jtnombre.getText().isEmpty()
-                  || jComboPaciente.getSelectedItem()== null
-                  || !jCboxEstado.isSelected()
-                  || jDChoFeInicial.getDate() == null 
-                  || jdatechoFechaFinal.getDate() == null
-                  || jtpesofinal.getText().isEmpty() )  {
-         JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
-        
-        } else {
-            
+                    || jtnombre.getText().isEmpty()
+                    || jComboPaciente.getSelectedItem() == null
+                    || !jCboxEstado.isSelected()
+                    || jDChoFeInicial.getDate() == null
+                    || jdatechoFechaFinal.getDate() == null
+                    || jtpesofinal.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+
+            } else {
+
                 Paciente pac;
                 String nombre = jtnombre.getText();
-                boolean estado = jCboxEstado.isSelected(); 
-                
-                Paciente pacient= (Paciente) jComboPaciente.getSelectedItem();
-                
-               LocalDate fechaInicio=jDChoFeInicial.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); 
-               LocalDate  fechaFinal = jdatechoFechaFinal.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                double pesoFi=Double.parseDouble(jtpesofinal.getText()) ;
-               
-             
-             
-              
-             DietaDAO dietad= new DietaDAO ();
-            Dieta die= new Dieta(nombre,pacient,fechaInicio, fechaFinal,pesoFi,estado);
-            
-            dietad.insertar(die);
-              
+                boolean estado = jCboxEstado.isSelected();
+
+                Paciente pacient = (Paciente) jComboPaciente.getSelectedItem();
+
+                LocalDate fechaInicio = jDChoFeInicial.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                LocalDate fechaFinal = jdatechoFechaFinal.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                double pesoFi = Double.parseDouble(jtpesofinal.getText());
+
+                DietaDAO dietad = new DietaDAO();
+                Dieta die = new Dieta(nombre, pacient, fechaInicio, fechaFinal, pesoFi, estado);
+
+                dietad.insertar(die);
+
             }
         } catch (NumberFormatException e) {
             e.printStackTrace(System.out);
             JOptionPane.showMessageDialog(null, "Complete la informacion con datos validos",
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
-                                
+
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
@@ -428,48 +437,46 @@ public class ViewDieta extends javax.swing.JPanel {
 //            // Limpia los campos de texto y demas componentes
 ////            ((AbstractDocument) jTid.getDocument()).setDocumentFilter(null);
 //            jTid.setText("");
-            
 
-try {
-        // 1. Crear una instancia de la clase DietaDAO (o la clase correspondiente).
-        DietaDAO dietaDAO = new DietaDAO();
+        try {
+            // 1. Crear una instancia de la clase DietaDAO (o la clase correspondiente).
+            DietaDAO dietaDAO = new DietaDAO();
 
-        // 2. Obtener el valor del campo ID.
-        int id = Integer.parseInt(jTid.getText());
-      String tf  = jTid.getText() ;
-        
-        if ( tf == null && tf.isEmpty()  ) {
-            JOptionPane.showMessageDialog(this, "El campo ID está vacío.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+            // 2. Obtener el valor del campo ID.
+            int id = Integer.parseInt(jTid.getText());
+            String tf = jTid.getText();
+
+            if (tf == null && tf.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El campo ID está vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // 3. Utilizar el método para buscar la dieta por ID.
+            Dieta dieta = dietaDAO.buscarPorId(id, 1);
+
+            // 4. Si se encontró la dieta, eliminarla.
+            if (dieta != null) {
+                dietaDAO.eliminarDieta(dieta.getIdDieta());
+                JOptionPane.showMessageDialog(this, "La dieta se eliminó con éxito.");
+            } else {
+                JOptionPane.showMessageDialog(this, "La dieta no se encontró en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+            // 5. Limpiar los campos y realizar otras acciones necesarias.
+            jTid.setText("");
+            jtnombre.setText("");
+            jComboPaciente.setSelectedIndex(0); // Puedes establecer el índice que corresponde a la opción predeterminada
+            jDChoFeInicial.setDate(null);
+            jdatechoFechaFinal.setDate(null);
+            jCboxEstado.setSelected(false);
+            jtpesofinal.setText("");
+            // ... otros campos
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El campo ID debe ser un número entero válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Ocurrió un error al eliminar la dieta.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-      
-
-        // 3. Utilizar el método para buscar la dieta por ID.
-        Dieta dieta = dietaDAO.buscarPorId(id, 1);
-
-        // 4. Si se encontró la dieta, eliminarla.
-        if (dieta != null) {
-            dietaDAO.eliminarDieta(dieta.getIdDieta());
-            JOptionPane.showMessageDialog(this, "La dieta se eliminó con éxito.");
-        } else {
-            JOptionPane.showMessageDialog(this, "La dieta no se encontró en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        // 5. Limpiar los campos y realizar otras acciones necesarias.
-        jTid.setText("");
-        jtnombre.setText("");
-        jComboPaciente.setSelectedIndex(0); // Puedes establecer el índice que corresponde a la opción predeterminada
-        jDChoFeInicial.setDate(null);
-        jdatechoFechaFinal.setDate(null);
-        jCboxEstado.setSelected(false);
-        jtpesofinal.setText("");
-        // ... otros campos
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "El campo ID debe ser un número entero válido.", "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Ocurrió un error al eliminar la dieta.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
 
 //            jtnombre.setText("");
 //            jComboPaciente.setSelectedItem(null);
@@ -478,16 +485,13 @@ try {
 //            jdatechoFechaFinal.setDate(null);
 //            jtpesofinal.setText("");
 //        
-        
-                                    
-        
+
     }//GEN-LAST:event_jbEliminarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jbSalirActionPerformed
-      
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -513,13 +517,6 @@ try {
     private javax.swing.JTextField jtpesofinal;
     // End of variables declaration//GEN-END:variables
 
-  
-  
-
-    
-    
-    
-    
     class FiltraEntrada extends DocumentFilter {
 
         public static final char SOLO_NUMEROS = 'N';
@@ -613,7 +610,7 @@ try {
     }
 }
 
-class NumericRangeFilter2 extends DocumentFilter {
+class NumericRangeFilter4 extends DocumentFilter {
 
     @Override
     public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, AttributeSet as) throws BadLocationException {
@@ -635,9 +632,3 @@ class NumericRangeFilter2 extends DocumentFilter {
         }
     }
 }
-
-    
-    
-
-
-
