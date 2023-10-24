@@ -23,6 +23,11 @@ public class ViewComida extends javax.swing.JPanel {
         mod = (DefaultTableModel) tablaComida.getModel();
         llenarTabla();
     }
+    
+    public ViewComida(Comida comida){
+        this();
+        
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
