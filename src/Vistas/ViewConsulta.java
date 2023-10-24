@@ -5,6 +5,8 @@
  */
 package Vistas;
 
+import Entidades.Consulta;
+
 /**
  *
  * @author javie
@@ -16,6 +18,9 @@ public class ViewConsulta extends javax.swing.JPanel {
      */
     public ViewConsulta() {
         initComponents();
+    }
+    public ViewConsulta(Consulta consulta){
+        
     }
 
     /**

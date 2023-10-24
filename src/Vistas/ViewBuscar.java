@@ -44,6 +44,10 @@ public class ViewBuscar extends javax.swing.JPanel {
     private NumericRangeFilter3 rangeFilterCel;
     private NumericRangeFilter rangeFilterPeso;
     private NumericRangeFilter2 rangeFilterCal;
+    public static Paciente pct;
+    public static Dieta diet;
+    public static Consulta consul;
+    public static Comida com;
 
     public ViewBuscar() {
         initComponents();
@@ -75,7 +79,6 @@ public class ViewBuscar extends javax.swing.JPanel {
         ListSelectionModel selectionModel = jTable1.getSelectionModel();
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
-    public static Paciente pct;
 
     private void limpiarTabla() {
         DefaultTableModel mod = (DefaultTableModel) jTable1.getModel();
@@ -807,7 +810,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                             JOptionPane.showMessageDialog(this, "Ingrese una fecha valida", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
-                    case "Fecha Final"://falta x modif vista
+                    case "Fecha Final":
                         dietaDAO = new DietaDAO();
                         if (jDateChooser1.getDate() != null) {
                             LocalDate fechaFinal = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -1044,16 +1047,18 @@ public class ViewBuscar extends javax.swing.JPanel {
 
         if (selectedRow != -1) {
             Object selectedObject = jTable1.getValueAt(selectedRow, 0);
-
             if (selectedObject instanceof Paciente) {
                 Paciente paciente = (Paciente) selectedObject;
                 pacienteDAO.eliminarPacienteLogico(paciente.getIdPaciente());
+                jButtonBuscarActionPerformed(evt);
             } else if (selectedObject instanceof Dieta) {
                 Dieta dieta = (Dieta) selectedObject;
                 dietaDAO.anularDieta(dieta.getIdDieta());
+                jButtonBuscarActionPerformed(evt);
             } else if (selectedObject instanceof Comida) {
                 Comida comida = (Comida) selectedObject;
                 comidaDAO.borrar(comida.getIdComida());
+                jButtonBuscarActionPerformed(evt);
             }
         }
     }//GEN-LAST:event_jButtonAnularActionPerformed
@@ -1061,8 +1066,6 @@ public class ViewBuscar extends javax.swing.JPanel {
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         int selectedRow = jTable1.getSelectedRow();
 
-                    
-                    
         if (selectedRow != -1) {
             Object selectedObject = jTable1.getValueAt(selectedRow, 0);
 
@@ -1071,19 +1074,37 @@ public class ViewBuscar extends javax.swing.JPanel {
                 if (pct != null) {
                     ViewPaciente VP = new ViewPaciente(pct);
                     this.setVisible(false);
-                    Dashboard db=new Dashboard();
+                    Dashboard db = new Dashboard();
                     db.ShowJPanel(VP);
                     db.setVisible(true);
                 }
             } else if (selectedObject instanceof Dieta) {
-                Dieta dieta = (Dieta) selectedObject;
-                dietaDAO.eliminarDieta(dieta.getIdDieta());
+                diet = (Dieta) selectedObject;
+                if (diet != null) {
+                    ViewDieta VD = new ViewDieta(diet);
+                    this.setVisible(false);
+                    Dashboard db = new Dashboard();
+                    db.ShowJPanel(VD);
+                    db.setVisible(true);
+                }
             } else if (selectedObject instanceof Comida) {
-                Comida comida = (Comida) selectedObject;
-                comidaDAO.borrarTotal(comida);
+                com = (Comida) selectedObject;
+                if (pct != null) {
+                    ViewComida VCom = new ViewComida(com);
+                    this.setVisible(false);
+                    Dashboard db = new Dashboard();
+                    db.ShowJPanel(VCom);
+                    db.setVisible(true);
+                }
             } else if (selectedObject instanceof Consulta) {
-                Consulta consulta = (Consulta) selectedObject;
-                consultaDAO.eliminar(consulta.getIdConsulta());
+                consul = (Consulta) selectedObject;
+                if (pct != null) {
+                    ViewConsulta VCon = new ViewConsulta(consul);
+                    this.setVisible(false);
+                    Dashboard db = new Dashboard();
+                    db.ShowJPanel(VCon);
+                    db.setVisible(true);
+                }
             }
         }
     }//GEN-LAST:event_jButtonEditarActionPerformed
