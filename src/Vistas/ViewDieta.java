@@ -1,17 +1,12 @@
 package Vistas;
 
 import Conexion.ComidaDAO;
-import Conexion.DietaDAO;
 import Conexion.PacienteDAO;
 import Entidades.Comida;
 import Entidades.Dieta;
 import Entidades.Paciente;
 import java.awt.Toolkit;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -64,20 +59,17 @@ public class ViewDieta extends javax.swing.JPanel {
 
         }
     }
- 
-    public void llenarcomboBoxComidas(){
-       ComidaDAO comida= new ComidaDAO();
-      ArrayList<Comida> comidas= comida.listarComidas(1);
-      jComboBoxComidas.addItem(null);
-      
-   
 
-  
+    public void llenarcomboBoxComidas() {
+        ComidaDAO comida = new ComidaDAO();
+        ArrayList<Comida> comidas = comida.listarComidas(1);
+        jComboBoxComidas.addItem(null);
+
 //       for (Comida comi :comidas) {//itera a traves de la lista y agrega cada materia al combobox
 //            jCombo.addElement (comi);
-       }
     }
-    public void habilitarBoton() {
+
+public void habilitarBoton() {
 //        if (!jTid.getText().isEmpty() && !jtnombre.getText().isEmpty()) {// verifica que jTapellido y jTnombre no esten vacios
 //            jBlimpiar.setEnabled(true);//si ambos campos tienen contenido habilita el boton Nuevo
 //        } else {
@@ -674,45 +666,45 @@ public class ViewDieta extends javax.swing.JPanel {
 
     class FiltraEntrada extends DocumentFilter {
 
-        public static final char SOLO_NUMEROS = 'N';
-        public static final char SOLO_LETRAS = 'L';
-        public static final char NUM_LETRAS = 'M';
-        public static final char DEFAULT = '*';
+    public static final char SOLO_NUMEROS = 'N';
+    public static final char SOLO_LETRAS = 'L';
+    public static final char NUM_LETRAS = 'M';
+    public static final char DEFAULT = '*';
 
-        private char tipoEntrada;
-        private int longitudCadena = 0;
-        private int longitudActual = 0;
+    private char tipoEntrada;
+    private int longitudCadena = 0;
+    private int longitudActual = 0;
 
-        public FiltraEntrada() {
-            tipoEntrada = DEFAULT;
-        }
+    public FiltraEntrada() {
+        tipoEntrada = DEFAULT;
+    }
 
-        public FiltraEntrada(char tipoEntrada) {
-            this.tipoEntrada = tipoEntrada;
-        }
+    public FiltraEntrada(char tipoEntrada) {
+        this.tipoEntrada = tipoEntrada;
+    }
 
-        public FiltraEntrada(char tipoEntrada, int longitudCadena) {
-            this.tipoEntrada = tipoEntrada;
-            this.longitudCadena = longitudCadena;
-        }
+    public FiltraEntrada(char tipoEntrada, int longitudCadena) {
+        this.tipoEntrada = tipoEntrada;
+        this.longitudCadena = longitudCadena;
+    }
 
-        @Override
-        public void insertString(DocumentFilter.FilterBypass fb, int i, String string, javax.swing.text.AttributeSet as) throws BadLocationException {
-            if (string != null && !string.isEmpty()) { // verifica que el texto no sea nulo ni este vacio
-                Document dc = fb.getDocument();
-                longitudActual = dc.getLength();
-                if (longitudCadena == 0 || longitudActual < longitudCadena) {
-                    fb.insertString(i, string, as); // Inserta el texto si no se supera la longitud máxima
-                }
+    @Override
+    public void insertString(DocumentFilter.FilterBypass fb, int i, String string, javax.swing.text.AttributeSet as) throws BadLocationException {
+        if (string != null && !string.isEmpty()) { // verifica que el texto no sea nulo ni este vacio
+            Document dc = fb.getDocument();
+            longitudActual = dc.getLength();
+            if (longitudCadena == 0 || longitudActual < longitudCadena) {
+                fb.insertString(i, string, as); // Inserta el texto si no se supera la longitud máxima
             }
         }
+    }
 
-        @Override
-        public void remove(DocumentFilter.FilterBypass fb, int offset, int length) throws BadLocationException {
-            super.remove(fb, offset, length);
-        }
+    @Override
+    public void remove(DocumentFilter.FilterBypass fb, int offset, int length) throws BadLocationException {
+        super.remove(fb, offset, length);
+    }
 
-        /*
+    /*
         En este método:
         /// @Override: Indica que estás anulando el método remove de la superclase DocumentFilter.
 
@@ -723,67 +715,67 @@ public class ViewDieta extends javax.swing.JPanel {
         ///super.remove(fb, offset, length);: Este es el llamado al método remove de la superclase DocumentFilter, 
         que se encarga de realizar la eliminación del texto en el documento. 
         No se requiere ninguna lógica adicional en este método, ya que simplemente delega la operación de eliminación a la implementación predeterminada de la superclase.
-         */
-        @Override
-        public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, javax.swing.text.AttributeSet as) throws BadLocationException {
-            Document dc = fb.getDocument();
-            if (string == null) {
-                fb.replace(0, i1, "", as);
-                return;
-            }
-            if (string.isEmpty()) {
-                fb.replace(0, i1, "", as);
-                return;
-            }
-            longitudActual = dc.getLength();
-            if (esValido(string)) {
-                if (this.longitudCadena == 0 || longitudActual < longitudCadena) {
-                    fb.replace(i, i1, string, as);
-                }
-            }
+     */
+    @Override
+    public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, javax.swing.text.AttributeSet as) throws BadLocationException {
+        Document dc = fb.getDocument();
+        if (string == null) {
+            fb.replace(0, i1, "", as);
+            return;
         }
-
-        private boolean esValido(String valor) {
-            char[] letras = valor.toCharArray();
-            boolean valido = false;
-            for (int i = 0; i < letras.length; i++) {
-
-                switch (tipoEntrada) {
-                    case SOLO_NUMEROS:
-                        return valor.matches("[0-9]+");// verifica si solo contiene numeros
-                    case SOLO_LETRAS:
-                        return valor.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+");// verifica si solo contiene letras y espacios
-                    case NUM_LETRAS:
-                        return valor.matches("[0-9a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+");// verifica si contiene números, letras y espacios
-                    default:
-                        valido = true;
-                        return valido;
-                }
+        if (string.isEmpty()) {
+            fb.replace(0, i1, "", as);
+            return;
+        }
+        longitudActual = dc.getLength();
+        if (esValido(string)) {
+            if (this.longitudCadena == 0 || longitudActual < longitudCadena) {
+                fb.replace(i, i1, string, as);
             }
-            return valido;
         }
     }
 
-    class NumericRangeFilter4 extends DocumentFilter {
+    private boolean esValido(String valor) {
+        char[] letras = valor.toCharArray();
+        boolean valido = false;
+        for (int i = 0; i < letras.length; i++) {
 
-        @Override
-        public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, AttributeSet as) throws BadLocationException {
-            String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());//obtiene el texto actual del jtf
-
-            String nextText = currentText.substring(0, i) + string + currentText.substring(i + i1);//concatena el texto a insertar con el texto acutal
-
-            try {
-                int num = Integer.parseInt(nextText);//intenta convertir el texto en numero
-
-                if (num >= 1 && num <= 6) {//verifica si el numero esta en el rango de 1 a 6
-                    super.replace(fb, i, i1, string, as);
-                } else {
-                    //fuera de rango
-                    Toolkit.getDefaultToolkit().beep();//sonido de error
-                }
-            } catch (NumberFormatException e) {
-                Toolkit.getDefaultToolkit().beep(); //El texto no es un número válido...Emite un sonido de error.
+            switch (tipoEntrada) {
+                case SOLO_NUMEROS:
+                    return valor.matches("[0-9]+");// verifica si solo contiene numeros
+                case SOLO_LETRAS:
+                    return valor.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+");// verifica si solo contiene letras y espacios
+                case NUM_LETRAS:
+                    return valor.matches("[0-9a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+");// verifica si contiene números, letras y espacios
+                default:
+                    valido = true;
+                    return valido;
             }
         }
+        return valido;
     }
+}
+
+class NumericRangeFilter4 extends DocumentFilter {
+
+    @Override
+    public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, AttributeSet as) throws BadLocationException {
+        String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());//obtiene el texto actual del jtf
+
+        String nextText = currentText.substring(0, i) + string + currentText.substring(i + i1);//concatena el texto a insertar con el texto acutal
+
+        try {
+            int num = Integer.parseInt(nextText);//intenta convertir el texto en numero
+
+            if (num >= 1 && num <= 6) {//verifica si el numero esta en el rango de 1 a 6
+                super.replace(fb, i, i1, string, as);
+            } else {
+                //fuera de rango
+                Toolkit.getDefaultToolkit().beep();//sonido de error
+            }
+        } catch (NumberFormatException e) {
+            Toolkit.getDefaultToolkit().beep(); //El texto no es un número válido...Emite un sonido de error.
+        }
+    }
+}
 }
