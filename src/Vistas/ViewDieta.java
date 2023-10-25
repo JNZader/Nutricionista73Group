@@ -1,13 +1,16 @@
 package Vistas;
 
+import Conexion.ComidaDAO;
 import Conexion.DietaDAO;
 import Conexion.PacienteDAO;
+import Entidades.Comida;
 import Entidades.Dieta;
 import Entidades.Paciente;
 import java.awt.Toolkit;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AttributeSet;
@@ -26,6 +29,7 @@ public class ViewDieta extends javax.swing.JPanel {
         llenarComboBox();
         llenarCabecera();
         llenarTablaDietaDisponibles();
+        llenarcomboBoxComidas();
         filtroNumeros = new FiltraEntrada(FiltraEntrada.SOLO_NUMEROS);
         filtroLetras = new FiltraEntrada(FiltraEntrada.SOLO_LETRAS);
 
@@ -60,7 +64,19 @@ public class ViewDieta extends javax.swing.JPanel {
 
         }
     }
+ 
+    public void llenarcomboBoxComidas(){
+       ComidaDAO comida= new ComidaDAO();
+      ArrayList<Comida> comidas= comida.listarComidas(1);
+      jComboBoxComidas.addItem(null);
+      
+   
 
+  
+//       for (Comida comi :comidas) {//itera a traves de la lista y agrega cada materia al combobox
+//            jCombo.addElement (comi);
+       }
+    }
     public void habilitarBoton() {
 //        if (!jTid.getText().isEmpty() && !jtnombre.getText().isEmpty()) {// verifica que jTapellido y jTnombre no esten vacios
 //            jBlimpiar.setEnabled(true);//si ambos campos tienen contenido habilita el boton Nuevo
