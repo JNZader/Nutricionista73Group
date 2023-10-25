@@ -21,12 +21,17 @@ public class ComidaDAO {
     }
 
     public Comida insertar(Comida comida) {
-        String SQL_INSERT = "INSERT INTO comida(nombre, detalle, cantCalorias, estado) VALUES (?,?,?,?)";
+        String SQL_INSERT = "INSERT INTO comida (nombre, detalle, cantCalorias, estado) "
+                + "SELECT ?, ?, ?, ? "
+                + "WHERE NOT EXISTS (SELECT 1 FROM comida WHERE nombre = ?)";
+
         try (PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, comida.getNombre());
             ps.setString(2, comida.getDetalle());
             ps.setInt(3, comida.getCantCalorias());
             ps.setBoolean(4, comida.isEstado());
+            ps.setString(5, comida.getNombre());
+
             int insCom = ps.executeUpdate();
             if (insCom == 1) {
                 try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -36,7 +41,8 @@ public class ComidaDAO {
                     }
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Inserción fallida");
+                JOptionPane.showMessageDialog(null, "Inserción fallida. La comida con el mismo nombre ya existe.");
+                return null;
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
@@ -46,23 +52,43 @@ public class ComidaDAO {
     }
 
     public void modificar(Comida comida) {
-        String SQL_UPDATE = "UPDATE comida SET nombre=?, detalle=?, cantCalorias=?  WHERE idComida=?";
+        // Verificar si el nuevo nombre ya existe en la base de datos
+        String SQL_CHECK_DUPLICATE = "SELECT COUNT(*) FROM comida WHERE nombre = ? AND idComida <> ?";
+
+        try (PreparedStatement psCheck = con.prepareStatement(SQL_CHECK_DUPLICATE)) {
+            psCheck.setString(1, comida.getNombre());
+            psCheck.setInt(2, comida.getIdComida());
+
+            try (ResultSet rsCheck = psCheck.executeQuery()) {
+                if (rsCheck.next() && rsCheck.getInt(1) > 0) {
+                    JOptionPane.showMessageDialog(null, "Ya existe una comida con el mismo nombre.");
+                    return;
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al verificar el nombre duplicado");
+            return;
+        }
+
+        // Si el nuevo nombre no existe, procede con la actualización
+        String SQL_UPDATE = "UPDATE comida SET nombre=?, detalle=?, cantCalorias=? WHERE idComida=?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
-
             ps.setString(1, comida.getNombre());
             ps.setString(2, comida.getDetalle());
             ps.setInt(3, comida.getCantCalorias());
             ps.setInt(4, comida.getIdComida());
+
             int mod = ps.executeUpdate();
             if (mod > 0) {
-                JOptionPane.showMessageDialog(null, "Modificacion realizada");
+                JOptionPane.showMessageDialog(null, "Modificación realizada");
             } else {
-                JOptionPane.showMessageDialog(null, "Modificacion fallida");
+                JOptionPane.showMessageDialog(null, "Modificación fallida");
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
-            JOptionPane.showMessageDialog(null, "Error al ingresar a la tabla comida");
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla comida");
         }
     }
 
