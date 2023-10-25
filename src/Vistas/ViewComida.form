@@ -131,13 +131,15 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="131" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="botonSalir" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="botonEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="checkInactivos" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="checkActivos" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="checkTodos" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="botonSalir" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="botonEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
