@@ -1105,16 +1105,16 @@ public class ViewBuscar extends javax.swing.JPanel {
                         llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
                         break;
                     case "Tratamiento":
-                        Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
+//                        Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
                         dietaDAO = new DietaDAO();
-                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
+//                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
                         break;
                     case "Porcion":
                         break;
                     case "Horario":
-                        Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
+//                        Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
                         dietaDAO = new DietaDAO();
-                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
+//                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
                         break;
                     case "Estado":
                         break;
