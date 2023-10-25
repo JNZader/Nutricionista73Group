@@ -5,9 +5,12 @@
  */
 package Vistas;
 
+import Conexion.ConsultaDAO;
 import Conexion.PacienteDAO;
 import Entidades.Consulta;
 import Entidades.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,11 +23,14 @@ public class ViewConsulta extends javax.swing.JPanel {
     /**
      * Creates new form ViewConsulta
      */
+    ConsultaDAO conDAO = new ConsultaDAO();
+    
     DefaultTableModel model = new DefaultTableModel();
     public ViewConsulta() {
         initComponents();
         armarCabecera();
         cargarCombo();
+        
     }
     public ViewConsulta(Consulta consulta){
         
@@ -49,9 +55,10 @@ public class ViewConsulta extends javax.swing.JPanel {
         jTPeso = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jBGuargarConsulta = new javax.swing.JButton();
+        jBVerHistorialDesdeCombo = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jTIngresoDni = new javax.swing.JTextField();
-        jBBuscatHistorial = new javax.swing.JButton();
+        jTPesoInicial = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTTablaHistorial = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
@@ -86,6 +93,28 @@ public class ViewConsulta extends javax.swing.JPanel {
         jLabel1.setText("Kg");
 
         jBGuargarConsulta.setText("Guardar");
+        jBGuargarConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBGuargarConsultaActionPerformed(evt);
+            }
+        });
+
+        jBVerHistorialDesdeCombo.setText("Ver historial");
+        jBVerHistorialDesdeCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBVerHistorialDesdeComboActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Peso inicial");
+
+        jTPesoInicial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTPesoInicialActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Kg");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -99,21 +128,32 @@ public class ViewConsulta extends javax.swing.JPanel {
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jCbSeleccionPaciente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jDateChFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(25, 25, 25))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBGuargarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(295, 295, 295))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBVerHistorialDesdeCombo)
+                        .addGap(8, 8, 8))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
+                                .addComponent(jBGuargarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(67, 67, 67)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jCbSeleccionPaciente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTPesoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7)))))
+                .addGap(17, 17, 17))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,7 +163,9 @@ public class ViewConsulta extends javax.swing.JPanel {
                         .addContainerGap()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCbSeleccionPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jCbSeleccionPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBVerHistorialDesdeCombo))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -135,18 +177,13 @@ public class ViewConsulta extends javax.swing.JPanel {
                             .addComponent(jLabel5)
                             .addComponent(jDateChFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(11, 11, 11)
-                .addComponent(jBGuargarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBGuargarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(jTPesoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
-
-        jLabel6.setText("Ingrese dni");
-
-        jBBuscatHistorial.setText("Buscar historial");
-        jBBuscatHistorial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBBuscatHistorialActionPerformed(evt);
-            }
-        });
 
         jTTablaHistorial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -177,12 +214,6 @@ public class ViewConsulta extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTIngresoDni, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)
-                        .addComponent(jBBuscatHistorial))
                     .addComponent(jSeparator1))
                 .addGap(28, 28, 28))
         );
@@ -197,12 +228,7 @@ public class ViewConsulta extends javax.swing.JPanel {
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTIngresoDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBBuscatHistorial))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -210,18 +236,51 @@ public class ViewConsulta extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTPesoActionPerformed
 
-    private void jBBuscatHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscatHistorialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBBuscatHistorialActionPerformed
-
     private void jCbSeleccionPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCbSeleccionPacienteActionPerformed
         // TODO add your handling code here:
+        if (jCbSeleccionPaciente.getSelectedItem() !=null) {
+            
+            Paciente pac = (Paciente) jCbSeleccionPaciente.getSelectedItem();
+            jTPesoInicial.setText(pac.getPesoActual() + "");
+        }else{
+            jTPesoInicial.setText("");
+        }
+        actualizarTabla();
     }//GEN-LAST:event_jCbSeleccionPacienteActionPerformed
+
+    private void jBGuargarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuargarConsultaActionPerformed
+        // TODO add your handling code here:
+        Consulta consulta;
+        int peso = Integer.parseInt(jTPeso.getText());
+        LocalDate fecha = jDateChFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        Paciente paciente=(Paciente) jCbSeleccionPaciente.getSelectedItem();
+        
+        consulta = new Consulta(paciente, fecha, peso);
+        conDAO.insertar(consulta);
+        
+    }//GEN-LAST:event_jBGuargarConsultaActionPerformed
+
+    private void jBVerHistorialDesdeComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVerHistorialDesdeComboActionPerformed
+        // TODO add your handling code here:
+        actualizarTabla();
+        Paciente pac =(Paciente) jCbSeleccionPaciente.getSelectedItem();
+        
+        List<Consulta> listaConsulta=conDAO.buscar(pac);
+        
+        for (Consulta consulta : listaConsulta) {
+            model.addRow(new Object[]{consulta.getPaciente().getNombre(),consulta.getPesoActual(),consulta.getFecha()});
+        }
+        jTTablaHistorial.setModel(model);
+    }//GEN-LAST:event_jBVerHistorialDesdeComboActionPerformed
+
+    private void jTPesoInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTPesoInicialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTPesoInicialActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBBuscatHistorial;
     private javax.swing.JButton jBGuargarConsulta;
+    private javax.swing.JButton jBVerHistorialDesdeCombo;
     private javax.swing.JComboBox<Paciente> jCbSeleccionPaciente;
     private com.toedter.calendar.JDateChooser jDateChFecha;
     private javax.swing.JLabel jLabel1;
@@ -230,11 +289,12 @@ public class ViewConsulta extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTIngresoDni;
     private javax.swing.JTextField jTPeso;
+    private javax.swing.JTextField jTPesoInicial;
     private javax.swing.JTable jTTablaHistorial;
     // End of variables declaration//GEN-END:variables
     
@@ -257,6 +317,14 @@ public class ViewConsulta extends javax.swing.JPanel {
         
         
         
+    }
+    
+    
+    private void actualizarTabla() {
+        while (model.getRowCount() > 0) {
+            model.removeRow(0);// Mientras haya filas en el modelo de la tabla, elimina la primera
+        }
+        jTTablaHistorial.setModel(model);// Establece el modelo actualizado de la tabla
     }
 
 }
