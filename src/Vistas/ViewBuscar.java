@@ -344,7 +344,7 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         };
         modDietaComida.setColumnIdentifiers(new String[]{"", "ID", "Comida", "Tratamiento", "Porcion", "Horario", "Estado"});
-        
+
         if (dietaComida != null) {
             Object[] filas = new Object[7];
             filas[0] = dietaComida;
@@ -1100,12 +1100,21 @@ public class ViewBuscar extends javax.swing.JPanel {
                         }
                         break;
                     case "Comida":
+                        Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
+                        dietaDAO = new DietaDAO();
+                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
                         break;
                     case "Tratamiento":
+                        Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
+                        dietaDAO = new DietaDAO();
+                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
                         break;
                     case "Porcion":
                         break;
                     case "Horario":
+                        Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
+                        dietaDAO = new DietaDAO();
+                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
                         break;
                     case "Estado":
                         break;
