@@ -106,14 +106,14 @@ public class ConsultaDAO {
             try (ResultSet rs = ps.getGeneratedKeys()) { // obtiene las claves generadas automáticamente
                 if (rs.next()) {
                     consulta.setIdConsulta(rs.getInt(1)); // establece el ID generado en el objeto 
-                    JOptionPane.showMessageDialog(null, "Dieta inscripta");
+                    JOptionPane.showMessageDialog(null, "Consulta realizada con exito");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Inscripcion fallida");
+                    JOptionPane.showMessageDialog(null, "La consulta fallo");
                 }
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
-            JOptionPane.showMessageDialog(null, "Error al insertar dieta");
+            JOptionPane.showMessageDialog(null, "Error al guardar la consulta");
         }
     }
 
@@ -136,7 +136,7 @@ public class ConsultaDAO {
 
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
-            JOptionPane.showMessageDialog(null, "Error al actualizar Dieta");
+            JOptionPane.showMessageDialog(null, "Error al actualizar consulta");
         }
     }
 
@@ -146,7 +146,7 @@ public class ConsultaDAO {
             ps.setInt(1, idConsulta);
             int del = ps.executeUpdate();
             if (del == 1) {
-                JOptionPane.showMessageDialog(null, "Comida consulta con éxito");
+                JOptionPane.showMessageDialog(null, "Consulta realizada con éxito");
             } else {
                 JOptionPane.showMessageDialog(null, "No se puede eliminar la consulta.");
             }
