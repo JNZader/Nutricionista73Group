@@ -41,6 +41,7 @@ public class ViewBuscar extends javax.swing.JPanel {
     private ArrayList<Comida> comidas;
     private ArrayList<Object> lista;
     private ArrayList<Dieta> dietas;
+    private ArrayList<DietaComida> dietaComidas;
     private ArrayList<Paciente> pacientes;
     private DocumentFilter filtroNumeros;
     private DocumentFilter filtroLetras;
@@ -1090,13 +1091,13 @@ public class ViewBuscar extends javax.swing.JPanel {
                     case "ID":
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
                             tf = Integer.parseInt(atributoTF);
-                            pacienteDAO = new PacienteDAO();
-                            llenarTabla(pacienteDAO.buscarPaciente(tf, estado));
+                            dietaComidaDAO = new DietaComidaDAO();
+                            llenarTabla(dietaComidaDAO.buscarPorId(tf, estado));
                         } else {
-                            pacienteDAO = new PacienteDAO();
-                            pacientes = pacienteDAO.listarPaciente(estado);
-                            lista = new ArrayList<>(pacientes);
-                            llenarTabla(lista, "Paciente");
+                            dietaComidaDAO = new DietaComidaDAO();
+                            dietaComidas = dietaComidaDAO.buscar(estado);
+                            lista = new ArrayList<>(dietaComidas);
+                            llenarTabla(lista, "DietaComida");
                         }
                         break;
                     case "Comida":
@@ -1105,18 +1106,34 @@ public class ViewBuscar extends javax.swing.JPanel {
                         llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
                         break;
                     case "Tratamiento":
-//                        Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
-                        dietaDAO = new DietaDAO();
-//                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
+                        Dieta d = (Dieta) jComboBoxTratamientos.getSelectedItem();
+                        dietaComidaDAO = new DietaComidaDAO();
+                        llenarTabla(dietaComidaDAO.buscarPorId(d.getIdDieta(), estado));
                         break;
                     case "Porcion":
+                        if (!jTextField1.getText().isEmpty()) {
+                            int tfp = Integer.parseInt(atributoTF);
+                            dietaComidaDAO = new DietaComidaDAO();
+                            estado = (jRadioButtonActivo.isSelected()) ? 1 : (jRadioButtonInactivo.isSelected()) ? 0 : (jRadioButtonAmbos.isSelected()) ? -1 : 0;
+                            dietaComidas = dietaComidaDAO.buscarPorPorcion(tfp, estado);
+                            lista = new ArrayList<>(dietaComidas);
+                            llenarTabla(lista, "DietaComida");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Ingrese la porcion a buscar", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                         break;
                     case "Horario":
-//                        Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
-                        dietaDAO = new DietaDAO();
-//                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
+                        String h = jComboBoxHorarios.getSelectedItem().toString();
+                        dietaComidaDAO = new DietaComidaDAO();
+                        dietaComidas = dietaComidaDAO.buscarPorHorario(h, estado);
+                        lista = new ArrayList<>(dietaComidas);
+                        llenarTabla(lista, "DietaComida");
                         break;
                     case "Estado":
+                        dietaComidaDAO = new DietaComidaDAO();
+                        dietaComidas = dietaComidaDAO.buscar(estado);
+                        lista = new ArrayList<>(dietaComidas);
+                        llenarTabla(lista, "DietaComida");
                         break;
                 }
             }
