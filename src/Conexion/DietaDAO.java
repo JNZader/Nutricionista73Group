@@ -328,14 +328,14 @@ public class DietaDAO {
         pd = new PacienteDAO();
 
         switch (estado) {
-            case 1:
-                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE pesoFinal = ? AND estado = 1";
-                break;
             case 0:
-                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE pesoFinal = ? AND estado = 0";
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE pesoFinal = ? AND estado=1";
                 break;
-            default:
-                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE pesoFinal = ?";
+            case 1:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE pesoFinal > ? AND estado=1";
+                break;
+            case -1:
+                SQL_SELECT = "SELECT idDieta, nombre, idPaciente, fechaInicio, fechaFin, pesoFinal, estado FROM dieta WHERE pesoFinal < ? AND estado=1";
                 break;
         }
 

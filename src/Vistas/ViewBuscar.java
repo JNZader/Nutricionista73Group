@@ -276,6 +276,9 @@ public class ViewBuscar extends javax.swing.JPanel {
                 jTable1.getColumnModel().getColumn(1).setMinWidth(30);
                 jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(4).setMinWidth(80);
+                jTable1.getColumnModel().getColumn(4).setMaxWidth(80);
+                jTable1.getColumnModel().getColumn(4).setWidth(80);
                 jTable1.getColumnModel().getColumn(5).setMinWidth(50);
                 jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(5).setWidth(50);
@@ -569,8 +572,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 && !jComboBoxAtributos.getSelectedItem().toString().equals("Horario")
                 && !jComboBoxAtributos.getSelectedItem().toString().equals("Comida")
                 && !jComboBoxAtributos.getSelectedItem().toString().equals("Tratamiento"))
-                || (jComboBoxAtribSelect.getSelectedItem() != null))
-                ) {
+                || (jComboBoxAtribSelect.getSelectedItem() != null))) {
             jButtonBuscar.setEnabled(true);
             if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
                 jButtonEditar.setEnabled(true);
@@ -939,9 +941,9 @@ public class ViewBuscar extends javax.swing.JPanel {
                         llenarTabla(lista, "Dieta");
                         break;
                     case "Paciente":
-                        Paciente p = (Paciente)jComboBoxAtribSelect.getSelectedItem();
+                        Paciente p = (Paciente) jComboBoxAtribSelect.getSelectedItem();
                         dietaDAO = new DietaDAO();
-                        llenarTabla(new ArrayList<>(dietaDAO.buscarDietasPorPaciente(p.getIdPaciente(), estado)),"Dieta");
+                        llenarTabla(new ArrayList<>(dietaDAO.buscarDietasPorPaciente(p.getIdPaciente(), estado)), "Dieta");
                         break;
                     case "Fecha Inicial"://falta x modif vista
                         dietaDAO = new DietaDAO();
@@ -968,6 +970,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                     case "Peso Final":
                         dietaDAO = new DietaDAO();
                         if (!jTextField1.getText().isEmpty()) {
+                            estado = (jRadioButtonActivo.isSelected()) ? 1 : (jRadioButtonInactivo.isSelected()) ? 0 : (jRadioButtonAmbos.isSelected()) ? -1 : 0;
                             double tfp = Double.parseDouble(atributoTF);
                             dietas = dietaDAO.buscarDietasPorPesoFinal(tfp, estado);
                             lista = new ArrayList<>(dietas);
@@ -1175,26 +1178,33 @@ public class ViewBuscar extends javax.swing.JPanel {
         switch ((String) jComboBoxAtributos.getSelectedItem()) {
             case "Nombre":
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(filtroLetras);
+                System.out.println("1");
                 break;
             case "Detalle":
             case "Domicilio":
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(filtroMix);
+                System.out.println("2");
                 break;
             case "Cantidad de calorias":
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(rangeFilterCal);
+                System.out.println("3");
                 break;
             case "DNI":
             case "ID":
             case "Celular":
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(rangeFilterCel);
+                System.out.println("4");
                 break;
             case "Peso Inicial":
             case "Peso Final":
             case "Porcion":
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(rangeFilterPeso);
+                System.out.println("5");
                 break;
             default:
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(null);
+                System.out.println("6");
+                break;
         }
     }//GEN-LAST:event_jComboBoxAtributosItemStateChanged
 
@@ -1209,18 +1219,25 @@ public class ViewBuscar extends javax.swing.JPanel {
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
         char c = evt.getKeyChar();
-        if (Character.isDigit(c)) { // comprueba si es un numero
-            if (jTextField1.getText().length() >= 11) {
-                evt.consume(); // limita los caracteres a 11
-            }
-        } else if (Character.isLetter(c)) {
-            if (jTextField1.getText().length() >= 100) {
-                evt.consume();
-            }
-        } else if (Character.isWhitespace(c)) {
-            int length = jTextField1.getText().length();
-            if (length > 0 && jTextField1.getText().charAt(length - 1) == ' ') {
-                evt.consume();
+        if (Character.isDigit(c)) { // Verifica si es un número
+            String text = jTextField1.getText();
+
+            // Si el campo está vacío o el primer carácter es un número
+            if (text.isEmpty() || (text.length() == 1 && Character.isDigit(text.charAt(0)))) {
+                if (text.length() >= 11) {
+                    evt.consume(); // Limita los caracteres a 11
+                }
+
+            } 
+            if (Character.isLetter(c)) {
+                if (jTextField1.getText().length() >= 100) {
+                    evt.consume();
+                }
+            } else if (Character.isWhitespace(c)) {
+                int length = jTextField1.getText().length();
+                if (length > 0 && jTextField1.getText().charAt(length - 1) == ' ') {
+                    evt.consume();
+                }
             }
         }
     }//GEN-LAST:event_jTextField1KeyTyped
