@@ -49,7 +49,7 @@ public class ConsultaDAO {
     public ArrayList<Consulta> buscar(Paciente paciente) {
         String SQL_SELECT_ID = "SELECT * FROM consulta WHERE idPaciente = ?";
         Consulta consulta = null;
-        ArrayList<Consulta> consultas = new ArrayList<>();;
+        ArrayList<Consulta> consultas = new ArrayList<>();
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ID)) {
             ps.setInt(1, paciente.getIdPaciente());
             try (ResultSet rs = ps.executeQuery()) {

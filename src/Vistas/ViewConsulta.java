@@ -9,10 +9,21 @@ import Conexion.ConsultaDAO;
 import Conexion.PacienteDAO;
 import Entidades.Consulta;
 import Entidades.*;
+import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Color;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.plaf.metal.MetalBorders;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.NumberFormatter;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -24,16 +35,33 @@ public class ViewConsulta extends javax.swing.JPanel {
      * Creates new form ViewConsulta
      */
     ConsultaDAO conDAO = new ConsultaDAO();
-    
-    DefaultTableModel model = new DefaultTableModel();
+
+    DefaultTableModel model;
+
     public ViewConsulta() {
         initComponents();
-        armarCabecera();
+
         cargarCombo();
-        
+        ((JTextFieldDateEditor) jDateChFecha.getDateEditor()).setEditable(false);//controla que no se pueda editar el campo de fecha
+        model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false;
+            }
+        };
+
+        JTableHeader tbh = jTTablaHistorial.getTableHeader();
+        tbh.setReorderingAllowed(false);
+        jTTablaHistorial.setTableHeader(tbh);
+
+        ListSelectionModel selectionModel = jTTablaHistorial.getSelectionModel();
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        armarCabecera();
     }
-    public ViewConsulta(Consulta consulta){
-        
+
+    public ViewConsulta(Consulta consulta) {
+
     }
 
     /**
@@ -57,8 +85,8 @@ public class ViewConsulta extends javax.swing.JPanel {
         jBGuargarConsulta = new javax.swing.JButton();
         jBVerHistorialDesdeCombo = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jTPesoInicial = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLPesoInicial = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTTablaHistorial = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
@@ -83,9 +111,17 @@ public class ViewConsulta extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel5.setText("Fecha");
 
+        jDateChFecha.setMaxSelectableDate(new java.util.Date(1735704062000L));
+        jDateChFecha.setMinSelectableDate(new java.util.Date(1672545662000L));
+
         jTPeso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTPesoActionPerformed(evt);
+            }
+        });
+        jTPeso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTPesoKeyTyped(evt);
             }
         });
 
@@ -106,15 +142,11 @@ public class ViewConsulta extends javax.swing.JPanel {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel6.setText("Peso inicial");
 
-        jTPesoInicial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTPesoInicialActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setText("Kg");
+        jLPesoInicial.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLPesoInicial.setText("          ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -131,29 +163,26 @@ public class ViewConsulta extends javax.swing.JPanel {
                         .addComponent(jDateChFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jBVerHistorialDesdeCombo)
-                        .addGap(8, 8, 8))
+                        .addGap(25, 25, 25))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
-                                .addComponent(jBGuargarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(67, 67, 67)))
+                        .addComponent(jTPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBGuargarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jCbSeleccionPaciente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(123, 123, 123)
+                                .addComponent(jLabel8))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTPesoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7)))))
-                .addGap(17, 17, 17))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLPesoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(17, 17, 17))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,8 +209,8 @@ public class ViewConsulta extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBGuargarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(jTPesoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel8)
+                    .addComponent(jLPesoInicial))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -232,50 +261,82 @@ public class ViewConsulta extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jBVerHistorialDesdeComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVerHistorialDesdeComboActionPerformed
+        // TODO add your handling code here:
+        actualizarTabla();
+        if (jCbSeleccionPaciente.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Selecciona un paciente");
+            return;
+        } else {
+            Paciente pac = (Paciente) jCbSeleccionPaciente.getSelectedItem();
+            List<Consulta> listaConsulta = conDAO.buscar(pac);
+
+            for (Consulta consulta : listaConsulta) {
+                model.addRow(new Object[]{consulta.getPaciente().getNombre(), consulta.getPesoActual(), consulta.getFecha()});
+            }
+            jTTablaHistorial.setModel(model);
+        }
+
+
+    }//GEN-LAST:event_jBVerHistorialDesdeComboActionPerformed
+
+    private void jBGuargarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuargarConsultaActionPerformed
+        // TODO add your handling code here:
+        Consulta consulta;
+        String aux = jTPeso.getText();
+        if (jCbSeleccionPaciente.getSelectedItem() != null
+                && jDateChFecha.getDate() != null && Character.isDigit((jTPeso.getText()).charAt(0))) {
+            double peso = Double.parseDouble(jTPeso.getText());
+            LocalDate fecha = jDateChFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            Paciente paciente = (Paciente) jCbSeleccionPaciente.getSelectedItem();
+
+            consulta = new Consulta(paciente, fecha, peso);
+            conDAO.insertar(consulta);
+            limpiar();
+        } else {
+            JOptionPane.showMessageDialog(this, "Ingresa datos validos");
+        }
+
+
+    }//GEN-LAST:event_jBGuargarConsultaActionPerformed
+
     private void jTPesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTPesoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTPesoActionPerformed
 
     private void jCbSeleccionPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCbSeleccionPacienteActionPerformed
         // TODO add your handling code here:
-        if (jCbSeleccionPaciente.getSelectedItem() !=null) {
-            
+        if (jCbSeleccionPaciente.getSelectedItem() != null) {
+
             Paciente pac = (Paciente) jCbSeleccionPaciente.getSelectedItem();
-            jTPesoInicial.setText(pac.getPesoActual() + "");
-        }else{
-            jTPesoInicial.setText("");
+            jLPesoInicial.setBackground(new Color(0, 255, 0));
+            jLPesoInicial.setOpaque(true);
+
+            jLPesoInicial.setHorizontalAlignment(JLabel.CENTER);
+            jLPesoInicial.setVerticalAlignment(JLabel.CENTER);
+            jLPesoInicial.setText(pac.getPesoActual() + " Kg");
+        } else {
+            jLPesoInicial.setText(" ");
         }
         actualizarTabla();
     }//GEN-LAST:event_jCbSeleccionPacienteActionPerformed
 
-    private void jBGuargarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuargarConsultaActionPerformed
+    private void jTPesoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTPesoKeyTyped
         // TODO add your handling code here:
-        Consulta consulta;
-        int peso = Integer.parseInt(jTPeso.getText());
-        LocalDate fecha = jDateChFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        Paciente paciente=(Paciente) jCbSeleccionPaciente.getSelectedItem();
-        
-        consulta = new Consulta(paciente, fecha, peso);
-        conDAO.insertar(consulta);
-        
-    }//GEN-LAST:event_jBGuargarConsultaActionPerformed
+        char c = evt.getKeyChar();
 
-    private void jBVerHistorialDesdeComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVerHistorialDesdeComboActionPerformed
-        // TODO add your handling code here:
-        actualizarTabla();
-        Paciente pac =(Paciente) jCbSeleccionPaciente.getSelectedItem();
-        
-        List<Consulta> listaConsulta=conDAO.buscar(pac);
-        
-        for (Consulta consulta : listaConsulta) {
-            model.addRow(new Object[]{consulta.getPaciente().getNombre(),consulta.getPesoActual(),consulta.getFecha()});
+        if (!(Character.isDigit(c) || c == '.')) {
+            evt.consume();
         }
-        jTTablaHistorial.setModel(model);
-    }//GEN-LAST:event_jBVerHistorialDesdeComboActionPerformed
 
-    private void jTPesoInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTPesoInicialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTPesoInicialActionPerformed
+        if (c == '.' && jTPeso.getText().contains(".")) {//controla que solo se pueda ingresar un solo punto
+            evt.consume();
+        }
+
+        if (jTPeso.getText().length() > 5) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTPesoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -283,43 +344,53 @@ public class ViewConsulta extends javax.swing.JPanel {
     private javax.swing.JButton jBVerHistorialDesdeCombo;
     private javax.swing.JComboBox<Paciente> jCbSeleccionPaciente;
     private com.toedter.calendar.JDateChooser jDateChFecha;
+    private javax.swing.JLabel jLPesoInicial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTPeso;
-    private javax.swing.JTextField jTPesoInicial;
     private javax.swing.JTable jTTablaHistorial;
     // End of variables declaration//GEN-END:variables
-    
-    public void armarCabecera(){
+
+    public void armarCabecera() {
         model.addColumn("Nombre");
         model.addColumn("peso");
         model.addColumn("fecha");
+
         jTTablaHistorial.setModel(model);
+
+        for (int i = 0; i < jTTablaHistorial.getColumnCount(); i++) {
+            jTTablaHistorial.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
+        }
+
     }
-    
-    public void cargarCombo(){
+
+    public void cargarCombo() {
         PacienteDAO pacDAO = new PacienteDAO();
         Paciente pac;
-        List<Paciente> listado =pacDAO.listarPaciente(1);
+        List<Paciente> listado = pacDAO.listarPaciente(1);
         jCbSeleccionPaciente.addItem(null);
-        
+
         for (Paciente paciente : listado) {
             jCbSeleccionPaciente.addItem(paciente);
         }
-        
-        
-        
+
     }
-    
-    
+
+    public void limpiar() {
+        jTPeso.setText("");
+        jDateChFecha.setDate(null);
+        jCbSeleccionPaciente.setSelectedIndex(0);
+
+    }
+
     private void actualizarTabla() {
         while (model.getRowCount() > 0) {
             model.removeRow(0);// Mientras haya filas en el modelo de la tabla, elimina la primera
