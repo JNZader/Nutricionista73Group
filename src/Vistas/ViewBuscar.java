@@ -1219,27 +1219,26 @@ public class ViewBuscar extends javax.swing.JPanel {
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
         char c = evt.getKeyChar();
-        if (Character.isDigit(c)) { // Verifica si es un número
-            String text = jTextField1.getText();
-
-            // Si el campo está vacío o el primer carácter es un número
-            if (text.isEmpty() || (text.length() == 1 && Character.isDigit(text.charAt(0)))) {
-                if (text.length() >= 11) {
-                    evt.consume(); // Limita los caracteres a 11
-                }
-
-            } 
-            if (Character.isLetter(c)) {
-                if (jTextField1.getText().length() >= 100) {
-                    evt.consume();
-                }
-            } else if (Character.isWhitespace(c)) {
-                int length = jTextField1.getText().length();
-                if (length > 0 && jTextField1.getText().charAt(length - 1) == ' ') {
-                    evt.consume();
-                }
+        if (Character.isDigit(c)) { // comprueba si es un numero
+            if (jTextField1.getText().length() >= 11) {
+                evt.consume(); // limita los caracteres a 11
             }
         }
+        if (Character.isLetter(c)) {
+            if (jTextField1.getText().length() >= 100) {
+                evt.consume();
+            }
+        }
+        if (Character.isWhitespace(c)) {
+            int length = jTextField1.getText().length();
+            if (length > 0 && jTextField1.getText().charAt(length - 1) == ' ') {
+                evt.consume();
+            }
+        }
+        if (c == '.' && jTextField1.getText().contains(".")) {//controla que solo se pueda ingresar un solo punto
+            evt.consume();
+        }
+
     }//GEN-LAST:event_jTextField1KeyTyped
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
