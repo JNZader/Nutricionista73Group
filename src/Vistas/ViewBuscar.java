@@ -564,10 +564,13 @@ public class ViewBuscar extends javax.swing.JPanel {
     public void actualizarBotones() {
         if (jComboBoxEntidades.getSelectedIndex() > 0
                 && jComboBoxAtributos.getSelectedIndex() > 0
-                && (jComboBoxAtributos.getSelectedItem() == null || !jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
+                && (jComboBoxAtributos.getSelectedItem() == null
+                || (!jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
+                && !jComboBoxAtributos.getSelectedItem().toString().equals("Horario")
+                && !jComboBoxAtributos.getSelectedItem().toString().equals("Comida")
+                && !jComboBoxAtributos.getSelectedItem().toString().equals("Tratamiento"))
                 || (jComboBoxAtribSelect.getSelectedItem() != null))
-                && (jComboBoxAtribSelect.isEnabled() && jComboBoxAtribSelect.isShowing()
-                && jComboBoxAtribSelect.getSelectedIndex() > 0)) {
+                ) {
             jButtonBuscar.setEnabled(true);
             if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
                 jButtonEditar.setEnabled(true);
@@ -936,9 +939,9 @@ public class ViewBuscar extends javax.swing.JPanel {
                         llenarTabla(lista, "Dieta");
                         break;
                     case "Paciente":
-                        Paciente p = (Paciente) jComboBoxAtribSelect.getSelectedItem();
+                        Paciente p = (Paciente)jComboBoxAtribSelect.getSelectedItem();
                         dietaDAO = new DietaDAO();
-                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
+                        llenarTabla(new ArrayList<>(dietaDAO.buscarDietasPorPaciente(p.getIdPaciente(), estado)),"Dieta");
                         break;
                     case "Fecha Inicial"://falta x modif vista
                         dietaDAO = new DietaDAO();
