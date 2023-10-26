@@ -18,32 +18,35 @@ public class PacienteDAO {
         con = Conexion.getConnection();
     }
 
-    public void guardarPaciente(Paciente paciente) {
-        String sql = "INSERT INTO paciente (nombreCompleto,DNI,celular,pesoActual,estado) VALUES(?,?,?,?,?)";
+public void guardarPaciente(Paciente paciente) {
+    String sqlInsert = "INSERT INTO paciente (nombreCompleto, DNI, celular, pesoActual, estado) "
+            + "SELECT ?, ?, ?, ?, ? "
+            + "WHERE NOT EXISTS (SELECT 1 FROM paciente WHERE DNI = ?)";
 
-        try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, paciente.getNombre());
-            ps.setInt(2, paciente.getDni());
-            ps.setInt(3, paciente.getTelefono());
-            ps.setDouble(4, paciente.getPesoActual());
-            ps.setBoolean(5, paciente.isEstado());
+    try (PreparedStatement ps = con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS)) {
+        ps.setString(1, paciente.getNombre());
+        ps.setInt(2, paciente.getDni());
+        ps.setInt(3, paciente.getTelefono());
+        ps.setDouble(4, paciente.getPesoActual());
+        ps.setBoolean(5, paciente.isEstado());
+        ps.setInt(6, paciente.getDni());
 
-            int filasAfectadas = ps.executeUpdate();
-            if (filasAfectadas == 1) {
-                try (ResultSet rs = ps.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        paciente.setIdPaciente(rs.getInt(1));//aca me da error
-                        JOptionPane.showMessageDialog(null, "Paciente añadido con éxito");
-                    }
+        int filasAfectadas = ps.executeUpdate();
+        if (filasAfectadas == 1) {
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    paciente.setIdPaciente(rs.getInt(1));
+                    JOptionPane.showMessageDialog(null, "Paciente añadido con éxito");
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al añadir el paciente. No se realizaron cambios en la base de datos");
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.err);
-            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla paciente");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error al añadir el paciente. No se realizaron cambios en la base de datos o el DNI ya existe.");
         }
+    } catch (SQLException ex) {
+        ex.printStackTrace(System.err);
+        JOptionPane.showMessageDialog(null, "Error al acceder a la tabla paciente");
     }
+}
 
     public void modificarPaciente(Paciente paciente) {
         String sql = "UPDATE paciente SET nombreCompleto=?,DNI=?,domicilio=?,celular=?,pesoActual=?,estado=? WHERE idPaciente=? ";

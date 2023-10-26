@@ -1,61 +1,62 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vistas;
 
+import Conexion.ComidaDAO;
 import Conexion.DietaDAO;
 import Conexion.PacienteDAO;
+import Entidades.Comida;
 import Entidades.Dieta;
+import Entidades.DietaComida;
+import Entidades.Horario;
 import Entidades.Paciente;
 import java.awt.Toolkit;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import static java.time.temporal.TemporalQueries.zoneId;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import javax.swing.text.AbstractDocument;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
-/**
- *
- * @author javie
- */
 public class ViewDieta extends javax.swing.JPanel {
 
     DocumentFilter filtroLetras;
     DocumentFilter filtroNumeros;
+    DefaultTableModel modelo = new DefaultTableModel();
 
     public ViewDieta() {
         initComponents();
         llenarComboBox();
+        llenarCabecera();
+        llenarTablaDietaDisponibles();
+        llenarcomboBoxComidas();
+        comboBoxHorario () ;
         filtroNumeros = new FiltraEntrada(FiltraEntrada.SOLO_NUMEROS);
         filtroLetras = new FiltraEntrada(FiltraEntrada.SOLO_LETRAS);
 
-        ((AbstractDocument) jTid.getDocument()).setDocumentFilter(filtroNumeros);
-        ((AbstractDocument) jtnombre.getDocument()).setDocumentFilter(filtroLetras);
-
-        ((AbstractDocument) jtpesofinal.getDocument()).setDocumentFilter(filtroNumeros);
+//        ((AbstractDocument) jTid.getDocument()).setDocumentFilter(filtroNumeros);
+//        ((AbstractDocument) jtnombre.getDocument()).setDocumentFilter(filtroLetras);
+//        ((AbstractDocument) jtpesofinal.getDocument()).setDocumentFilter(filtroNumeros);
     }
 
     public ViewDieta(Dieta dieta) {
         this();
 
     }
+    public ViewDieta(DietaComida dietaComida) {
+        this();
+
+    }
 
     public void cargarDatos(Dieta dieta) {
-        jTid.setText(dieta.getIdDieta()+"");
-        jtnombre.setText("");
-        jComboPaciente.setSelectedIndex(0);
-        jCboxEstado.setSelected(false);
-        jDChoFeInicial.setDate(null);
-        jdatechoFechaFinal.setDate(null);
-        jtpesofinal.setText("");
+//        jTid.setText(dieta.getIdDieta()+"");
+//        jtnombre.setText("");
+//        jComboPaciente.setSelectedIndex(0);
+//        jCboxEstado.setSelected(false);
+//        jDChoFeInicial.setDate(null);
+//        jdatechoFechaFinal.setDate(null);
+//        jtpesofinal.setText("");
     }
 
     private void llenarComboBox() {
@@ -70,46 +71,126 @@ public class ViewDieta extends javax.swing.JPanel {
         }
     }
 
-    public void habilitarBoton() {
-        if (!jTid.getText().isEmpty() && !jtnombre.getText().isEmpty()) {// verifica que jTapellido y jTnombre no esten vacios
-            jBlimpiar.setEnabled(true);//si ambos campos tienen contenido habilita el boton Nuevo
-        } else {
-            jBlimpiar.setEnabled(false);// si alguno de los campos esta vacio deshabilita el boton Nuevo
+ 
+    public void llenarcomboBoxComidas(){
+        
+      ComidaDAO comida= new ComidaDAO();
+      ArrayList<Comida> comidas= comida.listarComidas(1);
+      jComboBoxComidas.addItem(null);
+   
+      for (Comida comi :comidas) {//itera a traves de la lista y agrega cada materia al combobox
+           jComboBoxComidas.addItem(comi );
+       
+    
+//    public void habilitarBoton() {
+////        if (!jTid.getText().isEmpty() && !jtnombre.getText().isEmpty()) {// verifica que jTapellido y jTnombre no esten vacios
+////            jBlimpiar.setEnabled(true);//si ambos campos tienen contenido habilita el boton Nuevo
+////        } else {
+////            jBlimpiar.setEnabled(false);// si alguno de los campos esta vacio deshabilita el boton Nuevo
+////        }
+//
+//    }
         }
+    
+   }  
+    
+    
 
+    public void habilitarBoton() {
+//        if (!jTid.getText().isEmpty() && !jtnombre.getText().isEmpty()) {// verifica que jTapellido y jTnombre no esten vacios
+//            jBlimpiar.setEnabled(true);//si ambos campos tienen contenido habilita el boton Nuevo
+//        } else {
+//            jBlimpiar.setEnabled(false);// si alguno de los campos esta vacio deshabilita el boton Nuevo
+//        }
+
+
+    }
+    public void comboBoxHorario (){
+       
+        ArrayList<Horario> horario = new ArrayList<> ();
+        jComboBoxHorario.addItem(null);
+           horario.add(Horario.DESAYUNO);
+       horario.add(Horario.ALMUERZO);
+        horario.add(Horario.MERIENDA );
+        horario.add(Horario.CENA);
+        horario.add (Horario.SNACK) ;
+       
+   
+      for ( Horario hora :horario) {//itera a traves de la lista y agrega cada materia al combobox
+           jComboBoxHorario.addItem(hora );
+           
+      }     
+      }  
+    public void llenarCabecera() {
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Paciente");
+        modelo.addColumn("Fecha inicial");
+        modelo.addColumn("Fecha final");
+        modelo.addColumn("Estado");
+        modelo.addColumn("Peso final");
+        jTablaDietaDispo.setModel(modelo);
+    }
+
+    public void llenarTablaDietaDisponibles() {
+        actualizarTabla();
+        DietaDAO dietadao = new DietaDAO();
+
+        ArrayList<Dieta> buscar = dietadao.buscar(1);
+        //itera a traves de la lista de materias cursadas y agrega cada una como una fila en la tabla
+        for (Dieta i : buscar) {
+//           modelo.addRow(new Object[]{materia.getIdMateria(), materia.getNombre(), materia.getAño()});
+            modelo.addRow(new Object[]{i.getIdDieta(), i.getNombre(), i.getPaciente(), i.getFechaInicial(), i.getFechaFinal(), i.isEstado(), i.getPesoFinal()});
+        }
+        jTablaDietaDispo.setModel(modelo);// es
+
+    }
+
+    public void actualizarTabla() {
+        while (modelo.getRowCount() > 0) { // mientras haya fila en el modelo de la tabla
+            modelo.removeRow(0);  // borra la primer fila
+
+        }
+        jTablaDietaDispo.setModel(modelo);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jlId = new javax.swing.JLabel();
         jlNombre = new javax.swing.JLabel();
         jlPaciente = new javax.swing.JLabel();
         jlEstado = new javax.swing.JLabel();
-        jlDieta = new javax.swing.JLabel();
         jDChoFeInicial = new com.toedter.calendar.JDateChooser();
         jdatechoFechaFinal = new com.toedter.calendar.JDateChooser();
         jlFeinicial = new javax.swing.JLabel();
         jlFefinal = new javax.swing.JLabel();
-        jTid = new javax.swing.JTextField();
         jtnombre = new javax.swing.JTextField();
-        jbBuscar = new javax.swing.JButton();
-        jBlimpiar = new javax.swing.JButton();
-        jbGuardar = new javax.swing.JButton();
+        jBGuardar = new javax.swing.JButton();
+        jbAgregar = new javax.swing.JButton();
         jbEliminar = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
         jlPesofinal = new javax.swing.JLabel();
         jtpesofinal = new javax.swing.JTextField();
-        jCboxEstado = new javax.swing.JCheckBox();
+        jCbEstado = new javax.swing.JCheckBox();
         jComboPaciente = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jComboBoxHorario = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTablaDietaDispo = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jComboBoxComidas = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBoxPorcion = new javax.swing.JComboBox<>();
+        jScrollPaneDetalle = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 153, 153));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setPreferredSize(new java.awt.Dimension(755, 692));
-
-        jlId.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jlId.setText("ID");
 
         jlNombre.setBackground(new java.awt.Color(51, 51, 51));
         jlNombre.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -124,11 +205,6 @@ public class ViewDieta extends javax.swing.JPanel {
         jlEstado.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlEstado.setText("Estado");
 
-        jlDieta.setBackground(new java.awt.Color(51, 51, 51));
-        jlDieta.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jlDieta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlDieta.setText("  DIETA");
-
         jlFeinicial.setBackground(new java.awt.Color(51, 51, 51));
         jlFeinicial.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlFeinicial.setText("Fecha Inicial");
@@ -137,44 +213,29 @@ public class ViewDieta extends javax.swing.JPanel {
         jlFefinal.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlFefinal.setText("Fecha Final");
 
-        jTid.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTidKeyReleased(evt);
-            }
-        });
-
         jtnombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtnombreKeyReleased(evt);
             }
         });
 
-        jbBuscar.setBackground(new java.awt.Color(0, 255, 255));
-        jbBuscar.setForeground(new java.awt.Color(0, 0, 51));
-        jbBuscar.setText("Buscar");
-        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
+        jBGuardar.setBackground(new java.awt.Color(0, 255, 255));
+        jBGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jBGuardar.setForeground(new java.awt.Color(0, 0, 51));
+        jBGuardar.setText("Guardar Dieta");
+        jBGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbBuscarActionPerformed(evt);
+                jBGuardarActionPerformed(evt);
             }
         });
 
-        jBlimpiar.setBackground(new java.awt.Color(0, 255, 255));
-        jBlimpiar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jBlimpiar.setForeground(new java.awt.Color(0, 0, 51));
-        jBlimpiar.setText("Limpiar");
-        jBlimpiar.addActionListener(new java.awt.event.ActionListener() {
+        jbAgregar.setBackground(new java.awt.Color(0, 255, 255));
+        jbAgregar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jbAgregar.setForeground(new java.awt.Color(0, 0, 51));
+        jbAgregar.setText("Agregar");
+        jbAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBlimpiarActionPerformed(evt);
-            }
-        });
-
-        jbGuardar.setBackground(new java.awt.Color(0, 255, 255));
-        jbGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jbGuardar.setForeground(new java.awt.Color(0, 0, 51));
-        jbGuardar.setText("Guardar");
-        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbGuardarActionPerformed(evt);
+                jbAgregarActionPerformed(evt);
             }
         });
 
@@ -219,210 +280,317 @@ public class ViewDieta extends javax.swing.JPanel {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel1.setText("Horario");
+
+        jComboBoxHorario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxHorarioActionPerformed(evt);
+            }
+        });
+
+        jTablaDietaDispo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nombre", "Paciente", "Fecha inicial", "Fecha final", "Estado", "Peso final"
+            }
+        ));
+        jScrollPane1.setViewportView(jTablaDietaDispo);
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel2.setText("Comidas");
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel3.setText("Porcion");
+
+        jComboBoxPorcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Comida", "Porcion", "Horario"
+            }
+        ));
+        jScrollPaneDetalle.setViewportView(jTable2);
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel4.setText("Detalle Dieta");
+
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel5.setText("Dietas Disponibles");
+
+        jButton1.setBackground(new java.awt.Color(0, 255, 255));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(51, 51, 51));
+        jButton1.setText("Modificar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(210, 210, 210)
-                .addComponent(jlDieta, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jBlimpiar)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlNombre)
-                            .addComponent(jlPaciente)
-                            .addComponent(jlId))
-                        .addGap(47, 47, 47)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtnombre)
-                            .addComponent(jTid)
-                            .addComponent(jComboPaciente, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jDChoFeInicial, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
+                        .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(13, 13, 13)
-                                .addComponent(jbEliminar)
-                                .addGap(61, 61, 61)
-                                .addComponent(jbSalir))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(66, 66, 66)
-                                .addComponent(jbBuscar)))
-                        .addGap(230, 230, 230))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jlEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jlFefinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jlFeinicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jlPesofinal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(35, 35, 35)
-                                .addComponent(jbGuardar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCboxEstado)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jtpesofinal)
-                                        .addComponent(jdatechoFechaFinal, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)))))
-                        .addContainerGap(423, Short.MAX_VALUE))))
+                                    .addComponent(jlPaciente)
+                                    .addComponent(jlNombre))
+                                .addGap(33, 33, 33)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jComboPaciente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(30, 30, 30)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jlFeinicial)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jDChoFeInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jlPesofinal, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jtpesofinal, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(24, 24, 24)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jlFefinal, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jlEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCbEstado)
+                                    .addComponent(jdatechoFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jBGuardar)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBoxComidas, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBoxHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBoxPorcion, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(jbAgregar))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(jScrollPaneDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(99, 99, 99))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jbEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbSalir)
+                        .addGap(22, 22, 22)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jlDieta)
-                .addGap(75, 75, 75)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlId)
-                    .addComponent(jTid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbBuscar))
                 .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jlPaciente)
+                        .addComponent(jComboPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jlFeinicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jDChoFeInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jdatechoFechaFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jlFefinal, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jlNombre)
+                        .addComponent(jtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jlPesofinal)
+                        .addComponent(jtpesofinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jlEstado))
+                    .addComponent(jCbEstado))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlNombre)
-                    .addComponent(jtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
+                    .addComponent(jBGuardar)
+                    .addComponent(jButton1))
+                .addGap(27, 27, 27)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlPaciente)
-                    .addComponent(jComboPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jlFeinicial)
-                    .addComponent(jDChoFeInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jdatechoFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlFefinal))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlPesofinal)
-                    .addComponent(jtpesofinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                    .addComponent(jComboBoxComidas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBoxHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jComboBoxPorcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbAgregar)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCboxEstado)
-                        .addGap(45, 45, 45)
+                        .addComponent(jScrollPaneDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(186, 186, 186))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jBlimpiar)
-                            .addComponent(jbGuardar)
                             .addComponent(jbEliminar)
-                            .addComponent(jbSalir)))
-                    .addComponent(jlEstado))
-                .addGap(102, 102, 102))
+                            .addComponent(jbSalir))
+                        .addGap(94, 94, 94))))
         );
 
         jComboPaciente.getAccessibleContext().setAccessibleParent(jComboPaciente);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-
-//        try{
-//   
-//       int id =Integer.parseInt(jTid.getText());
-//      DietaDAO diet= new DietaDAO ();
-//     Dieta die= new Dieta();
-//     
-//     die = diet.buscarPorId(id, 2);
-//    
-//       jtnombre.setText(die.getNombre());
-//     Paciente pac = new Paciente ();
-//    jComboPaciente.addItem(pac);
-//   jDChoFeInicial.setDate(null);
-//    jdatechoFechaFinal.setDate(null);
-//    double pesofi = Double.parseDouble(jtpesofinal.getText()  );
-//    jCboxEstado.setSelected(pac.isEstado());
-//      
-//     
-//  } catch (NumberFormatException e) {
-//            JOptionPane.showMessageDialog(this, "Ingresa un dato valido");
-//            jTid.setText("");
-
-    }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void jComboPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboPacienteActionPerformed
         // TODO add your handling code here:
         llenarComboBox();
     }//GEN-LAST:event_jComboPacienteActionPerformed
 
-    private void jBlimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBlimpiarActionPerformed
+    private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
 
-        ((AbstractDocument) jTid.getDocument()).setDocumentFilter(null);
-        jTid.setText("");
+//        ((AbstractDocument) jTid.getDocument()).setDocumentFilter(null);
+//        jTid.setText("");
+//
+        if (jtnombre.getText().isEmpty()
+                || jComboPaciente.getSelectedItem() == null
+                || !jCbEstado.isSelected()
+                || jDChoFeInicial.getDate() == null
+                || jdatechoFechaFinal.getDate() == null
+                || jtpesofinal.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
 
-        jtnombre.setText("");
-        jComboPaciente.setSelectedIndex(0);
-        jCboxEstado.setSelected(false);
-        jDChoFeInicial.setDate(null);
-        jdatechoFechaFinal.setDate(null);
-        jtpesofinal.setText("");
+        } else {
 
-    }//GEN-LAST:event_jBlimpiarActionPerformed
+            Paciente pac;
+            String nombre = jtnombre.getText();
+            boolean estado = jCbEstado.isSelected();
+
+            Paciente pacient = (Paciente) jComboPaciente.getSelectedItem();
+
+            LocalDate fechaInicio = jDChoFeInicial.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate fechaFinal = jdatechoFechaFinal.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            double pesoFi = Double.parseDouble(jtpesofinal.getText());
+
+            DietaDAO dietad = new DietaDAO();
+            Dieta die = new Dieta(nombre, pacient, fechaInicio, fechaFinal, pesoFi, estado);
+
+            dietad.insertar(die);
+            llenarTablaDietaDisponibles();
+
+        }
+
+//    }                                         
+//    private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        // TODO add your handling code here:
+//       DietaDAO diet= new DietaDAO ();
+//       Dieta dieta = new Dieta();
+//      int id = Integer.parseInt(jTid.getText());
+//       
+//        
+//        if (dieta != null) {// Si encontro un alumno usa el metodo eliminar de aluData para eliminarlo de la base de datos
+//
+//            diet.eliminarDieta(dieta.getIdDieta());
+//            // Limpia los campos de texto y demas componentes
+////            ((Abstract
+//Document) jTid.getDocument()).setDocumentFilter(null);
+//            jTid.setText("");
+//        try {
+//            // 1. Crear una instancia de la clase DietaDAO (o la clase correspondiente).
+//            DietaDAO dietaDAO = new DietaDAO();
+//
+//            // 2. Obtener el valor del campo ID.
+//            int id = Integer.parseInt(jTid.getText());
+//            String tf = jTid.getText();
+//
+//            if (tf == null && tf.isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "El campo ID está vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+//                return;
+//            }
+//
+//            // 3. Utilizar el método para buscar la dieta por ID.
+//            Dieta dieta = dietaDAO.buscarPorId(id, 1);
+//
+//            // 4. Si se encontró la dieta, eliminarla.
+//            if (dieta != null) {
+//                dietaDAO.eliminarDieta(dieta.getIdDieta());
+//                JOptionPane.showMessageDialog(this, "La dieta se eliminó con éxito.");
+//            } else {
+//                JOptionPane.showMessageDialog(this, "La dieta no se encontró en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+//            }
+////
+//        
+//         
+//     }
+
+    }//GEN-LAST:event_jBGuardarActionPerformed
 
     private void jtnombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtnombreKeyReleased
         // TODO add your handling code here:
-        habilitarBoton();
+//        habilitarBoton();
     }//GEN-LAST:event_jtnombreKeyReleased
-
-    private void jTidKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTidKeyReleased
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_jTidKeyReleased
 
     private void jComboPacienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboPacienteKeyReleased
         // TODO add your handling code here:
-        habilitarBoton();
+//        habilitarBoton();
     }//GEN-LAST:event_jComboPacienteKeyReleased
 
-    private void jtpesofinalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtpesofinalKeyReleased
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jtpesofinalKeyReleased
-
-    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+    private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
 
         // TODO add your handling code here:
-        try {//recopila los datos de los textfield, radio button y jdatechosser y los guarda en diferentes variables
-            if (jTid.getText().isEmpty()
-                    || jtnombre.getText().isEmpty()
-                    || jComboPaciente.getSelectedItem() == null
-                    || !jCboxEstado.isSelected()
-                    || jDChoFeInicial.getDate() == null
-                    || jdatechoFechaFinal.getDate() == null
-                    || jtpesofinal.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
-
-            } else {
-
-                Paciente pac;
-                String nombre = jtnombre.getText();
-                boolean estado = jCboxEstado.isSelected();
-
-                Paciente pacient = (Paciente) jComboPaciente.getSelectedItem();
-
-                LocalDate fechaInicio = jDChoFeInicial.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                LocalDate fechaFinal = jdatechoFechaFinal.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                double pesoFi = Double.parseDouble(jtpesofinal.getText());
-
-                DietaDAO dietad = new DietaDAO();
-                Dieta die = new Dieta(nombre, pacient, fechaInicio, fechaFinal, pesoFi, estado);
-
-                dietad.insertar(die);
-
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace(System.out);
-            JOptionPane.showMessageDialog(null, "Complete la informacion con datos validos",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }//GEN-LAST:event_jbGuardarActionPerformed
+//        try {//recopila los datos de los textfield, radio button y jdatechosser y los guarda en diferentes variables
+//            if (jTid.getText().isEmpty()
+//                    || jtnombre.getText().isEmpty()
+//                    || jComboPaciente.getSelectedItem() == null
+//                    || !jCboxEstado.isSelected()
+//                    || jDChoFeInicial.getDate() == null
+//                    || jdatechoFechaFinal.getDate() == null
+//                    || jtpesofinal.getText().isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+//
+//            } else {
+//
+//                Paciente pac;
+//                String nombre = jtnombre.getText();
+//                boolean estado = jCboxEstado.isSelected();
+//
+//                Paciente pacient = (Paciente) jComboPaciente.getSelectedItem();
+//
+//                LocalDate fechaInicio = jDChoFeInicial.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//                LocalDate fechaFinal = jdatechoFechaFinal.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//                double pesoFi = Double.parseDouble(jtpesofinal.getText());
+//
+//                DietaDAO dietad = new DietaDAO();
+//                Dieta die = new Dieta(nombre, pacient, fechaInicio, fechaFinal, pesoFi, estado);
+//
+//                dietad.insertar(die);
+//
+//            }
+//        } catch (NumberFormatException e) {
+//            e.printStackTrace(System.out);
+//            JOptionPane.showMessageDialog(null, "Complete la informacion con datos validos",
+//                    "Error", JOptionPane.ERROR_MESSAGE);
+//        }
+//
+    }//GEN-LAST:event_jbAgregarActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         // TODO add your handling code here:
@@ -435,49 +603,49 @@ public class ViewDieta extends javax.swing.JPanel {
 //
 //            diet.eliminarDieta(dieta.getIdDieta());
 //            // Limpia los campos de texto y demas componentes
-////            ((AbstractDocument) jTid.getDocument()).setDocumentFilter(null);
+////            ((Abstract
+//Document) jTid.getDocument()).setDocumentFilter(null);
 //            jTid.setText("");
 
-        try {
-            // 1. Crear una instancia de la clase DietaDAO (o la clase correspondiente).
-            DietaDAO dietaDAO = new DietaDAO();
-
-            // 2. Obtener el valor del campo ID.
-            int id = Integer.parseInt(jTid.getText());
-            String tf = jTid.getText();
-
-            if (tf == null && tf.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El campo ID está vacío.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // 3. Utilizar el método para buscar la dieta por ID.
-            Dieta dieta = dietaDAO.buscarPorId(id, 1);
-
-            // 4. Si se encontró la dieta, eliminarla.
-            if (dieta != null) {
-                dietaDAO.eliminarDieta(dieta.getIdDieta());
-                JOptionPane.showMessageDialog(this, "La dieta se eliminó con éxito.");
-            } else {
-                JOptionPane.showMessageDialog(this, "La dieta no se encontró en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-            // 5. Limpiar los campos y realizar otras acciones necesarias.
-            jTid.setText("");
-            jtnombre.setText("");
-            jComboPaciente.setSelectedIndex(0); // Puedes establecer el índice que corresponde a la opción predeterminada
-            jDChoFeInicial.setDate(null);
-            jdatechoFechaFinal.setDate(null);
-            jCboxEstado.setSelected(false);
-            jtpesofinal.setText("");
-            // ... otros campos
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "El campo ID debe ser un número entero válido.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Ocurrió un error al eliminar la dieta.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
+//        try {
+//            // 1. Crear una instancia de la clase DietaDAO (o la clase correspondiente).
+//            DietaDAO dietaDAO = new DietaDAO();
+//
+//            // 2. Obtener el valor del campo ID.
+//            int id = Integer.parseInt(jTid.getText());
+//            String tf = jTid.getText();
+//
+//            if (tf == null && tf.isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "El campo ID está vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+//                return;
+//            }
+//
+//            // 3. Utilizar el método para buscar la dieta por ID.
+//            Dieta dieta = dietaDAO.buscarPorId(id, 1);
+//
+//            // 4. Si se encontró la dieta, eliminarla.
+//            if (dieta != null) {
+//                dietaDAO.eliminarDieta(dieta.getIdDieta());
+//                JOptionPane.showMessageDialog(this, "La dieta se eliminó con éxito.");
+//            } else {
+//                JOptionPane.showMessageDialog(this, "La dieta no se encontró en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+//            }
+//
+//            // 5. Limpiar los campos y realizar otras acciones necesarias.
+//            jTid.setText("");
+//            jtnombre.setText("");
+//            jComboPaciente.setSelectedIndex(0); // Puedes establecer el índice que corresponde a la opción predeterminada
+//            jDChoFeInicial.setDate(null);
+//            jdatechoFechaFinal.setDate(null);
+//            jCboxEstado.setSelected(false);
+//            jtpesofinal.setText("");
+//            // ... otros campos
+//        } catch (NumberFormatException e) {
+//            JOptionPane.showMessageDialog(this, "El campo ID debe ser un número entero válido.", "Error", JOptionPane.ERROR_MESSAGE);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            JOptionPane.showMessageDialog(this, "Ocurrió un error al eliminar la dieta.", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
 //            jtnombre.setText("");
 //            jComboPaciente.setSelectedItem(null);
 //            jCboxEstado.setSelected(false);
@@ -493,23 +661,44 @@ public class ViewDieta extends javax.swing.JPanel {
         System.exit(0);
     }//GEN-LAST:event_jbSalirActionPerformed
 
+    private void jtpesofinalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtpesofinalKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtpesofinalKeyReleased
+
+    private void jComboBoxHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxHorarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxHorarioActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBlimpiar;
-    private javax.swing.JCheckBox jCboxEstado;
+    private javax.swing.JButton jBGuardar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox jCbEstado;
+    private javax.swing.JComboBox<Comida> jComboBoxComidas;
+    private javax.swing.JComboBox<Horario> jComboBoxHorario;
+    private javax.swing.JComboBox<String> jComboBoxPorcion;
     private javax.swing.JComboBox<Paciente> jComboPaciente;
     private com.toedter.calendar.JDateChooser jDChoFeInicial;
-    private javax.swing.JTextField jTid;
-    private javax.swing.JButton jbBuscar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPaneDetalle;
+    private javax.swing.JTable jTablaDietaDispo;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JButton jbAgregar;
     private javax.swing.JButton jbEliminar;
-    private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbSalir;
     private com.toedter.calendar.JDateChooser jdatechoFechaFinal;
-    private javax.swing.JLabel jlDieta;
     private javax.swing.JLabel jlEstado;
     private javax.swing.JLabel jlFefinal;
     private javax.swing.JLabel jlFeinicial;
-    private javax.swing.JLabel jlId;
     private javax.swing.JLabel jlNombre;
     private javax.swing.JLabel jlPaciente;
     private javax.swing.JLabel jlPesofinal;
@@ -608,27 +797,27 @@ public class ViewDieta extends javax.swing.JPanel {
             return valido;
         }
     }
-}
 
-class NumericRangeFilter4 extends DocumentFilter {
+    class NumericRangeFilter4 extends DocumentFilter {
 
-    @Override
-    public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, AttributeSet as) throws BadLocationException {
-        String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());//obtiene el texto actual del jtf
+        @Override
+        public void replace(DocumentFilter.FilterBypass fb, int i, int i1, String string, AttributeSet as) throws BadLocationException {
+            String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());//obtiene el texto actual del jtf
 
-        String nextText = currentText.substring(0, i) + string + currentText.substring(i + i1);//concatena el texto a insertar con el texto acutal
+            String nextText = currentText.substring(0, i) + string + currentText.substring(i + i1);//concatena el texto a insertar con el texto acutal
 
-        try {
-            int num = Integer.parseInt(nextText);//intenta convertir el texto en numero
+            try {
+                int num = Integer.parseInt(nextText);//intenta convertir el texto en numero
 
-            if (num >= 1 && num <= 6) {//verifica si el numero esta en el rango de 1 a 6
-                super.replace(fb, i, i1, string, as);
-            } else {
-                //fuera de rango
-                Toolkit.getDefaultToolkit().beep();//sonido de error
+                if (num >= 1 && num <= 6) {//verifica si el numero esta en el rango de 1 a 6
+                    super.replace(fb, i, i1, string, as);
+                } else {
+                    //fuera de rango
+                    Toolkit.getDefaultToolkit().beep();//sonido de error
+                }
+            } catch (NumberFormatException e) {
+                Toolkit.getDefaultToolkit().beep(); //El texto no es un número válido...Emite un sonido de error.
             }
-        } catch (NumberFormatException e) {
-            Toolkit.getDefaultToolkit().beep(); //El texto no es un número válido...Emite un sonido de error.
         }
     }
 }

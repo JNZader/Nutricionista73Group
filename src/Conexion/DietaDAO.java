@@ -86,6 +86,7 @@ public class DietaDAO {
                     dieta = new Dieta();
                     dieta.setNombre(rs.getString("nombre"));
 
+
                     int idPaciente = rs.getInt("idpaciente");
                     Paciente p = pd.buscarPaciente(idPaciente, 3);
 
