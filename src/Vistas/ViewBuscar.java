@@ -2,11 +2,14 @@ package Vistas;
 
 import Conexion.ComidaDAO;
 import Conexion.ConsultaDAO;
+import Conexion.DietaComidaDAO;
 import Conexion.DietaDAO;
 import Conexion.PacienteDAO;
 import Entidades.Comida;
 import Entidades.Consulta;
 import Entidades.Dieta;
+import Entidades.DietaComida;
+import Entidades.Horario;
 import Entidades.Paciente;
 import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
@@ -28,11 +31,12 @@ public class ViewBuscar extends javax.swing.JPanel {
 
     private String entidad, atributo, atributoTF;
     private int estado, tf;
-    private DefaultTableModel modDieta, modPaciente, modComida, modConsulta;
+    private DefaultTableModel modDieta, modPaciente, modComida, modConsulta, modDietaComida;
     private ComidaDAO comidaDAO;
     private DietaDAO dietaDAO;
     private PacienteDAO pacienteDAO;
     private ConsultaDAO consultaDAO;
+    private DietaComidaDAO dietaComidaDAO;
     private ArrayList<Consulta> consultas;
     private ArrayList<Comida> comidas;
     private ArrayList<Object> lista;
@@ -48,6 +52,7 @@ public class ViewBuscar extends javax.swing.JPanel {
     public static Dieta diet;
     public static Consulta consul;
     public static Comida com;
+    public static DietaComida dietCom;
 
     public ViewBuscar() {
         initComponents();
@@ -58,6 +63,9 @@ public class ViewBuscar extends javax.swing.JPanel {
         filtroLetras = new FiltraEntrada(FiltraEntrada.SOLO_LETRAS);
         filtroMix = new FiltraEntrada(FiltraEntrada.NUM_LETRAS);
 
+        jComboBoxTratamientos.setEnabled(false);
+        jComboBoxHorarios.setEnabled(false);
+        jComboBoxComidas.setEnabled(false);
         jComboBoxPacientes.setEnabled(false);
         jDateChooser1.setEnabled(false);
         jButtonBuscar.setEnabled(false);
@@ -68,9 +76,35 @@ public class ViewBuscar extends javax.swing.JPanel {
 
         jComboBoxAtributos.addItemListener(event -> {
             if (event.getStateChange() == ItemEvent.SELECTED) {
-                jLabel3.setText(event.getItem().toString() + ":");
-            }//lambda que agrega un itemlistener al combobox  
-        });  //y modifica el label de acuerdo al item seleccionado en el combo
+                String selectedAttribute = event.getItem().toString();
+                switch (selectedAttribute) {
+                    case "Comida":
+                        jLabel3.setText("");
+                        jLabel4.setText("Comida:");
+                        jLabel5.setText("");
+                        jLabel6.setText("");
+                        break;
+                    case "Tratamiento":
+                        jLabel3.setText("");
+                        jLabel4.setText("");
+                        jLabel5.setText("Tratamiento:");
+                        jLabel6.setText("");
+                        break;
+                    case "Horario":
+                        jLabel3.setText("");
+                        jLabel4.setText("");
+                        jLabel5.setText("");
+                        jLabel6.setText("Horario:");
+                        break;
+                    default:
+                        jLabel3.setText(selectedAttribute + ":");
+                        jLabel4.setText("");
+                        jLabel5.setText("");
+                        jLabel6.setText("");
+                        break;
+                }
+            }
+        });
 
         JTableHeader tbh = jTable1.getTableHeader();
         tbh.setReorderingAllowed(false);
@@ -183,9 +217,9 @@ public class ViewBuscar extends javax.swing.JPanel {
                             filas[0] = aux;
                             filas[1] = aux.getIdPaciente();
                             filas[2] = aux.getNombre();
-                            filas[3] = aux.getDomicilio();
-                            filas[4] = aux.getDni();
-                            filas[5] = aux.getTelefono();
+                            filas[3] = aux.getDni();
+                            filas[4] = aux.getTelefono();
+                            filas[5] = aux.getDomicilio();
                             filas[6] = aux.getPesoActual();
                             if (aux.isEstado()) {
                                 filas[7] = "Activo";
@@ -206,9 +240,9 @@ public class ViewBuscar extends javax.swing.JPanel {
                 jTable1.getColumnModel().getColumn(1).setMinWidth(30);
                 jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
-                jTable1.getColumnModel().getColumn(5).setMinWidth(50);
-                jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
-                jTable1.getColumnModel().getColumn(5).setWidth(50);
+                jTable1.getColumnModel().getColumn(7).setMinWidth(50);
+                jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
+                jTable1.getColumnModel().getColumn(7).setWidth(50);
                 break;
             case "Comida":
                 limpiarTabla();
@@ -253,9 +287,92 @@ public class ViewBuscar extends javax.swing.JPanel {
                 jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(5).setWidth(50);
                 break;
+            case "DietaComida":
+                limpiarTabla();
+                modDietaComida = new DefaultTableModel() {
+                    @Override
+                    public boolean isCellEditable(int i, int i1) {
+                        return false;
+                    }
+                };
+                modDietaComida.setColumnIdentifiers(new String[]{"", "ID", "Comida", "Tratamiento", "Porcion", "Horario", "Estado"});
+                if (list != null && !list.isEmpty()) {
+                    for (Object oaux : list) {
+                        if (oaux instanceof DietaComida) {
+                            DietaComida aux = (DietaComida) oaux;
+                            Object[] filas = new Object[7];
+                            filas[0] = aux;
+                            filas[1] = aux.getId();
+                            filas[2] = aux.getComida();
+                            filas[3] = aux.getDieta();
+                            filas[4] = aux.getPorcion();
+                            filas[5] = aux.getHorario();
+                            if (aux.isEstado()) {
+                                filas[6] = "Activo";
+                            } else {
+                                filas[5] = "Inactivo";
+                            }
+                            modDietaComida.addRow(filas);
+                        }
+                    }
+                }
+                jTable1.setModel(modDietaComida);
+                for (int i = 0; i < jTable1.getColumnCount(); i++) {
+                    jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
+                }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+                jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
+                jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(6).setMinWidth(50);
+                jTable1.getColumnModel().getColumn(6).setMaxWidth(50);
+                jTable1.getColumnModel().getColumn(6).setWidth(50);
+                break;
             default:
                 System.out.println("Opcion no valida");
         }
+    }
+
+    private void llenarTabla(DietaComida dietaComida) {
+        limpiarTabla();
+        modDietaComida = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false;
+            }
+        };
+        modDietaComida.setColumnIdentifiers(new String[]{"", "ID", "Comida", "Tratamiento", "Porcion", "Horario", "Estado"});
+
+        if (dietaComida != null) {
+            Object[] filas = new Object[7];
+            filas[0] = dietaComida;
+            filas[1] = dietaComida.getId();
+            filas[2] = dietaComida.getComida();
+            filas[3] = dietaComida.getDieta();
+            filas[4] = dietaComida.getPorcion();
+            filas[5] = dietaComida.getHorario();
+            if (dietaComida.isEstado()) {
+                filas[6] = "Activo";
+            } else {
+                filas[5] = "Inactivo";
+            }
+            modDietaComida.addRow(filas);;
+        }
+        jTable1.setModel(modDietaComida);
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
+        }
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
+        jTable1.getColumnModel().getColumn(1).setWidth(30);
+        jTable1.getColumnModel().getColumn(6).setMinWidth(50);
+        jTable1.getColumnModel().getColumn(6).setMaxWidth(50);
+        jTable1.getColumnModel().getColumn(6).setWidth(50);
     }
 
     private void llenarTabla(Comida comida) {
@@ -387,9 +504,9 @@ public class ViewBuscar extends javax.swing.JPanel {
             filas[0] = paciente;
             filas[1] = paciente.getIdPaciente();
             filas[2] = paciente.getNombre();
-            filas[5] = paciente.getDomicilio();
             filas[3] = paciente.getDni();
             filas[4] = paciente.getTelefono();
+            filas[5] = paciente.getDomicilio();
             filas[6] = paciente.getPesoActual();
             if (paciente.isEstado()) {
                 filas[7] = "Activo";
@@ -423,6 +540,36 @@ public class ViewBuscar extends javax.swing.JPanel {
 
         for (Paciente aux : pacientes) {
             jComboBoxPacientes.addItem(aux);
+        }
+    }
+
+    private void llenarComboBoxComidas() {
+        comidaDAO = new ComidaDAO();
+        comidas = comidaDAO.listarComidas(1);
+
+        jComboBoxComidas.addItem(null);
+
+        for (Comida aux : comidas) {
+            jComboBoxComidas.addItem(aux);
+        }
+    }
+
+    private void llenarComboBoxTratamientos() {
+        dietaDAO = new DietaDAO();
+        dietas = dietaDAO.buscar(1);
+
+        jComboBoxTratamientos.addItem(null);
+
+        for (Dieta aux : dietas) {
+            jComboBoxTratamientos.addItem(aux);
+        }
+    }
+
+    private void llenarComboBoxHorarios() {
+        jComboBoxHorarios.addItem(null);
+
+        for (Horario aux : Horario.values()) {
+            jComboBoxHorarios.addItem(aux.toString());
         }
     }
 
@@ -472,8 +619,14 @@ public class ViewBuscar extends javax.swing.JPanel {
         jComboBoxPacientes = new javax.swing.JComboBox<>();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jButtonAnular = new javax.swing.JButton();
+        jComboBoxTratamientos = new javax.swing.JComboBox<>();
+        jComboBoxHorarios = new javax.swing.JComboBox<>();
+        jComboBoxComidas = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
-        jComboBoxEntidades.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Comidas", "Consultas", "Dietas", "Pacientes" }));
+        jComboBoxEntidades.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Comidas", "Consultas", "Tratamientos", "Pacientes", "Dietas" }));
         jComboBoxEntidades.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBoxEntidadesItemStateChanged(evt);
@@ -576,6 +729,8 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         });
 
+        jLabel4.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -596,65 +751,86 @@ public class ViewBuscar extends javax.swing.JPanel {
                                 .addComponent(jButtonSalir)))
                         .addGap(35, 35, 35))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jComboBoxAtributos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(42, 42, 42))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jComboBoxEntidades, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel1))
+                                    .addGap(43, 43, 43)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jRadioButtonActivo)
-                                .addGap(57, 57, 57)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jRadioButtonInactivo)
-                                .addGap(46, 46, 46)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jRadioButtonAmbos)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(61, 61, 61))
+                            .addComponent(jLabel2))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jComboBoxTratamientos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jComboBoxHorarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jComboBoxComidas, 0, 200, Short.MAX_VALUE))
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBoxEntidades, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel1))
-                                        .addGap(46, 46, 46)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBoxAtributos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel2))
-                                        .addGap(40, 40, 40))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(112, 112, 112)
-                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBoxPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(83, 83, 83)
+                                .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(41, 41, 41))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel6))
                         .addGap(3, 3, 3)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBoxAtributos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxEntidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jComboBoxEntidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(3, 3, 3)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBoxPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBoxAtributos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxTratamientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jRadioButtonActivo)
+                        .addComponent(jRadioButtonInactivo)
+                        .addComponent(jRadioButtonAmbos)
+                        .addComponent(jComboBoxComidas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonBuscar))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonBuscar)
-                    .addComponent(jRadioButtonActivo)
-                    .addComponent(jRadioButtonInactivo)
-                    .addComponent(jRadioButtonAmbos))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonEditar)
@@ -774,7 +950,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                         }
                         break;
                 }
-            } else if (entidad.equalsIgnoreCase("Dietas")) {
+            } else if (entidad.equalsIgnoreCase("Tratamientos")) {
                 switch (atributo) {
                     case "ID":
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
@@ -909,6 +1085,40 @@ public class ViewBuscar extends javax.swing.JPanel {
                         }
                         break;
                 }
+            } else if (entidad.equalsIgnoreCase("Dietas")) {
+                switch (atributo) {
+                    case "ID":
+                        if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
+                            tf = Integer.parseInt(atributoTF);
+                            pacienteDAO = new PacienteDAO();
+                            llenarTabla(pacienteDAO.buscarPaciente(tf, estado));
+                        } else {
+                            pacienteDAO = new PacienteDAO();
+                            pacientes = pacienteDAO.listarPaciente(estado);
+                            lista = new ArrayList<>(pacientes);
+                            llenarTabla(lista, "Paciente");
+                        }
+                        break;
+                    case "Comida":
+                        Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
+                        dietaDAO = new DietaDAO();
+                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
+                        break;
+                    case "Tratamiento":
+//                        Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
+                        dietaDAO = new DietaDAO();
+//                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
+                        break;
+                    case "Porcion":
+                        break;
+                    case "Horario":
+//                        Paciente p = (Paciente) jComboBoxPacientes.getSelectedItem();
+                        dietaDAO = new DietaDAO();
+//                        llenarTabla(dietaDAO.buscarPorId(p.getIdPaciente(), estado));
+                        break;
+                    case "Estado":
+                        break;
+                }
             }
         }
         actualizarBotones();
@@ -937,6 +1147,12 @@ public class ViewBuscar extends javax.swing.JPanel {
         jTextField1.setEditable(true);
         jComboBoxPacientes.setEnabled(false);
         jComboBoxPacientes.removeAllItems();
+        jComboBoxComidas.setEnabled(false);
+        jComboBoxComidas.removeAllItems();
+        jComboBoxHorarios.setEnabled(false);
+        jComboBoxHorarios.removeAllItems();
+        jComboBoxTratamientos.setEnabled(false);
+        jComboBoxTratamientos.removeAllItems();
 
         if (atributoSelect.equals("Estado") || atributoSelect.equals("Paciente")) {
             jTextField1.setEnabled(false);
@@ -964,6 +1180,24 @@ public class ViewBuscar extends javax.swing.JPanel {
             jComboBoxPacientes.removeAllItems();
             llenarComboBox();
         }
+        if (atributoSelect.equals("Horario")) {
+            jTextField1.setEditable(false);
+            jComboBoxHorarios.setEnabled(true);
+            jComboBoxHorarios.removeAllItems();
+            llenarComboBoxHorarios();
+        }
+        if (atributoSelect.equals("Tratamiento")) {
+            jTextField1.setEditable(false);
+            jComboBoxTratamientos.setEnabled(true);
+            jComboBoxTratamientos.removeAllItems();
+            llenarComboBoxTratamientos();
+        }
+        if (atributoSelect.equals("Comida")) {
+            jTextField1.setEditable(false);
+            jComboBoxComidas.setEnabled(true);
+            jComboBoxComidas.removeAllItems();
+            llenarComboBoxComidas();
+        }
         switch ((String) jComboBoxAtributos.getSelectedItem()) {
             case "Nombre":
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(filtroLetras);
@@ -982,6 +1216,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 break;
             case "Peso Inicial":
             case "Peso Final":
+            case "Porcion":
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(rangeFilterPeso);
                 break;
             default:
@@ -1089,7 +1324,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 }
             } else if (selectedObject instanceof Comida) {
                 com = (Comida) selectedObject;
-                if (pct != null) {
+                if (com != null) {
                     ViewComida VCom = new ViewComida(com);
                     this.setVisible(false);
                     Dashboard db = new Dashboard();
@@ -1098,7 +1333,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 }
             } else if (selectedObject instanceof Consulta) {
                 consul = (Consulta) selectedObject;
-                if (pct != null) {
+                if (consul != null) {
                     ViewConsulta VCon = new ViewConsulta(consul);
                     this.setVisible(false);
                     Dashboard db = new Dashboard();
@@ -1115,7 +1350,7 @@ public class ViewBuscar extends javax.swing.JPanel {
             String atributosComidas[] = {"", "ID", "Nombre", "Detalle", "Cantidad de calorias", "Estado"};
             at = atributosComidas;
         }
-        if (entidad.equalsIgnoreCase("Dietas")) {
+        if (entidad.equalsIgnoreCase("Tratamientos")) {
             String atributosDietas[] = {"", "ID", "Nombre", "Paciente", "Fecha Inicial", "Fecha Final", "Peso Final", "Estado"};
             at = atributosDietas;
         }
@@ -1126,6 +1361,10 @@ public class ViewBuscar extends javax.swing.JPanel {
         if (entidad.equalsIgnoreCase("Consultas")) {
             String atributosConsultas[] = {"", "ID", "Paciente", "Fecha", "Peso actual"};
             at = atributosConsultas;
+        }
+        if (entidad.equalsIgnoreCase("Dietas")) {
+            String atributos[] = {"", "ID", "Comida", "Tratamiento", "Porcion", "Horario", "Estado"};
+            at = atributos;
         }
         if (entidad.equalsIgnoreCase("")) {
             String atributos[] = {""};
@@ -1141,12 +1380,18 @@ public class ViewBuscar extends javax.swing.JPanel {
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonSalir;
     private javax.swing.JComboBox<String> jComboBoxAtributos;
+    private javax.swing.JComboBox<Comida> jComboBoxComidas;
     private javax.swing.JComboBox<String> jComboBoxEntidades;
+    private javax.swing.JComboBox<String> jComboBoxHorarios;
     private javax.swing.JComboBox<Paciente> jComboBoxPacientes;
+    private javax.swing.JComboBox<Dieta> jComboBoxTratamientos;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JRadioButton jRadioButtonActivo;
     private javax.swing.JRadioButton jRadioButtonAmbos;
     private javax.swing.JRadioButton jRadioButtonInactivo;

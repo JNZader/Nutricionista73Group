@@ -15,24 +15,39 @@ import javax.swing.table.DefaultTableModel;
 
 public class ViewComida extends javax.swing.JPanel {
 
-    ComidaDAO ComiData;
-    DefaultTableModel mod;
+    private ComidaDAO ComiData;
+    private DefaultTableModel mod;
+    private Comida comidaActual;
 
     public ViewComida() {
         initComponents();
         mod = (DefaultTableModel) tablaComida.getModel();
         llenarTabla();
+        jBmodifComida.setEnabled(false);
+        checkActivos.setSelected(true);
     }
-    
-    public ViewComida(Comida comida){
+
+    public ViewComida(Comida comida) {
         this();
-        
+        this.comidaActual = comida;
+        llenarDatos(comida);
+        jBmodifComida.setEnabled(true);
+        jBagregarComida.setEnabled(false);
+    }
+
+    private void llenarDatos(Comida comida) {
+
+        jTnombreComida.setText(comida.getNombre());
+        jTdetalleComida.setText(comida.getDetalle());
+        jTcantCalorias.setText(comida.getCantCalorias() + "");
+        jCestadoComida.setSelected(comida.isEstado());
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -48,10 +63,11 @@ public class ViewComida extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaComida = new javax.swing.JTable();
-        checkTodos = new javax.swing.JCheckBox();
-        checkActivos = new javax.swing.JCheckBox();
-        checkInactivos = new javax.swing.JCheckBox();
         botonEliminar = new javax.swing.JButton();
+        jBmodifComida = new javax.swing.JButton();
+        checkInactivos = new javax.swing.JRadioButton();
+        checkActivos = new javax.swing.JRadioButton();
+        checkTodos = new javax.swing.JRadioButton();
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel2.setText("INGRESO DE COMIDAS");
@@ -139,20 +155,21 @@ public class ViewComida extends javax.swing.JPanel {
             tablaComida.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        checkTodos.setText("Todos");
-        checkTodos.addActionListener(new java.awt.event.ActionListener() {
+        botonEliminar.setText("Eliminar");
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkTodosActionPerformed(evt);
+                botonEliminarActionPerformed(evt);
             }
         });
 
-        checkActivos.setText("Activos");
-        checkActivos.addActionListener(new java.awt.event.ActionListener() {
+        jBmodifComida.setText("Modificar Comida");
+        jBmodifComida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkActivosActionPerformed(evt);
+                jBmodifComidaActionPerformed(evt);
             }
         });
 
+        buttonGroup1.add(checkInactivos);
         checkInactivos.setText("Inactivos");
         checkInactivos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,10 +177,19 @@ public class ViewComida extends javax.swing.JPanel {
             }
         });
 
-        botonEliminar.setText("Eliminar");
-        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(checkActivos);
+        checkActivos.setText("Activos");
+        checkActivos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonEliminarActionPerformed(evt);
+                checkActivosActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(checkTodos);
+        checkTodos.setText("Todos");
+        checkTodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkTodosActionPerformed(evt);
             }
         });
 
@@ -193,7 +219,10 @@ public class ViewComida extends javax.swing.JPanel {
                                         .addComponent(jLabel4)
                                         .addGap(18, 18, 18)
                                         .addComponent(jTdetalleComida, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jBagregarComida, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jBmodifComida)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jBagregarComida))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(jScrollPane2))
@@ -244,7 +273,9 @@ public class ViewComida extends javax.swing.JPanel {
                             .addComponent(jLabel7)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addComponent(jBagregarComida)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jBagregarComida)
+                            .addComponent(jBmodifComida))))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -252,12 +283,14 @@ public class ViewComida extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonSalir)
-                    .addComponent(checkTodos)
-                    .addComponent(checkActivos)
-                    .addComponent(checkInactivos)
-                    .addComponent(botonEliminar))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(checkInactivos)
+                        .addComponent(checkActivos)
+                        .addComponent(checkTodos))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(botonSalir)
+                        .addComponent(botonEliminar)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -276,9 +309,8 @@ public class ViewComida extends javax.swing.JPanel {
                 String nc = jTnombreComida.getText();
                 String dc = jTdetalleComida.getText();
                 boolean estc = jCestadoComida.getVerifyInputWhenFocusTarget();
-                Comida comida = new Comida(cantc, nc, dc, estc);
-                ComiData.insertar(comida);
-                llenarTabla();
+                Comida com = ComiData.insertar(new Comida(cantc, nc, dc, estc));
+
                 jTnombreComida.setText(null);
                 jTdetalleComida.setText(null);
                 jTcantCalorias.setText(null);
@@ -295,9 +327,10 @@ public class ViewComida extends javax.swing.JPanel {
     }
 
     public void llenarTabla() {
+        int estado = checkInactivos.isSelected() ? 0 : (checkActivos.isSelected() ? 1 : (checkTodos.isSelected() ? 3 : -1));
 
         ComidaDAO codao = new ComidaDAO();
-        ArrayList<Comida> comidas = codao.listarComidas(3);
+        ArrayList<Comida> comidas = codao.listarComidas(estado);
         limpiarTabla();
         if (comidas != null) {
             for (Comida aux : comidas) {
@@ -316,49 +349,49 @@ public class ViewComida extends javax.swing.JPanel {
         }
     }
 
-public void llenarTablaActivos() {
-
-        ComidaDAO codao = new ComidaDAO();
-        ArrayList<Comida> comidas = codao.listarComidas(1);
-        limpiarTabla();
-        if (comidas != null) {
-            for (Comida aux : comidas) {
-                Object[] filas = new Object[5];
-                filas[0] = aux.getIdComida();
-                filas[1] = aux.getNombre();
-                filas[2] = aux.getDetalle();
-                filas[3] = aux.getCantCalorias();
-                if (aux.isEstado()) {
-                    filas[4] = "Activo";
-                } else {
-                    filas[4] = "Inactivo";
-                }
-                mod.addRow(filas);
-            }
-        }
-    }
-
-public void llenarTablaInactivos() {
-
-        ComidaDAO codao = new ComidaDAO();
-        ArrayList<Comida> comidas = codao.listarComidas(0);
-        limpiarTabla();
-        if (comidas != null) {
-            for (Comida aux : comidas) {
-                Object[] filas = new Object[5];
-                filas[0] = aux.getIdComida();
-                filas[1] = aux.getNombre();
-                filas[2] = aux.getDetalle();
-                filas[3] = aux.getCantCalorias();
-                if (aux.isEstado()) {
-                    filas[4] = "Activo";
-                } else {
-                    filas[4] = "Inactivo";
-                }
-                mod.addRow(filas);
-            }
-        }
-    }
+//    public void llenarTablaActivos() {
+//
+//        ComidaDAO codao = new ComidaDAO();
+//        ArrayList<Comida> comidas = codao.listarComidas(1);
+//        limpiarTabla();
+//        if (comidas != null) {
+//            for (Comida aux : comidas) {
+//                Object[] filas = new Object[5];
+//                filas[0] = aux.getIdComida();
+//                filas[1] = aux.getNombre();
+//                filas[2] = aux.getDetalle();
+//                filas[3] = aux.getCantCalorias();
+//                if (aux.isEstado()) {
+//                    filas[4] = "Activo";
+//                } else {
+//                    filas[4] = "Inactivo";
+//                }
+//                mod.addRow(filas);
+//            }
+//        }
+//    }
+//
+//    public void llenarTablaInactivos() {
+//
+//        ComidaDAO codao = new ComidaDAO();
+//        ArrayList<Comida> comidas = codao.listarComidas(0);
+//        limpiarTabla();
+//        if (comidas != null) {
+//            for (Comida aux : comidas) {
+//                Object[] filas = new Object[5];
+//                filas[0] = aux.getIdComida();
+//                filas[1] = aux.getNombre();
+//                filas[2] = aux.getDetalle();
+//                filas[3] = aux.getCantCalorias();
+//                if (aux.isEstado()) {
+//                    filas[4] = "Activo";
+//                } else {
+//                    filas[4] = "Inactivo";
+//                }
+//                mod.addRow(filas);
+//            }
+//        }
+//    }
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
         Dashboard db = new Dashboard();
@@ -390,55 +423,79 @@ public void llenarTablaInactivos() {
         }
     }//GEN-LAST:event_jTcantCaloriasKeyTyped
 
-    private void checkTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkTodosActionPerformed
-        llenarTabla();
-        checkTodos.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Deseleccionar los otros checkboxes
-                checkActivos.setSelected(false);
-                checkInactivos.setSelected(false);
-            }
-        });
-    }//GEN-LAST:event_checkTodosActionPerformed
-
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = tablaComida.getSelectedRow();
+        ComidaDAO comidaDAO = new ComidaDAO();
+        if (selectedRow != -1) {
+            int idcomida = (int) tablaComida.getValueAt(selectedRow, 0);
+            int estado = "Activo".equals((String) tablaComida.getValueAt(selectedRow, 4)) ? 1 : 0;
+            Comida comida = comidaDAO.buscar(idcomida, estado);
+            if (comida != null) {
+                comidaDAO.borrarTotal(comida);
+            }
+        }
+        limpiarTabla();
+        llenarTabla();
     }//GEN-LAST:event_botonEliminarActionPerformed
 
-    private void checkInactivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInactivosActionPerformed
-        llenarTablaInactivos();
-        checkInactivos.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Deseleccionar los otros checkboxes
-                checkTodos.setSelected(false);
-                checkActivos.setSelected(false);
+    private void jBmodifComidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBmodifComidaActionPerformed
+        ComiData = new ComidaDAO();
+        if (comidaActual != null) {
+            try {
+                if (jTnombreComida.getText().isEmpty()
+                        || jTdetalleComida.getText().isEmpty()
+                        || jTcantCalorias.getText().isEmpty()
+                        || !jCestadoComida.isSelected()) {
+                    JOptionPane.showMessageDialog(this, "Ingrese todos los valores");
+                } else {
+                    int cantc = Integer.parseInt(jTcantCalorias.getText());
+                    String nc = jTnombreComida.getText();
+                    String dc = jTdetalleComida.getText();
+                    boolean estc = jCestadoComida.isSelected();
+
+                    comidaActual.setNombre(nc);
+                    comidaActual.setDetalle(dc);
+                    comidaActual.setCantCalorias(cantc);
+                    comidaActual.setEstado(estc);
+
+                    ComiData.modificar(comidaActual);
+
+                    jTnombreComida.setText(null);
+                    jTdetalleComida.setText(null);
+                    jTcantCalorias.setText(null);
+                    jCestadoComida.setSelected(false);
+                    jBmodifComida.setEnabled(false);
+                    jBagregarComida.setEnabled(true);
+                    llenarTabla();
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace(System.out);
             }
-        });
+        }
+    }//GEN-LAST:event_jBmodifComidaActionPerformed
+
+    private void checkInactivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInactivosActionPerformed
+        llenarTabla();
     }//GEN-LAST:event_checkInactivosActionPerformed
 
     private void checkActivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkActivosActionPerformed
-       // limpiarTabla();
-        llenarTablaActivos();
-      checkActivos.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Deseleccionar los otros checkboxes
-                checkTodos.setSelected(false);
-                checkInactivos.setSelected(false);
-            }
-        });
+        llenarTabla();
     }//GEN-LAST:event_checkActivosActionPerformed
+
+    private void checkTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkTodosActionPerformed
+        llenarTabla();
+    }//GEN-LAST:event_checkTodosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonSalir;
-    private javax.swing.JCheckBox checkActivos;
-    private javax.swing.JCheckBox checkInactivos;
-    private javax.swing.JCheckBox checkTodos;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton checkActivos;
+    private javax.swing.JRadioButton checkInactivos;
+    private javax.swing.JRadioButton checkTodos;
     private javax.swing.JButton jBagregarComida;
+    private javax.swing.JButton jBmodifComida;
     private javax.swing.JRadioButton jCestadoComida;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

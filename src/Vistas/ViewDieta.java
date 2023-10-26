@@ -11,7 +11,6 @@ import java.awt.Toolkit;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AttributeSet;
@@ -66,6 +65,7 @@ public class ViewDieta extends javax.swing.JPanel {
 
         }
     }
+
  
     public void llenarcomboBoxComidas(){
         
@@ -76,7 +76,7 @@ public class ViewDieta extends javax.swing.JPanel {
       for (Comida comi :comidas) {//itera a traves de la lista y agrega cada materia al combobox
            jComboBoxComidas.addItem(comi );
        
-    }
+    
 //    public void habilitarBoton() {
 ////        if (!jTid.getText().isEmpty() && !jtnombre.getText().isEmpty()) {// verifica que jTapellido y jTnombre no esten vacios
 ////            jBlimpiar.setEnabled(true);//si ambos campos tienen contenido habilita el boton Nuevo
@@ -85,6 +85,20 @@ public class ViewDieta extends javax.swing.JPanel {
 ////        }
 //
 //    }
+        }
+    
+   }  
+    
+    
+
+    public void habilitarBoton() {
+//        if (!jTid.getText().isEmpty() && !jtnombre.getText().isEmpty()) {// verifica que jTapellido y jTnombre no esten vacios
+//            jBlimpiar.setEnabled(true);//si ambos campos tienen contenido habilita el boton Nuevo
+//        } else {
+//            jBlimpiar.setEnabled(false);// si alguno de los campos esta vacio deshabilita el boton Nuevo
+//        }
+
+
     }
     public void comboBoxHorario (){
        
