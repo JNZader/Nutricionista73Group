@@ -141,13 +141,13 @@ public class DietaComidaDAO {
 
         switch (estado) {
             case 1:
-                SQL_SELECT_ID = "SELECT iddietacomida, idComida, idDieta, porcion, horario, estado FROM dietacomida WHERE id = ? AND estado=1";
+                SQL_SELECT_ID = "SELECT iddietacomida, idComida, idDieta, porcion, horario, estado FROM dietacomida WHERE iddietacomida = ? AND estado=1";
                 break;
             case 0:
-                SQL_SELECT_ID = "SELECT iddietacomida, idComida, idDieta, porcion, horario, estado FROM dietacomida WHERE id = ? AND estado=0";
+                SQL_SELECT_ID = "SELECT iddietacomida, idComida, idDieta, porcion, horario, estado FROM dietacomida WHERE iddietacomida = ? AND estado=0";
                 break;
             default:
-                SQL_SELECT_ID = "SELECT iddietacomida, idComida, idDieta, porcion, horario, estado FROM dietacomida WHERE id = ?";
+                SQL_SELECT_ID = "SELECT iddietacomida, idComida, idDieta, porcion, horario, estado FROM dietacomida WHERE iddietacomida = ?";
                 break;
         }
 
@@ -372,5 +372,23 @@ public class DietaComidaDAO {
             JOptionPane.showMessageDialog(null, "Error al buscar DietasComidas por horario");
         }
         return dietaComidaList;
+    }
+
+    public void anularDietaComida(int idDietaComida) {
+        String SQL_UPDATE_ESTADO = "UPDATE dietacomida SET estado = 0 WHERE iddietacomida = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE_ESTADO)) {
+            ps.setInt(1, idDietaComida);
+
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(null, "DietaComida anulada con éxito");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo anular la DietaComida");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al anular la DietaComida");
+        }
     }
 }
