@@ -75,7 +75,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         jRadioButtonActivo.setSelected(true);
         jButtonAnular.setEnabled(false);
         jTextField1.setEditable(false);
-        ((JTextFieldDateEditor)jDateChooser1.getDateEditor()).setEditable(false);
+        ((JTextFieldDateEditor) jDateChooser1.getDateEditor()).setEditable(false);
         jComboBoxAtributos.addItemListener(event -> {
             if (event.getStateChange() == ItemEvent.SELECTED) {
                 jLabel3.setText(event.getItem().toString() + ":");
@@ -565,7 +565,9 @@ public class ViewBuscar extends javax.swing.JPanel {
         if (jComboBoxEntidades.getSelectedIndex() > 0
                 && jComboBoxAtributos.getSelectedIndex() > 0
                 && (jComboBoxAtributos.getSelectedItem() == null || !jComboBoxAtributos.getSelectedItem().toString().equals("Paciente")
-                || (jComboBoxAtribSelect.getSelectedItem() != null))) {
+                || (jComboBoxAtribSelect.getSelectedItem() != null))
+                && (jComboBoxAtribSelect.isEnabled() && jComboBoxAtribSelect.isShowing()
+                && jComboBoxAtribSelect.getSelectedIndex() > 0)) {
             jButtonBuscar.setEnabled(true);
             if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() < jTable1.getModel().getRowCount()) {
                 jButtonEditar.setEnabled(true);
@@ -1156,10 +1158,10 @@ public class ViewBuscar extends javax.swing.JPanel {
             jDateChooser1.setEnabled(true);
         }
 
-        if (atributoSelect.equals("Paciente") 
-            || atributoSelect.equals("Horario") 
-            || atributoSelect.equals("Tratamiento") 
-            || atributoSelect.equals("Comida")) {
+        if (atributoSelect.equals("Paciente")
+                || atributoSelect.equals("Horario")
+                || atributoSelect.equals("Tratamiento")
+                || atributoSelect.equals("Comida")) {
             jTextField1.setEditable(false);
             jComboBoxAtribSelect.setEnabled(true);
             jComboBoxAtribSelect.removeAllItems();
