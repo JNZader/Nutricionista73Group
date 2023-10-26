@@ -5,6 +5,7 @@ import Conexion.DietaDAO;
 import Conexion.PacienteDAO;
 import Entidades.Comida;
 import Entidades.Dieta;
+import Entidades.DietaComida;
 import Entidades.Horario;
 import Entidades.Paciente;
 import java.awt.Toolkit;
@@ -40,6 +41,10 @@ public class ViewDieta extends javax.swing.JPanel {
     }
 
     public ViewDieta(Dieta dieta) {
+        this();
+
+    }
+    public ViewDieta(DietaComida dietaComida) {
         this();
 
     }
