@@ -5,6 +5,7 @@ import Conexion.DietaDAO;
 import Conexion.PacienteDAO;
 import Entidades.Comida;
 import Entidades.Dieta;
+import Entidades.Horario;
 import Entidades.Paciente;
 import java.awt.Toolkit;
 import java.time.LocalDate;
@@ -29,6 +30,7 @@ public class ViewDieta extends javax.swing.JPanel {
         llenarCabecera();
         llenarTablaDietaDisponibles();
         llenarcomboBoxComidas();
+        comboBoxHorario () ;
         filtroNumeros = new FiltraEntrada(FiltraEntrada.SOLO_NUMEROS);
         filtroLetras = new FiltraEntrada(FiltraEntrada.SOLO_LETRAS);
 
@@ -64,14 +66,30 @@ public class ViewDieta extends javax.swing.JPanel {
         }
     }
 
-    public void llenarcomboBoxComidas() {
-        ComidaDAO comida = new ComidaDAO();
-        ArrayList<Comida> comidas = comida.listarComidas(1);
-        jComboBoxComidas.addItem(null);
-
-//       for (Comida comi :comidas) {//itera a traves de la lista y agrega cada materia al combobox
-//            jCombo.addElement (comi);
-    }
+ 
+    public void llenarcomboBoxComidas(){
+        
+      ComidaDAO comida= new ComidaDAO();
+      ArrayList<Comida> comidas= comida.listarComidas(1);
+      jComboBoxComidas.addItem(null);
+   
+      for (Comida comi :comidas) {//itera a traves de la lista y agrega cada materia al combobox
+           jComboBoxComidas.addItem(comi );
+       
+    
+//    public void habilitarBoton() {
+////        if (!jTid.getText().isEmpty() && !jtnombre.getText().isEmpty()) {// verifica que jTapellido y jTnombre no esten vacios
+////            jBlimpiar.setEnabled(true);//si ambos campos tienen contenido habilita el boton Nuevo
+////        } else {
+////            jBlimpiar.setEnabled(false);// si alguno de los campos esta vacio deshabilita el boton Nuevo
+////        }
+//
+//    }
+        }
+    
+   }  
+    
+    
 
     public void habilitarBoton() {
 //        if (!jTid.getText().isEmpty() && !jtnombre.getText().isEmpty()) {// verifica que jTapellido y jTnombre no esten vacios
@@ -80,8 +98,24 @@ public class ViewDieta extends javax.swing.JPanel {
 //            jBlimpiar.setEnabled(false);// si alguno de los campos esta vacio deshabilita el boton Nuevo
 //        }
 
-    }
 
+    }
+    public void comboBoxHorario (){
+       
+        ArrayList<Horario> horario = new ArrayList<> ();
+        jComboBoxHorario.addItem(null);
+           horario.add(Horario.DESAYUNO);
+       horario.add(Horario.ALMUERZO);
+        horario.add(Horario.MERIENDA );
+        horario.add(Horario.CENA);
+        horario.add (Horario.SNACK) ;
+       
+   
+      for ( Horario hora :horario) {//itera a traves de la lista y agrega cada materia al combobox
+           jComboBoxHorario.addItem(hora );
+           
+      }     
+      }  
     public void llenarCabecera() {
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
@@ -244,7 +278,6 @@ public class ViewDieta extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setText("Horario");
 
-        jComboBoxHorario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Desayuno", "Almuerzo", "Merienda", "Cena", "Snacks" }));
         jComboBoxHorario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxHorarioActionPerformed(evt);
@@ -507,12 +540,12 @@ public class ViewDieta extends javax.swing.JPanel {
 
     private void jtnombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtnombreKeyReleased
         // TODO add your handling code here:
-        habilitarBoton();
+//        habilitarBoton();
     }//GEN-LAST:event_jtnombreKeyReleased
 
     private void jComboPacienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboPacienteKeyReleased
         // TODO add your handling code here:
-        habilitarBoton();
+//        habilitarBoton();
     }//GEN-LAST:event_jComboPacienteKeyReleased
 
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
@@ -640,8 +673,8 @@ public class ViewDieta extends javax.swing.JPanel {
     private javax.swing.JButton jBGuardar;
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCbEstado;
-    private javax.swing.JComboBox<String> jComboBoxComidas;
-    private javax.swing.JComboBox<String> jComboBoxHorario;
+    private javax.swing.JComboBox<Comida> jComboBoxComidas;
+    private javax.swing.JComboBox<Horario> jComboBoxHorario;
     private javax.swing.JComboBox<String> jComboBoxPorcion;
     private javax.swing.JComboBox<Paciente> jComboPaciente;
     private com.toedter.calendar.JDateChooser jDChoFeInicial;
