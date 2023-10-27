@@ -363,13 +363,15 @@ public class DietaDAO {
 
     public ArrayList<String[]> listarPacientesNoAlcanzaronPesoObjetivo() {
         ArrayList<String[]> pacientesData = new ArrayList<>();
-        String SQL_SELECT = "SELECT p.idPaciente, p.nombreCompleto, MAX(c.pesoActual) AS pesoActual, d.pesoFinal, d.fechaFin "
-                + "FROM paciente p "
-                + "JOIN dieta d ON p.idPaciente = d.idPaciente "
-                + "LEFT JOIN consulta c ON p.idPaciente = c.idPaciente "
-                + "WHERE d.fechaFin <= CURDATE() AND d.estado = 1 " // Agrega la condición de dieta activa
-                + "GROUP BY p.idPaciente, d.pesoFinal "
-                + "HAVING pesoActual < d.pesoFinal";
+        String SQL_SELECT = "SELECT d.idDieta, d.nombre, d.idPaciente, d.fechaInicio, d.fechaFin, d.pesoFinal, c.pesoActual\n"
+                + "FROM dieta d\n"
+                + "JOIN (\n"
+                + "    SELECT idPaciente, MAX(fecha) AS max_fecha\n"
+                + "    FROM consulta\n"
+                + "    GROUP BY idPaciente\n"
+                + ") subquery ON d.idPaciente = subquery.idPaciente\n"
+                + "LEFT JOIN consulta c ON d.idPaciente = c.idPaciente AND subquery.max_fecha = c.fecha\n"
+                + "WHERE d.estado = 1";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT); ResultSet rs = ps.executeQuery()) {
             System.out.println("2");
@@ -378,7 +380,7 @@ public class DietaDAO {
                 System.out.println("3");
                 pacienteData[0] = String.valueOf(rs.getInt("idPaciente"));
                 System.out.println(rs.getDouble("pesoActual"));
-                pacienteData[1] = rs.getString("nombreCompleto");
+                pacienteData[1] = rs.getString("nombre");
                 pacienteData[2] = String.valueOf(rs.getDouble("pesoActual"));
                 pacienteData[3] = String.valueOf(rs.getDouble("pesoFinal"));
                 pacienteData[4] = rs.getDate("fechaFin").toString();
