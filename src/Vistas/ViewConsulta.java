@@ -89,6 +89,8 @@ public class ViewConsulta extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
 
         setBackground(new java.awt.Color(180, 220, 160));
+        setMaximumSize(new java.awt.Dimension(840, 690));
+        setMinimumSize(new java.awt.Dimension(840, 690));
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

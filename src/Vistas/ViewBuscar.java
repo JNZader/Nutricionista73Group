@@ -630,6 +630,9 @@ public class ViewBuscar extends javax.swing.JPanel {
         jButtonAnular = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(180, 220, 160));
+        setMaximumSize(new java.awt.Dimension(840, 690));
+        setMinimumSize(new java.awt.Dimension(840, 690));
+        setPreferredSize(new java.awt.Dimension(840, 690));
 
         jComboBoxEntidades.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Comidas", "Consultas", "Tratamientos", "Pacientes", "Dietas" }));
         jComboBoxEntidades.addItemListener(new java.awt.event.ItemListener() {

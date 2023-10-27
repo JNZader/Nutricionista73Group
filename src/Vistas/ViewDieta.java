@@ -242,7 +242,9 @@ public class ViewDieta extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(180, 220, 160));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(755, 692));
+        setMaximumSize(new java.awt.Dimension(840, 690));
+        setMinimumSize(new java.awt.Dimension(840, 690));
+        setPreferredSize(new java.awt.Dimension(840, 690));
 
         jlNombre.setBackground(new java.awt.Color(51, 51, 51));
         jlNombre.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
