@@ -1,6 +1,7 @@
 package Vistas;
 
 import Conexion.ComidaDAO;
+import Conexion.DietaComidaDAO;
 import Conexion.DietaDAO;
 import Conexion.PacienteDAO;
 import Entidades.Comida;
@@ -31,7 +32,7 @@ public class ViewDieta extends javax.swing.JPanel {
         llenarComboBox();
         llenarCabecera();
         llenarTablaDietaDisponibles();
-        llenarTablaDetalleDieta () ;
+//        llenarTablaDetalleDieta(dietaComida) ;
         llenarcomboBoxComidas();
         comboBoxHorario();
         llenarCabeceraDetalle () ;
@@ -149,17 +150,12 @@ public void llenarCabeceraDetalle () {
         jTablaDietaDispo.setModel(modelo);// es
 
     }
-    public void llenarTablaDetalleDieta (){
+    public void llenarTablaDetalleDieta (DietaComida i){
         
-    actualizarTabla();
-        ComidaDAO comid = new ComidaDAO();
-
-        ArrayList<Comida> buscar = comid.buscarXCantCalorias(1,1);
-        //itera a traves de la lista de materias cursadas y agrega cada una como una fila en la tabla
-        for (Comida i : buscar) {
-//           modelo.addRow(new Object[]{materia.getIdMateria(), materia.getNombre(), materia.getAño()});
-            modelo.addRow(new Object[]{i.getIdComida(), i.getNombre(), i.getCantCalorias(), i.getDetalle(),i.isEstado()});
-        }
+        actualizarTablaDos();
+       
+        mode.addRow(new Object[]{i.getId(), i.getComida(), i.getPorcion(),i.getHorario()});
+        
         jTablaDetalleDieta.setModel(mode);// es
 
     
@@ -213,7 +209,7 @@ public void actualizarTablaDos() {
         jTablaDetalleDieta = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jbModificarDieta = new javax.swing.JButton();
         jtfPorcion = new javax.swing.JTextField();
         jbModificar = new javax.swing.JButton();
 
@@ -356,13 +352,13 @@ public void actualizarTablaDos() {
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel5.setText("Dietas Disponibles");
 
-        jButton1.setBackground(new java.awt.Color(0, 255, 255));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(51, 51, 51));
-        jButton1.setText("Modificar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbModificarDieta.setBackground(new java.awt.Color(0, 255, 255));
+        jbModificarDieta.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jbModificarDieta.setForeground(new java.awt.Color(51, 51, 51));
+        jbModificarDieta.setText("Modificar");
+        jbModificarDieta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbModificarDietaActionPerformed(evt);
             }
         });
 
@@ -432,7 +428,7 @@ public void actualizarTablaDos() {
                             .addComponent(jLabel4)
                             .addComponent(jScrollPaneDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(jbModificarDieta)
                                 .addGap(99, 99, 99))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(40, 40, 40)
@@ -467,7 +463,7 @@ public void actualizarTablaDos() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBGuardar)
-                    .addComponent(jButton1))
+                    .addComponent(jbModificarDieta))
                 .addGap(27, 27, 27)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
@@ -597,18 +593,26 @@ public void actualizarTablaDos() {
         
        try {//recopila los datos de los textfield, radio button y jdatechosser y los guarda en diferentes variables
            if ( jComboBoxComidas.getSelectedItem() == null ||  jComboBoxHorario.getSelectedItem() == null
-             || jtfPorcion.getText().isEmpty()) {
-               JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
-
+             || jtfPorcion.getText().isEmpty()|| jTablaDietaDispo.getSelectedRow()== -1 )  {
+               
+            if (jTablaDietaDispo.getSelectedRow()== -1 ){
+                 JOptionPane.showMessageDialog(this, "Seleccione una dieta de la tabla" );
+            }else{
+               JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos."); 
+            }
            } else {
-//
-               ComidaDAO comida = new ComidaDAO () ;
-               Comida comi = new Comida(200, "Lentejas","con arroz",true) ;
-               Horario horario ;
+//                      
+               DietaComidaDAO comidaDie = new DietaComidaDAO () ;
+               DietaDAO dieta = new DietaDAO () ;
+               Dieta diet =dieta.buscarPorId((int)jTablaDietaDispo.getValueAt(jTablaDietaDispo.getSelectedRow(),0 ), 1);  // cree una dieta budcando por id y el idlo consigue a travez de la tabla getvalue med devuelveun objeto que se encuentra en la celda ij donde i es el valor de la fila conseguido por el metodo getSelectRow y j es lacolumna. 
+               ComidaDAO comi = new ComidaDAO () ;
+              
                int porcion = Integer.parseInt(jtfPorcion.getText());
-                
-               comida.insertar(comi);
-               llenarTablaDetalleDieta () ;
+               Comida comidas = (Comida) jComboBoxComidas.getSelectedItem();
+               Horario horarios = (Horario) jComboBoxHorario.getSelectedItem() ;
+               DietaComida dietaComida = new DietaComida(comidas,diet,porcion,horarios,true) ;
+               comidaDie.insertar(dietaComida);
+               llenarTablaDetalleDieta (dietaComida) ;
 //
            }
        } catch (NumberFormatException e) {
@@ -696,9 +700,41 @@ public void actualizarTablaDos() {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxHorarioActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jbModificarDietaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarDietaActionPerformed
+        
+     DietaDAO dieta = new DietaDAO();
+     Dieta di = new Dieta() ;
+       if (di != null) {
+           try {
+               if (jComboBoxComidas.getSelectedItem() == null ||  jComboBoxHorario.getSelectedItem() == null
+            || jtfPorcion.getText().isEmpty()) {
+                   JOptionPane.showMessageDialog(this, "Ingrese todos los valores");
+               } else {
+                 int porcion = Integer.parseInt(jtfPorcion.getText());
+                jComboBoxComidas.getSelectedItem();
+                jComboBoxHorario.getSelectedItem() ;
+              
+//                    comidaActual.setNombre(nc);
+//                    comidaActual.setDetalle(dc);
+//                    comidaActual.setCantCalorias(cantc);
+//                    comidaActual.setEstado(estc);
+//
+//                    ComiData.modificar(comidaActual);
+//
+//                    jTnombreComida.setText(null);
+//                    jTdetalleComida.setText(null);
+//                    jTcantCalorias.setText(null);
+//                    jCestadoComida.setSelected(false);
+//                    jBmodifComida.setEnabled(false);
+//                    jBagregarComida.setEnabled(true);
+//                    llenarTabla();
+               }
+           } catch (NumberFormatException e) {
+                e.printStackTrace(System.out);
+            }
+        }
+//        
+    }//GEN-LAST:event_jbModificarDietaActionPerformed
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
         // TODO add your handling code here:
@@ -707,7 +743,6 @@ public void actualizarTablaDos() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBGuardar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCbEstado;
     private javax.swing.JComboBox<Comida> jComboBoxComidas;
     private javax.swing.JComboBox<Horario> jComboBoxHorario;
@@ -725,6 +760,7 @@ public void actualizarTablaDos() {
     private javax.swing.JButton jbAgregar;
     private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbModificar;
+    private javax.swing.JButton jbModificarDieta;
     private javax.swing.JButton jbSalir;
     private com.toedter.calendar.JDateChooser jdatechoFechaFinal;
     private javax.swing.JLabel jlEstado;
