@@ -73,6 +73,8 @@ public class ViewPaciente extends javax.swing.JPanel {
         jLabel2.setText("jLabel2");
 
         setBackground(new java.awt.Color(180, 220, 160));
+        setMaximumSize(new java.awt.Dimension(840, 690));
+        setMinimumSize(new java.awt.Dimension(840, 690));
 
         jPanel1.setBackground(new java.awt.Color(160, 200, 140));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos ", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18))); // NOI18N
