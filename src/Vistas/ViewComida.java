@@ -315,7 +315,7 @@ public class ViewComida extends javax.swing.JPanel {
                 int cantc = Integer.parseInt(jTcantCalorias.getText());
                 String nc = jTnombreComida.getText();
                 String dc = jTdetalleComida.getText();
-                boolean estc = jCestadoComida.getVerifyInputWhenFocusTarget();
+                boolean estc = jCestadoComida.isSelected();
                 Comida com = ComiData.insertar(new Comida(cantc, nc, dc, estc));
 
                 jTnombreComida.setText(null);
