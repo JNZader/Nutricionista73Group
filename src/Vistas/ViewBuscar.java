@@ -140,8 +140,14 @@ public class ViewBuscar extends javax.swing.JPanel {
                 for (int i = 0; i < jTable1.getColumnCount(); i++) {
                     jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
                 }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
                 jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(3).setMinWidth(100);
+                jTable1.getColumnModel().getColumn(3).setMaxWidth(100);
                 jTable1.getColumnModel().getColumn(3).setWidth(100);
                 break;
 
@@ -179,9 +185,17 @@ public class ViewBuscar extends javax.swing.JPanel {
                 for (int i = 0; i < jTable1.getColumnCount(); i++) {
                     jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
                 }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
                 jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(6).setMinWidth(100);
+                jTable1.getColumnModel().getColumn(6).setMaxWidth(100);
                 jTable1.getColumnModel().getColumn(6).setWidth(100);
+                jTable1.getColumnModel().getColumn(7).setMinWidth(50);
+                jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(7).setWidth(50);
                 break;
 
@@ -219,9 +233,17 @@ public class ViewBuscar extends javax.swing.JPanel {
                 for (int i = 0; i < jTable1.getColumnCount(); i++) {
                     jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
                 }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
                 jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(6).setMinWidth(100);
+                jTable1.getColumnModel().getColumn(6).setMaxWidth(100);
                 jTable1.getColumnModel().getColumn(6).setWidth(100);
+                jTable1.getColumnModel().getColumn(7).setMinWidth(50);
+                jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(7).setWidth(50);
                 break;
             case "Comida":
@@ -257,9 +279,17 @@ public class ViewBuscar extends javax.swing.JPanel {
                 for (int i = 0; i < jTable1.getColumnCount(); i++) {
                     jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
                 }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
                 jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(4).setMinWidth(150);
+                jTable1.getColumnModel().getColumn(4).setMaxWidth(150);
                 jTable1.getColumnModel().getColumn(4).setWidth(150);
+                jTable1.getColumnModel().getColumn(5).setMinWidth(50);
+                jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(5).setWidth(50);
                 break;
             case "DietaComida":
@@ -295,8 +325,14 @@ public class ViewBuscar extends javax.swing.JPanel {
                 for (int i = 0; i < jTable1.getColumnCount(); i++) {
                     jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
                 }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
                 jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(40);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(40);
                 jTable1.getColumnModel().getColumn(1).setWidth(40);
+                jTable1.getColumnModel().getColumn(6).setMinWidth(50);
+                jTable1.getColumnModel().getColumn(6).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(6).setWidth(50);
                 break;
             default:
@@ -333,8 +369,14 @@ public class ViewBuscar extends javax.swing.JPanel {
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
         }
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(40);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(40);
         jTable1.getColumnModel().getColumn(1).setWidth(40);
+        jTable1.getColumnModel().getColumn(6).setMinWidth(50);
+        jTable1.getColumnModel().getColumn(6).setMaxWidth(50);
         jTable1.getColumnModel().getColumn(6).setWidth(50);
     }
 
@@ -367,9 +409,17 @@ public class ViewBuscar extends javax.swing.JPanel {
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
         }
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
         jTable1.getColumnModel().getColumn(1).setWidth(30);
+        jTable1.getColumnModel().getColumn(4).setMinWidth(150);
+        jTable1.getColumnModel().getColumn(4).setMaxWidth(150);
         jTable1.getColumnModel().getColumn(4).setWidth(150);
+        jTable1.getColumnModel().getColumn(5).setMinWidth(50);
+        jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
         jTable1.getColumnModel().getColumn(5).setWidth(50);
 
     }
@@ -397,8 +447,14 @@ public class ViewBuscar extends javax.swing.JPanel {
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
         }
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
         jTable1.getColumnModel().getColumn(1).setWidth(30);
+        jTable1.getColumnModel().getColumn(3).setMinWidth(100);
+        jTable1.getColumnModel().getColumn(3).setMaxWidth(100);
         jTable1.getColumnModel().getColumn(3).setWidth(100);
 
     }
@@ -434,8 +490,14 @@ public class ViewBuscar extends javax.swing.JPanel {
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
         }
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
         jTable1.getColumnModel().getColumn(1).setWidth(30);
+        jTable1.getColumnModel().getColumn(7).setMinWidth(50);
+        jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
         jTable1.getColumnModel().getColumn(7).setWidth(50);
     }
 
@@ -470,8 +532,14 @@ public class ViewBuscar extends javax.swing.JPanel {
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
         }
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
         jTable1.getColumnModel().getColumn(1).setWidth(30);
+        jTable1.getColumnModel().getColumn(7).setMinWidth(50);
+        jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
         jTable1.getColumnModel().getColumn(7).setWidth(50);
 
     }
