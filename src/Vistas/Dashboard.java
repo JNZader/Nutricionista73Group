@@ -300,7 +300,13 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+        ShowJPanel(new ViewControl());
+        jButton1.setBackground(defaultColor);
+        jButton2.setBackground(defaultColor);
+        jButton3.setBackground(defaultColor);
+        jButton4.setBackground(clickedColor);
+        jButton5.setBackground(defaultColor);
+        jButton6.setBackground(defaultColor); 
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
