@@ -14,8 +14,8 @@ public class ViewPaciente extends javax.swing.JPanel {
         initComponents();
         jBModificar.setEnabled(false);
         jBEliminar.setEnabled(false);
-        ViewBuscar VB=new ViewBuscar();
-        
+        ViewBuscar VB = new ViewBuscar();
+
 //        this.pintarImagen(this.iconoPaciente, "src/Vistas/imagenPaciente.png");
     }
 
@@ -40,6 +40,7 @@ public class ViewPaciente extends javax.swing.JPanel {
         }
 
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -61,6 +62,7 @@ public class ViewPaciente extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         jTID = new javax.swing.JTextField();
         jBBuscar = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jBGuardar = new javax.swing.JButton();
@@ -97,6 +99,30 @@ public class ViewPaciente extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel7.setText("Peso Actual");
 
+        jTNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTNombreKeyTyped(evt);
+            }
+        });
+
+        jTDni.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTDniKeyTyped(evt);
+            }
+        });
+
+        jTDomicilio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTDomicilioKeyTyped(evt);
+            }
+        });
+
+        jTTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTTelefonoKeyTyped(evt);
+            }
+        });
+
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel9.setText("ID");
 
@@ -108,6 +134,9 @@ public class ViewPaciente extends javax.swing.JPanel {
                 jBBuscarActionPerformed(evt);
             }
         });
+
+        jLabel10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel10.setText("Buscar paciente por DNI");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -127,11 +156,9 @@ public class ViewPaciente extends javax.swing.JPanel {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jChEstado))
+                        .addComponent(jTNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(226, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jTID, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTPesoActual, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
@@ -140,7 +167,12 @@ public class ViewPaciente extends javax.swing.JPanel {
                             .addComponent(jTDni, javax.swing.GroupLayout.Alignment.LEADING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jBBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))))
+                        .addGap(30, 30, 30))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jChEstado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel10)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,14 +199,19 @@ public class ViewPaciente extends javax.swing.JPanel {
                     .addComponent(jLabel7))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jChEstado))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jTID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(11, 11, 11))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jChEstado))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(jTID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(11, 11, 11))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jBGuardar.setBackground(new java.awt.Color(150, 200, 130));
@@ -383,6 +420,45 @@ public class ViewPaciente extends javax.swing.JPanel {
         jBEliminar.setEnabled(false);
         jBModificar.setEnabled(false);
     }//GEN-LAST:event_jBLimpiarActionPerformed
+
+    private void jTNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTNombreKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+
+        if (Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTNombreKeyTyped
+
+    private void jTDniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTDniKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+
+        if (jTDni.getText().length() >= 9) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTDniKeyTyped
+
+    private void jTDomicilioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTDomicilioKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTDomicilioKeyTyped
+
+    private void jTTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTTelefonoKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+
+        if (jTTelefono.getText().length() >= 9) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTTelefonoKeyTyped
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBBuscar;
     private javax.swing.JButton jBEliminar;
@@ -392,6 +468,7 @@ public class ViewPaciente extends javax.swing.JPanel {
     private javax.swing.JButton jBSalir;
     private javax.swing.JCheckBox jChEstado;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -420,30 +497,4 @@ public class ViewPaciente extends javax.swing.JPanel {
         jTID.setText("");
     }
 
-//private void pintarImagen(JLabel lbl, String ruta) {
-//    try {
-//        // Cargar la imagen
-//        this.imagen = new ImageIcon(ruta);
-//
-//        // Verificar si la imagen tiene dimensiones no nulas
-//        int width = this.imagen.getIconWidth();
-//        int height = this.imagen.getIconHeight();
-//
-//        // Obtener las dimensiones del JLabel después de que se haya agregado al contenedor y se haya validado el diseño
-//        int labelWidth = lbl.getWidth();
-//        int labelHeight = lbl.getHeight();
-//
-//        if (width > 0 && height > 0 && labelWidth > 0 && labelHeight > 0) {
-//            // Escalar la imagen y establecerla en el JLabel
-//            this.icono = new ImageIcon(this.imagen.getImage().getScaledInstance(labelWidth, labelHeight, Image.SCALE_SMOOTH));
-//            lbl.setIcon(this.icono);
-//            this.repaint();
-//        } else {
-//            System.out.println("La imagen o las dimensiones del JLabel tienen valores no válidos.");
-//        }
-//    } catch (Exception e) {
-//        System.out.println("Error al cargar la imagen: " + e.getMessage());
-//        e.printStackTrace(System.out);
-//    }
-//}
 }
