@@ -146,6 +146,9 @@ public class ViewBuscar extends javax.swing.JPanel {
                 jTable1.getColumnModel().getColumn(1).setMinWidth(30);
                 jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(3).setMinWidth(100);
+                jTable1.getColumnModel().getColumn(3).setMaxWidth(100);
+                jTable1.getColumnModel().getColumn(3).setWidth(100);
                 break;
 
             case "Dieta":
@@ -188,6 +191,9 @@ public class ViewBuscar extends javax.swing.JPanel {
                 jTable1.getColumnModel().getColumn(1).setMinWidth(30);
                 jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(6).setMinWidth(100);
+                jTable1.getColumnModel().getColumn(6).setMaxWidth(100);
+                jTable1.getColumnModel().getColumn(6).setWidth(100);
                 jTable1.getColumnModel().getColumn(7).setMinWidth(50);
                 jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(7).setWidth(50);
@@ -233,6 +239,9 @@ public class ViewBuscar extends javax.swing.JPanel {
                 jTable1.getColumnModel().getColumn(1).setMinWidth(30);
                 jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(6).setMinWidth(100);
+                jTable1.getColumnModel().getColumn(6).setMaxWidth(100);
+                jTable1.getColumnModel().getColumn(6).setWidth(100);
                 jTable1.getColumnModel().getColumn(7).setMinWidth(50);
                 jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(7).setWidth(50);
@@ -276,9 +285,9 @@ public class ViewBuscar extends javax.swing.JPanel {
                 jTable1.getColumnModel().getColumn(1).setMinWidth(30);
                 jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
-                jTable1.getColumnModel().getColumn(4).setMinWidth(80);
-                jTable1.getColumnModel().getColumn(4).setMaxWidth(80);
-                jTable1.getColumnModel().getColumn(4).setWidth(80);
+                jTable1.getColumnModel().getColumn(4).setMinWidth(150);
+                jTable1.getColumnModel().getColumn(4).setMaxWidth(150);
+                jTable1.getColumnModel().getColumn(4).setWidth(150);
                 jTable1.getColumnModel().getColumn(5).setMinWidth(50);
                 jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(5).setWidth(50);
@@ -406,6 +415,9 @@ public class ViewBuscar extends javax.swing.JPanel {
         jTable1.getColumnModel().getColumn(1).setMinWidth(30);
         jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
         jTable1.getColumnModel().getColumn(1).setWidth(30);
+        jTable1.getColumnModel().getColumn(4).setMinWidth(150);
+        jTable1.getColumnModel().getColumn(4).setMaxWidth(150);
+        jTable1.getColumnModel().getColumn(4).setWidth(150);
         jTable1.getColumnModel().getColumn(5).setMinWidth(50);
         jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
         jTable1.getColumnModel().getColumn(5).setWidth(50);
@@ -441,6 +453,10 @@ public class ViewBuscar extends javax.swing.JPanel {
         jTable1.getColumnModel().getColumn(1).setMinWidth(30);
         jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
         jTable1.getColumnModel().getColumn(1).setWidth(30);
+        jTable1.getColumnModel().getColumn(3).setMinWidth(100);
+        jTable1.getColumnModel().getColumn(3).setMaxWidth(100);
+        jTable1.getColumnModel().getColumn(3).setWidth(100);
+
     }
 
     private void llenarTabla(Dieta dieta) {
@@ -848,8 +864,12 @@ public class ViewBuscar extends javax.swing.JPanel {
                         }
                         break;
                     case "Nombre":
+                        if (!jTextField1.getText().isEmpty()) {
                         comidaDAO = new ComidaDAO();
                         llenarTabla(comidaDAO.buscarPorNombre(atributoTF, estado));
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Ingrese un nombre a buscar", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                         break;
                     case "Detalle":
                         comidaDAO = new ComidaDAO();
@@ -916,7 +936,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                             lista = new ArrayList<>(consultas);
                             llenarTabla(lista, "Consulta");
                         } else {
-                            JOptionPane.showMessageDialog(this, "Ingrese el peso actual a buscar", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "Ingrese el peso a buscar", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
                 }
@@ -1006,7 +1026,9 @@ public class ViewBuscar extends javax.swing.JPanel {
                             pacientes = pacienteDAO.buscarPacientesPorNombre(atributoTF, estado);
                             lista = new ArrayList<>(pacientes);
                             llenarTabla(lista, "Paciente");
-                        }
+                        }else {
+                            JOptionPane.showMessageDialog(this, "Ingrese un nombre a buscar", "Error", JOptionPane.ERROR_MESSAGE);
+                        } 
                         break;
                     case "Domicilio":
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
@@ -1014,6 +1036,8 @@ public class ViewBuscar extends javax.swing.JPanel {
                             pacientes = pacienteDAO.buscarPacientesPorDomicilio(atributoTF, estado);
                             lista = new ArrayList<>(pacientes);
                             llenarTabla(lista, "Paciente");
+                        }                        else {
+                            JOptionPane.showMessageDialog(this, "Ingrese un domicilio a buscar", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
                     case "DNI":
@@ -1219,9 +1243,14 @@ public class ViewBuscar extends javax.swing.JPanel {
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
         char c = evt.getKeyChar();
-        if (Character.isDigit(c)) { // comprueba si es un numero
-            if (jTextField1.getText().length() >= 11) {
-                evt.consume(); // limita los caracteres a 11
+        if (Character.isDigit(c)) { // Verifica si es un número
+            String text = jTextField1.getText();
+
+            // Si el campo está vacío o el primer carácter es un número
+            if (text.isEmpty() || (text.length() == 1 && Character.isDigit(text.charAt(0)))) {
+                if (text.length() >= 11) {
+                    evt.consume(); // Limita los caracteres a 11
+                }
             }
         }
         if (Character.isLetter(c)) {
