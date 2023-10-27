@@ -714,7 +714,7 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setText(" ");
+        jLabel3.setText("                ");
 
         jComboBoxAtribSelect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -737,7 +737,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 29, Short.MAX_VALUE)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -754,6 +754,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
                                 .addComponent(jRadioButtonActivo)
                                 .addGap(73, 73, 73)
                                 .addComponent(jRadioButtonInactivo)
@@ -777,11 +778,11 @@ public class ViewBuscar extends javax.swing.JPanel {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(128, 128, 128)
                                         .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBoxAtribSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))))
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                    .addComponent(jComboBoxAtribSelect, 0, 200, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(41, 41, 41))))
         );
         layout.setVerticalGroup(
@@ -802,11 +803,11 @@ public class ViewBuscar extends javax.swing.JPanel {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jComboBoxAtribSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonBuscar)
                     .addComponent(jRadioButtonActivo)
@@ -865,8 +866,8 @@ public class ViewBuscar extends javax.swing.JPanel {
                         break;
                     case "Nombre":
                         if (!jTextField1.getText().isEmpty()) {
-                        comidaDAO = new ComidaDAO();
-                        llenarTabla(comidaDAO.buscarPorNombre(atributoTF, estado));
+                            comidaDAO = new ComidaDAO();
+                            llenarTabla(comidaDAO.buscarPorNombre(atributoTF, estado));
                         } else {
                             JOptionPane.showMessageDialog(this, "Ingrese un nombre a buscar", "Error", JOptionPane.ERROR_MESSAGE);
                         }
@@ -1026,9 +1027,9 @@ public class ViewBuscar extends javax.swing.JPanel {
                             pacientes = pacienteDAO.buscarPacientesPorNombre(atributoTF, estado);
                             lista = new ArrayList<>(pacientes);
                             llenarTabla(lista, "Paciente");
-                        }else {
+                        } else {
                             JOptionPane.showMessageDialog(this, "Ingrese un nombre a buscar", "Error", JOptionPane.ERROR_MESSAGE);
-                        } 
+                        }
                         break;
                     case "Domicilio":
                         if (atributoTF != null && !atributoTF.isEmpty() && !atributoTF.equalsIgnoreCase("")) {
@@ -1036,7 +1037,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                             pacientes = pacienteDAO.buscarPacientesPorDomicilio(atributoTF, estado);
                             lista = new ArrayList<>(pacientes);
                             llenarTabla(lista, "Paciente");
-                        }                        else {
+                        } else {
                             JOptionPane.showMessageDialog(this, "Ingrese un domicilio a buscar", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
@@ -1202,32 +1203,27 @@ public class ViewBuscar extends javax.swing.JPanel {
         switch ((String) jComboBoxAtributos.getSelectedItem()) {
             case "Nombre":
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(filtroLetras);
-                System.out.println("1");
                 break;
             case "Detalle":
             case "Domicilio":
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(filtroMix);
-                System.out.println("2");
                 break;
             case "Cantidad de calorias":
+            case "Porcion":
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(rangeFilterCal);
-                System.out.println("3");
                 break;
             case "DNI":
             case "ID":
             case "Celular":
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(rangeFilterCel);
-                System.out.println("4");
                 break;
             case "Peso Inicial":
             case "Peso Final":
-            case "Porcion":
+            case "Peso actual":
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(rangeFilterPeso);
-                System.out.println("5");
                 break;
             default:
                 ((AbstractDocument) jTextField1.getDocument()).setDocumentFilter(null);
-                System.out.println("6");
                 break;
         }
     }//GEN-LAST:event_jComboBoxAtributosItemStateChanged
@@ -1243,13 +1239,11 @@ public class ViewBuscar extends javax.swing.JPanel {
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
         char c = evt.getKeyChar();
-        if (Character.isDigit(c)) { // Verifica si es un número
+        if (Character.isDigit(c)) {
             String text = jTextField1.getText();
-
-            // Si el campo está vacío o el primer carácter es un número
             if (text.isEmpty() || (text.length() == 1 && Character.isDigit(text.charAt(0)))) {
                 if (text.length() >= 11) {
-                    evt.consume(); // Limita los caracteres a 11
+                    evt.consume();
                 }
             }
         }
@@ -1267,7 +1261,6 @@ public class ViewBuscar extends javax.swing.JPanel {
         if (c == '.' && jTextField1.getText().contains(".")) {//controla que solo se pueda ingresar un solo punto
             evt.consume();
         }
-
     }//GEN-LAST:event_jTextField1KeyTyped
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
