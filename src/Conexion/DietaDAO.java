@@ -133,7 +133,6 @@ public class DietaDAO {
 
     public void actualizar(Dieta dieta) {
         String SQL_UPDATE = "UPDATE dieta SET idPaciente = ?, fechaInicio = ?, fechaFin = ?, pesoFinal = ?, estado=? WHERE idDieta = ?";
-
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
 
             ps.setInt(1, dieta.getPaciente().getIdPaciente());

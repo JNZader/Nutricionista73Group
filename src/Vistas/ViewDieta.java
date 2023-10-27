@@ -58,6 +58,7 @@ public class ViewDieta extends javax.swing.JPanel {
         jDChoFeInicial.setDate(Date.valueOf(die.getFechaInicial()));
         jdatechoFechaFinal.setDate(Date.valueOf(die.getFechaFinal()));
         jtpesofinal.setText(die.getPesoFinal() + "");
+        jCbEstado.setSelected(die.isEstado());
     }
 
     public ViewDieta(DietaComida dietaComida) {
@@ -729,8 +730,8 @@ public class ViewDieta extends javax.swing.JPanel {
             LocalDate FeInicial = jDChoFeInicial.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate FechaFi = jdatechoFechaFinal.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             Paciente paciente = (Paciente) jComboPaciente.getSelectedItem();
-
-            diedao.actualizar(new Dieta(die.getIdDieta(), nombre, paciente, FeInicial, FechaFi, peso, jCbEstado.getVerifyInputWhenFocusTarget()));
+            boolean ess=jCbEstado.isSelected();
+            diedao.actualizar(new Dieta(die.getIdDieta(), nombre, paciente, FeInicial, FechaFi, peso,ess ));
         } else {
             JOptionPane.showMessageDialog(this, "Ingresa datos validos");
         }
