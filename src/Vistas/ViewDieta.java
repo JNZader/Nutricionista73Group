@@ -1,6 +1,7 @@
 package Vistas;
 
 import Conexion.ComidaDAO;
+import Conexion.DietaComidaDAO;
 import Conexion.DietaDAO;
 import Conexion.PacienteDAO;
 import Entidades.Comida;
@@ -36,7 +37,6 @@ public class ViewDieta extends javax.swing.JPanel {
         llenarComboBox();
         llenarCabecera();
         llenarTablaDietaDisponibles();
-        llenarTablaDetalleDieta();
         llenarcomboBoxComidas();
         comboBoxHorario();
         llenarCabeceraDetalle();
@@ -75,16 +75,6 @@ public class ViewDieta extends javax.swing.JPanel {
         if (paciente != null) {
             jComboPaciente.setSelectedItem(paciente);
         }
-    }
-
-    public void cargarDatos(Dieta dieta) {
-//        jTid.setText(dieta.getIdDieta()+"");
-//        jtnombre.setText("");
-//        jComboPaciente.setSelectedIndex(0);
-//        jCboxEstado.setSelected(false);
-//        jDChoFeInicial.setDate(null);
-//        jdatechoFechaFinal.setDate(null);
-//        jtpesofinal.setText("");
     }
 
     private void llenarComboBox() {
@@ -145,22 +135,22 @@ public class ViewDieta extends javax.swing.JPanel {
         modelo.addColumn("Estado");
         modelo.addColumn("Peso final");
         modelo.addColumn("Dieta");
-
+        
         jTablaDietaDispo.setModel(modelo);
         jTablaDietaDispo.getColumnModel().getColumn(7).setMinWidth(0);
         jTablaDietaDispo.getColumnModel().getColumn(7).setMaxWidth(0);
         jTablaDietaDispo.getColumnModel().getColumn(7).setWidth(0);
     }
-
-    public void llenarCabeceraDetalle() {
+public void llenarCabeceraDetalle () {
         mode.addColumn("ID");
         mode.addColumn("comida");
         mode.addColumn("Porcion");
         mode.addColumn("Horario");
         jTablaDetalleDieta.setModel(mode);
-
-    }
-
+    
+}
+    
+    
     public void llenarTablaDietaDisponibles() {
         actualizarTabla();
         DietaDAO dietadao = new DietaDAO();
@@ -174,20 +164,16 @@ public class ViewDieta extends javax.swing.JPanel {
         jTablaDietaDispo.setModel(modelo);// es
 
     }
-
-    public void llenarTablaDetalleDieta() {
-
-        actualizarTabla();
-        ComidaDAO comid = new ComidaDAO();
-
-        ArrayList<Comida> buscar = comid.buscarXCantCalorias(1, 1);
-        //itera a traves de la lista de materias cursadas y agrega cada una como una fila en la tabla
-        for (Comida i : buscar) {
-//           modelo.addRow(new Object[]{materia.getIdMateria(), materia.getNombre(), materia.getAño()});
-            modelo.addRow(new Object[]{i.getIdComida(), i.getNombre(), i.getCantCalorias(), i.getDetalle(), i.isEstado()});
-        }
+    public void llenarTablaDetalleDieta (DietaComida i){
+        
+        actualizarTablaDos();
+       
+        mode.addRow(new Object[]{i.getId(), i.getComida(), i.getPorcion(),i.getHorario()});
+        
         jTablaDetalleDieta.setModel(mode);// es
 
+    
+        
     }
 
     public void actualizarTabla() {
@@ -197,8 +183,7 @@ public class ViewDieta extends javax.swing.JPanel {
         }
         jTablaDietaDispo.setModel(modelo);
     }
-
-    public void actualizarTablaDos() {
+public void actualizarTablaDos() {
         while (mode.getRowCount() > 0) { // mientras haya fila en el modelo de la tabla
             mode.removeRow(0);  // borra la primer fila
 
@@ -618,25 +603,34 @@ public class ViewDieta extends javax.swing.JPanel {
 
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
 
-        try {//recopila los datos de los textfield, radio button y jdatechosser y los guarda en diferentes variables
-            if (jComboBoxComidas.getSelectedItem() == null || jComboBoxHorario.getSelectedItem() == null
-                    || jtfPorcion.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
-
-            } else {
-//
-                ComidaDAO comida = new ComidaDAO();
-                Comida comi = new Comida(200, "Lentejas", "con arroz", true);
-                Horario horario;
-                int porcion = Integer.parseInt(jtfPorcion.getText());
-
-                comida.insertar(comi);
-                llenarTablaDetalleDieta();
-//
+        
+       try {//recopila los datos de los textfield, radio button y jdatechosser y los guarda en diferentes variables
+           if ( jComboBoxComidas.getSelectedItem() == null ||  jComboBoxHorario.getSelectedItem() == null
+             || jtfPorcion.getText().isEmpty()|| jTablaDietaDispo.getSelectedRow()== -1 )  {
+               
+            if (jTablaDietaDispo.getSelectedRow()== -1 ){
+                 JOptionPane.showMessageDialog(this, "Seleccione una dieta de la tabla" );
+            }else{
+               JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos."); 
             }
-        } catch (NumberFormatException e) {
-            e.printStackTrace(System.out);
-            JOptionPane.showMessageDialog(null, "Complete la informacion con datos validos",
+           } else {
+//                      
+               DietaComidaDAO comidaDie = new DietaComidaDAO () ;
+               DietaDAO dieta = new DietaDAO () ;
+               Dieta diet =dieta.buscarPorId((int)jTablaDietaDispo.getValueAt(jTablaDietaDispo.getSelectedRow(),0 ), 1);  // cree una dieta budcando por id y el idlo consigue a travez de la tabla getvalue med devuelveun objeto que se encuentra en la celda ij donde i es el valor de la fila conseguido por el metodo getSelectRow y j es lacolumna. 
+               ComidaDAO comi = new ComidaDAO () ;
+              
+               int porcion = Integer.parseInt(jtfPorcion.getText());
+               Comida comidas = (Comida) jComboBoxComidas.getSelectedItem();
+               Horario horarios = (Horario) jComboBoxHorario.getSelectedItem() ;
+               DietaComida dietaComida = new DietaComida(comidas,diet,porcion,horarios,true) ;
+               comidaDie.insertar(dietaComida);
+               llenarTablaDetalleDieta (dietaComida) ;
+//
+           }
+       } catch (NumberFormatException e) {
+           e.printStackTrace(System.out);
+           JOptionPane.showMessageDialog(null, "Complete la informacion con datos validos",
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
 
