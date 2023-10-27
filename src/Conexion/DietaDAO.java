@@ -40,8 +40,7 @@ public class DietaDAO {
         Dieta dieta = null;
         ArrayList<Dieta> dietas = new ArrayList<>();
         pd = new PacienteDAO();
-        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT);
-                ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 dieta = new Dieta();
@@ -364,17 +363,15 @@ public class DietaDAO {
 
     public ArrayList<String[]> listarPacientesNoAlcanzaronPesoObjetivo() {
         ArrayList<String[]> pacientesData = new ArrayList<>();
-        System.out.println("1");
         String SQL_SELECT = "SELECT p.idPaciente, p.nombreCompleto, MAX(c.pesoActual) AS pesoActual, d.pesoFinal, d.fechaFin "
                 + "FROM paciente p "
                 + "JOIN dieta d ON p.idPaciente = d.idPaciente "
                 + "LEFT JOIN consulta c ON p.idPaciente = c.idPaciente "
-                + "WHERE d.fechaFin <= CURDATE() "
+                + "WHERE d.fechaFin <= CURDATE() AND d.estado = 1 " // Agrega la condición de dieta activa
                 + "GROUP BY p.idPaciente, d.pesoFinal "
                 + "HAVING pesoActual < d.pesoFinal";
 
-        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT);
-                ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT); ResultSet rs = ps.executeQuery()) {
             System.out.println("2");
             while (rs.next()) {
                 String[] pacienteData = new String[5];
@@ -408,8 +405,7 @@ public class DietaDAO {
                 "AND (c.fecha IS NULL OR c.fecha = (SELECT MAX(fecha) FROM consulta WHERE idPaciente = p.idPaciente)) "
                 + "AND c.pesoActual >= d.pesoFinal";
 
-        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT);
-                ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 String[] pacienteData = new String[5];
                 pacienteData[0] = rs.getInt("idPaciente") + "";
