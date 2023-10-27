@@ -93,9 +93,12 @@ public class ViewConsulta extends javax.swing.JPanel {
         jTTablaHistorial = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
 
+        setBackground(new java.awt.Color(180, 220, 160));
+
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel4.setText("Historial paciente");
 
+        jPanel1.setBackground(new java.awt.Color(160, 200, 140));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Consulta", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -125,6 +128,7 @@ public class ViewConsulta extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setText("Kg");
 
+        jBGuargarConsulta.setBackground(new java.awt.Color(150, 200, 130));
         jBGuargarConsulta.setText("Guardar");
         jBGuargarConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,6 +136,7 @@ public class ViewConsulta extends javax.swing.JPanel {
             }
         });
 
+        jBVerHistorialDesdeCombo.setBackground(new java.awt.Color(150, 200, 130));
         jBVerHistorialDesdeCombo.setText("Ver historial");
         jBVerHistorialDesdeCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,6 +150,7 @@ public class ViewConsulta extends javax.swing.JPanel {
         jLPesoInicial.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLPesoInicial.setText("          ");
 
+        jButtonModificar.setBackground(new java.awt.Color(150, 200, 130));
         jButtonModificar.setText("Modificar");
         jButtonModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
