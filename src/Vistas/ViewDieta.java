@@ -57,7 +57,7 @@ public class ViewDieta extends javax.swing.JPanel {
         jtnombre.setText(die.getNombre());
         jDChoFeInicial.setDate(Date.valueOf(die.getFechaInicial()));
         jdatechoFechaFinal.setDate(Date.valueOf(die.getFechaFinal()));
-        jtpesofinal.setText(die.getPesoFinal()+"");
+        jtpesofinal.setText(die.getPesoFinal() + "");
     }
 
     public ViewDieta(DietaComida dietaComida) {
@@ -431,7 +431,10 @@ public class ViewDieta extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCbEstado)
                             .addComponent(jdatechoFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jBGuardar, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jBGuardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonModif))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -452,9 +455,6 @@ public class ViewDieta extends javax.swing.JPanel {
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPaneDetalle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonModif)
-                        .addGap(99, 99, 99))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jbEliminar)
@@ -704,8 +704,9 @@ public class ViewDieta extends javax.swing.JPanel {
     }//GEN-LAST:event_jbEliminarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
+        Dashboard db = new Dashboard();
+        this.setVisible(false);
+        db.setVisible(true);
     }//GEN-LAST:event_jbSalirActionPerformed
 
     private void jtpesofinalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtpesofinalKeyReleased
@@ -717,7 +718,21 @@ public class ViewDieta extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBoxHorarioActionPerformed
 
     private void jButtonModifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModifActionPerformed
-        // TODO add your handling code here:
+        String pesofinal = jtpesofinal.getText();
+        String nombre = jtnombre.getText();
+        DietaDAO diedao = new DietaDAO();
+        if (jComboPaciente.getSelectedItem() != null
+                && jDChoFeInicial.getDate() != null && jdatechoFechaFinal.getDate() != null && Character.isDigit((jtpesofinal.getText()).charAt(0))) {
+            double peso = Double.parseDouble(jtpesofinal.getText());
+            LocalDate FeInicial = jDChoFeInicial.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate FechaFi = jdatechoFechaFinal.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            Paciente paciente = (Paciente) jComboPaciente.getSelectedItem();
+
+            diedao.actualizar(new Dieta(die.getIdDieta(), nombre, paciente, FeInicial, FechaFi, peso, jCbEstado.getVerifyInputWhenFocusTarget()));
+        } else {
+            JOptionPane.showMessageDialog(this, "Ingresa datos validos");
+        }
+        jButtonModif.setEnabled(false);
     }//GEN-LAST:event_jButtonModifActionPerformed
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
