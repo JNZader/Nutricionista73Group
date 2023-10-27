@@ -62,12 +62,7 @@ public class ViewConsulta extends javax.swing.JPanel {
     public void llenarDatos(){
                 jTPeso.setText(consu.getPesoActual() + "");
         jDateChFecha.setDate(Date.valueOf(consu.getFecha()));
-        cargarComboBoxConPaciente(consu.getPaciente());
-        
-        System.out.println(consu.getFecha());
-        System.out.println(consu.getIdConsulta());
-        System.out.println(consu.getPaciente().getIdPaciente());
-        System.out.println(consu.getPesoActual());
+        cargarComboBoxConPaciente(consu.getPaciente());     
     }
 
     @SuppressWarnings("unchecked")
