@@ -61,7 +61,7 @@ public class ViewConsulta extends javax.swing.JPanel {
     }
 
     public ViewConsulta(Consulta consulta) {
-
+        this();
     }
 
     /**
