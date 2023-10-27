@@ -48,6 +48,10 @@ public class ViewDieta extends javax.swing.JPanel {
         this();
 
     }
+    public ViewDieta(DietaComida dietaComida) {
+        this();
+
+    }
 
     public void cargarDatos(Dieta dieta) {
 //        jTid.setText(dieta.getIdDieta()+"");
