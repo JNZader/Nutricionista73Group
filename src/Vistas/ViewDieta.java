@@ -713,7 +713,7 @@ public class ViewDieta extends javax.swing.JPanel {
     }//GEN-LAST:event_jbEliminarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
-        Dashboard db = new Dashboard();
+        Dashboardv2 db = new Dashboardv2();
         this.setVisible(false);
         db.setVisible(true);
     }//GEN-LAST:event_jbSalirActionPerformed
