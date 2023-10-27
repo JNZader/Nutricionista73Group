@@ -23,14 +23,17 @@ public class ViewDieta extends javax.swing.JPanel {
     DocumentFilter filtroLetras;
     DocumentFilter filtroNumeros;
     DefaultTableModel modelo = new DefaultTableModel();
-
+    
+     DefaultTableModel mode = new DefaultTableModel();
     public ViewDieta() {
         initComponents();
         llenarComboBox();
         llenarCabecera();
         llenarTablaDietaDisponibles();
+        llenarTablaDetalleDieta () ;
         llenarcomboBoxComidas();
-        comboBoxHorario () ;
+        comboBoxHorario();
+        llenarCabeceraDetalle () ;
         filtroNumeros = new FiltraEntrada(FiltraEntrada.SOLO_NUMEROS);
         filtroLetras = new FiltraEntrada(FiltraEntrada.SOLO_LETRAS);
 
@@ -66,30 +69,17 @@ public class ViewDieta extends javax.swing.JPanel {
         }
     }
 
- 
-    public void llenarcomboBoxComidas(){
-        
-      ComidaDAO comida= new ComidaDAO();
-      ArrayList<Comida> comidas= comida.listarComidas(1);
-      jComboBoxComidas.addItem(null);
-   
-      for (Comida comi :comidas) {//itera a traves de la lista y agrega cada materia al combobox
-           jComboBoxComidas.addItem(comi );
-       
-    
-//    public void habilitarBoton() {
-////        if (!jTid.getText().isEmpty() && !jtnombre.getText().isEmpty()) {// verifica que jTapellido y jTnombre no esten vacios
-////            jBlimpiar.setEnabled(true);//si ambos campos tienen contenido habilita el boton Nuevo
-////        } else {
-////            jBlimpiar.setEnabled(false);// si alguno de los campos esta vacio deshabilita el boton Nuevo
-////        }
-//
-//    }
+    public void llenarcomboBoxComidas() {
+
+        ComidaDAO comida = new ComidaDAO();
+        ArrayList<Comida> comidas = comida.listarComidas(1);
+        jComboBoxComidas.addItem(null);
+
+        for (Comida comi : comidas) {//itera a traves de la lista y agrega cada materia al combobox
+            jComboBoxComidas.addItem(comi);
+
         }
-    
-   }  
-    
-    
+    }
 
     public void habilitarBoton() {
 //        if (!jTid.getText().isEmpty() && !jtnombre.getText().isEmpty()) {// verifica que jTapellido y jTnombre no esten vacios
@@ -98,24 +88,24 @@ public class ViewDieta extends javax.swing.JPanel {
 //            jBlimpiar.setEnabled(false);// si alguno de los campos esta vacio deshabilita el boton Nuevo
 //        }
 
-
     }
-    public void comboBoxHorario (){
-       
-        ArrayList<Horario> horario = new ArrayList<> ();
+
+    public void comboBoxHorario() {
+
+        ArrayList<Horario> horario = new ArrayList<>();
         jComboBoxHorario.addItem(null);
-           horario.add(Horario.DESAYUNO);
-       horario.add(Horario.ALMUERZO);
-        horario.add(Horario.MERIENDA );
+        horario.add(Horario.DESAYUNO);
+        horario.add(Horario.ALMUERZO);
+        horario.add(Horario.MERIENDA);
         horario.add(Horario.CENA);
-        horario.add (Horario.SNACK) ;
-       
-   
-      for ( Horario hora :horario) {//itera a traves de la lista y agrega cada materia al combobox
-           jComboBoxHorario.addItem(hora );
-           
-      }     
-      }  
+        horario.add(Horario.SNACK);
+
+        for (Horario hora : horario) {//itera a traves de la lista y agrega cada materia al combobox
+            jComboBoxHorario.addItem(hora);
+
+        }
+    }
+
     public void llenarCabecera() {
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
@@ -124,9 +114,23 @@ public class ViewDieta extends javax.swing.JPanel {
         modelo.addColumn("Fecha final");
         modelo.addColumn("Estado");
         modelo.addColumn("Peso final");
+        modelo.addColumn("Dieta");
+        
         jTablaDietaDispo.setModel(modelo);
+        jTablaDietaDispo.getColumnModel().getColumn(7).setMinWidth(0);
+        jTablaDietaDispo.getColumnModel().getColumn(7).setMaxWidth(0);
+        jTablaDietaDispo.getColumnModel().getColumn(7).setWidth(0);
     }
-
+public void llenarCabeceraDetalle () {
+        mode.addColumn("ID");
+        mode.addColumn("comida");
+        mode.addColumn("Porcion");
+        mode.addColumn("Horario");
+        jTablaDetalleDieta.setModel(mode);
+    
+}
+    
+    
     public void llenarTablaDietaDisponibles() {
         actualizarTabla();
         DietaDAO dietadao = new DietaDAO();
@@ -140,6 +144,22 @@ public class ViewDieta extends javax.swing.JPanel {
         jTablaDietaDispo.setModel(modelo);// es
 
     }
+    public void llenarTablaDetalleDieta (){
+        
+    actualizarTabla();
+        ComidaDAO comid = new ComidaDAO();
+
+        ArrayList<Comida> buscar = comid.buscarXCantCalorias(1,1);
+        //itera a traves de la lista de materias cursadas y agrega cada una como una fila en la tabla
+        for (Comida i : buscar) {
+//           modelo.addRow(new Object[]{materia.getIdMateria(), materia.getNombre(), materia.getAño()});
+            modelo.addRow(new Object[]{i.getIdComida(), i.getNombre(), i.getCantCalorias(), i.getDetalle(),i.isEstado()});
+        }
+        jTablaDetalleDieta.setModel(mode);// es
+
+    
+        
+    }
 
     public void actualizarTabla() {
         while (modelo.getRowCount() > 0) { // mientras haya fila en el modelo de la tabla
@@ -148,7 +168,15 @@ public class ViewDieta extends javax.swing.JPanel {
         }
         jTablaDietaDispo.setModel(modelo);
     }
+public void actualizarTablaDos() {
+        while (mode.getRowCount() > 0) { // mientras haya fila en el modelo de la tabla
+            mode.removeRow(0);  // borra la primer fila
 
+        }
+        jTablaDetalleDieta.setModel(mode);
+    }
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -176,12 +204,13 @@ public class ViewDieta extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jComboBoxComidas = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jComboBoxPorcion = new javax.swing.JComboBox<>();
         jScrollPaneDetalle = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTablaDetalleDieta = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jtfPorcion = new javax.swing.JTextField();
+        jbModificar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 153, 153));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -303,9 +332,7 @@ public class ViewDieta extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel3.setText("Porcion");
 
-        jComboBoxPorcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTablaDetalleDieta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -316,7 +343,7 @@ public class ViewDieta extends javax.swing.JPanel {
                 "ID", "Comida", "Porcion", "Horario"
             }
         ));
-        jScrollPaneDetalle.setViewportView(jTable2);
+        jScrollPaneDetalle.setViewportView(jTablaDetalleDieta);
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel4.setText("Detalle Dieta");
@@ -334,6 +361,15 @@ public class ViewDieta extends javax.swing.JPanel {
             }
         });
 
+        jbModificar.setBackground(new java.awt.Color(0, 255, 153));
+        jbModificar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jbModificar.setText("Modificar");
+        jbModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbModificarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -342,7 +378,7 @@ public class ViewDieta extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jlPaciente)
@@ -378,13 +414,15 @@ public class ViewDieta extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBoxHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBoxHorario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBoxPorcion, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jbAgregar))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jtfPorcion, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(jbAgregar)
+                                .addGap(28, 28, 28)
+                                .addComponent(jbModificar))
                             .addComponent(jLabel5)
                             .addComponent(jLabel4)
                             .addComponent(jScrollPaneDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -435,9 +473,10 @@ public class ViewDieta extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(jComboBoxHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBoxPorcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbAgregar)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(jtfPorcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbModificar))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
@@ -550,41 +589,29 @@ public class ViewDieta extends javax.swing.JPanel {
 
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
 
-        // TODO add your handling code here:
-//        try {//recopila los datos de los textfield, radio button y jdatechosser y los guarda en diferentes variables
-//            if (jTid.getText().isEmpty()
-//                    || jtnombre.getText().isEmpty()
-//                    || jComboPaciente.getSelectedItem() == null
-//                    || !jCboxEstado.isSelected()
-//                    || jDChoFeInicial.getDate() == null
-//                    || jdatechoFechaFinal.getDate() == null
-//                    || jtpesofinal.getText().isEmpty()) {
-//                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+        
+       try {//recopila los datos de los textfield, radio button y jdatechosser y los guarda en diferentes variables
+           if ( jComboBoxComidas.getSelectedItem() == null ||  jComboBoxHorario.getSelectedItem() == null
+             || jtfPorcion.getText().isEmpty()) {
+               JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+
+           } else {
 //
-//            } else {
+               ComidaDAO comida = new ComidaDAO () ;
+               Comida comi = new Comida(200, "Lentejas","con arroz",true) ;
+               Horario horario ;
+               int porcion = Integer.parseInt(jtfPorcion.getText());
+                
+               comida.insertar(comi);
+               llenarTablaDetalleDieta () ;
 //
-//                Paciente pac;
-//                String nombre = jtnombre.getText();
-//                boolean estado = jCboxEstado.isSelected();
-//
-//                Paciente pacient = (Paciente) jComboPaciente.getSelectedItem();
-//
-//                LocalDate fechaInicio = jDChoFeInicial.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//                LocalDate fechaFinal = jdatechoFechaFinal.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//                double pesoFi = Double.parseDouble(jtpesofinal.getText());
-//
-//                DietaDAO dietad = new DietaDAO();
-//                Dieta die = new Dieta(nombre, pacient, fechaInicio, fechaFinal, pesoFi, estado);
-//
-//                dietad.insertar(die);
-//
-//            }
-//        } catch (NumberFormatException e) {
-//            e.printStackTrace(System.out);
-//            JOptionPane.showMessageDialog(null, "Complete la informacion con datos validos",
-//                    "Error", JOptionPane.ERROR_MESSAGE);
-//        }
-//
+           }
+       } catch (NumberFormatException e) {
+           e.printStackTrace(System.out);
+           JOptionPane.showMessageDialog(null, "Complete la informacion con datos validos",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_jbAgregarActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
@@ -668,6 +695,10 @@ public class ViewDieta extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbModificarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBGuardar;
@@ -675,7 +706,6 @@ public class ViewDieta extends javax.swing.JPanel {
     private javax.swing.JCheckBox jCbEstado;
     private javax.swing.JComboBox<Comida> jComboBoxComidas;
     private javax.swing.JComboBox<Horario> jComboBoxHorario;
-    private javax.swing.JComboBox<String> jComboBoxPorcion;
     private javax.swing.JComboBox<Paciente> jComboPaciente;
     private com.toedter.calendar.JDateChooser jDChoFeInicial;
     private javax.swing.JLabel jLabel1;
@@ -685,10 +715,11 @@ public class ViewDieta extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPaneDetalle;
+    private javax.swing.JTable jTablaDetalleDieta;
     private javax.swing.JTable jTablaDietaDispo;
-    private javax.swing.JTable jTable2;
     private javax.swing.JButton jbAgregar;
     private javax.swing.JButton jbEliminar;
+    private javax.swing.JButton jbModificar;
     private javax.swing.JButton jbSalir;
     private com.toedter.calendar.JDateChooser jdatechoFechaFinal;
     private javax.swing.JLabel jlEstado;
@@ -697,6 +728,7 @@ public class ViewDieta extends javax.swing.JPanel {
     private javax.swing.JLabel jlNombre;
     private javax.swing.JLabel jlPaciente;
     private javax.swing.JLabel jlPesofinal;
+    private javax.swing.JTextField jtfPorcion;
     private javax.swing.JTextField jtnombre;
     private javax.swing.JTextField jtpesofinal;
     // End of variables declaration//GEN-END:variables
