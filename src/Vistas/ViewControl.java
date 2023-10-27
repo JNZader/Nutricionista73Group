@@ -3,14 +3,56 @@ package Vistas;
 import Conexion.DietaDAO;
 import Entidades.Dieta;
 import java.util.ArrayList;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 public class ViewControl extends javax.swing.JPanel {
 
-    DefaultTableModel modelo = new DefaultTableModel();
+    DefaultTableModel modelo;
 
     public ViewControl() {
         initComponents();
+        JTableHeader tbh = jTable1.getTableHeader();
+        tbh.setReorderingAllowed(false);
+        jTable1.setTableHeader(tbh);
+
+        ListSelectionModel selectionModel = jTable1.getSelectionModel();
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                return false;
+            }
+        };
+        modelo.setColumnIdentifiers(new String[]{"ID Paciente", "Nombre Completo", "Peso Actual", "Peso Final", "Fecha Culminación"});
+        limpiarTabla();
+        botonDietasFinalizadas.setSelected(true);
+    }
+
+    private void limpiarTabla() {
+        modelo.setRowCount(0);
+    }
+
+    private void llenarTablaNo() {
+
+        DietaDAO ddao = new DietaDAO();
+        ArrayList<String[]> pacientesData = ddao.listarPacientesNoAlcanzaronPesoObjetivo();
+        for (String[] pacienteData : pacientesData) {
+            modelo.addRow(pacienteData);
+        }
+        jTable1.setModel(modelo);
+    }
+
+    private void llenarTablasi() {
+        DietaDAO ddao = new DietaDAO();
+        ArrayList<String[]> pacientesData = ddao.listarPacientesAlcanzaronPesoDeseado();
+        for (String[] pacienteData : pacientesData) {
+            modelo.addRow(pacienteData);
+        }
+        jTable1.setModel(modelo);
     }
 
     @SuppressWarnings("unchecked")
@@ -32,6 +74,7 @@ public class ViewControl extends javax.swing.JPanel {
 
         buttonGroup1.add(botonDietasFinalizadas);
         botonDietasFinalizadas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        botonDietasFinalizadas.setSelected(true);
         botonDietasFinalizadas.setText("Dietas Finalizadas");
         botonDietasFinalizadas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -42,6 +85,11 @@ public class ViewControl extends javax.swing.JPanel {
         buttonGroup1.add(botonDietasNoFinalizadas);
         botonDietasNoFinalizadas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         botonDietasNoFinalizadas.setText("Dietas no Finalizadas");
+        botonDietasNoFinalizadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonDietasNoFinalizadasActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -72,9 +120,9 @@ public class ViewControl extends javax.swing.JPanel {
                     .addComponent(salirControlTratamiento)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                            .addGap(125, 125, 125)
+                            .addGap(69, 69, 69)
                             .addComponent(botonDietasFinalizadas)
-                            .addGap(211, 211, 211)
+                            .addGap(267, 267, 267)
                             .addComponent(botonDietasNoFinalizadas))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(51, 51, 51)
@@ -107,21 +155,15 @@ public class ViewControl extends javax.swing.JPanel {
         this.setVisible(false);
         db.setVisible(true);
     }//GEN-LAST:event_salirControlTratamientoActionPerformed
-    public void actualizarTabla() {
-        while (modelo.getRowCount() > 0) {
-            modelo.removeRow(0);
-        }
-        jTablaDietaDispo.setModel(modelo);
-    }
     private void botonDietasFinalizadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDietasFinalizadasActionPerformed
-        actualizarTabla();
-        DietaDAO dietadao = new DietaDAO();
-        ArrayList<Dieta> buscar = dietadao.buscar(1);
-        for (Dieta i : buscar) {
-            modelo.addRow(new Object[]{i.getIdDieta(), i.getNombre(), i.getPaciente(), i.getFechaInicial(), i.getFechaFinal(), i.isEstado(), i.getPesoFinal()});
-        }
-        jTablaDietaDispo.setModel(modelo);
+        limpiarTabla();
+        llenarTablasi();
     }//GEN-LAST:event_botonDietasFinalizadasActionPerformed
+
+    private void botonDietasNoFinalizadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDietasNoFinalizadasActionPerformed
+        limpiarTabla();
+        llenarTablaNo();
+    }//GEN-LAST:event_botonDietasNoFinalizadasActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton botonDietasFinalizadas;
     private javax.swing.JRadioButton botonDietasNoFinalizadas;
@@ -132,41 +174,4 @@ public class ViewControl extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JButton salirControlTratamiento;
     // End of variables declaration//GEN-END:variables
-//    private static class jComboPaciente {
-//
-//        private static void addItem(Object object) {
-//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//        }
-//
-//        public jComboPaciente() {
-//        }
-//    }
-
-    private static class jTablaDietaDispo {
-
-        private static void setModel(DefaultTableModel modelo) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        public jTablaDietaDispo() {
-        }
-    }
-
-    private static class modelo {
-
-        private static int getRowCount() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        private static void removeRow(int i) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        private static void addRow(Object[] object) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        public modelo() {
-        }
-    }
 }
