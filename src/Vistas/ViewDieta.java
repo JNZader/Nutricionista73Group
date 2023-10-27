@@ -45,6 +45,7 @@ public class ViewDieta extends javax.swing.JPanel {
 
     public ViewDieta(Dieta dieta) {
         this();
+        
 
     }
     public ViewDieta(DietaComida dietaComida) {
