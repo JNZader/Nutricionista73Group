@@ -679,47 +679,42 @@ public class ViewBuscar extends javax.swing.JPanel {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonEditar)
-                                .addGap(148, 148, 148)
-                                .addComponent(jButtonEliminar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonAnular)
-                                .addGap(148, 148, 148)
-                                .addComponent(jButtonSalir)))
-                        .addGap(35, 35, 35))
+                        .addComponent(jButtonEditar)
+                        .addGap(130, 130, 130)
+                        .addComponent(jButtonEliminar)
+                        .addGap(166, 166, 166)
+                        .addComponent(jButtonAnular)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                        .addComponent(jButtonSalir))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addComponent(jRadioButtonActivo)
-                                .addGap(73, 73, 73)
-                                .addComponent(jRadioButtonInactivo)
-                                .addGap(95, 95, 95)
-                                .addComponent(jRadioButtonAmbos)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(50, 50, 50)
+                        .addComponent(jRadioButtonActivo)
+                        .addGap(73, 73, 73)
+                        .addComponent(jRadioButtonInactivo)
+                        .addGap(95, 95, 95)
+                        .addComponent(jRadioButtonAmbos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBoxEntidades, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel1))
-                                        .addGap(53, 53, 53)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBoxAtributos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel2)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(128, 128, 128)
-                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(jComboBoxAtribSelect, 0, 200, Short.MAX_VALUE)
-                                    .addComponent(jLabelVariable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(41, 41, 41))))
+                                    .addComponent(jComboBoxEntidades, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1))
+                                .addGap(53, 53, 53)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxAtributos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(128, 128, 128)
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(jComboBoxAtribSelect, 0, 200, Short.MAX_VALUE)
+                            .addComponent(jLabelVariable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(41, 41, 41))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1265,7 +1260,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 if (pct != null) {
                     ViewPaciente VP = new ViewPaciente(pct);
                     this.setVisible(false);
-                    Dashboard db = new Dashboard();
+                    Dashboardv2 db = new Dashboardv2();
                     db.ShowJPanel(VP);
                     db.setVisible(true);
                 }
@@ -1274,7 +1269,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 if (diet != null) {
                     ViewDieta VD = new ViewDieta(diet);
                     this.setVisible(false);
-                    Dashboard db = new Dashboard();
+                    Dashboardv2 db = new Dashboardv2();
                     db.ShowJPanel(VD);
                     db.setVisible(true);
                 }
@@ -1283,7 +1278,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 if (com != null) {
                     ViewComida VCom = new ViewComida(com);
                     this.setVisible(false);
-                    Dashboard db = new Dashboard();
+                    Dashboardv2 db = new Dashboardv2();
                     db.ShowJPanel(VCom);
                     db.setVisible(true);
                 }
@@ -1292,7 +1287,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 if (consul != null) {
                     ViewConsulta VCon = new ViewConsulta(consul);
                     this.setVisible(false);
-                    Dashboard db = new Dashboard();
+                    Dashboardv2 db = new Dashboardv2();
                     db.ShowJPanel(VCon);
                     db.setVisible(true);
                 }
@@ -1301,7 +1296,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 if (dietCom != null) {
                     ViewDieta VDC = new ViewDieta(dietCom);
                     this.setVisible(false);
-                    Dashboard db = new Dashboard();
+                    Dashboardv2 db = new Dashboardv2();
                     db.ShowJPanel(VDC);
                     db.setVisible(true);
                 }
