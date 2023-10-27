@@ -329,9 +329,9 @@ public class ViewPaciente extends javax.swing.JPanel {
     }//GEN-LAST:event_jBModificarActionPerformed
 
     private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
-        Dashboard d = new Dashboard();
+        Dashboardv2 db = new Dashboardv2();
         this.setVisible(false);
-        d.setVisible(true);
+        db.setVisible(true);
     }//GEN-LAST:event_jBSalirActionPerformed
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed

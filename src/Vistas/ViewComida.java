@@ -401,7 +401,7 @@ public class ViewComida extends javax.swing.JPanel {
 //    }
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
-        Dashboard db = new Dashboard();
+        Dashboardv2 db = new Dashboardv2();
         this.setVisible(false);
         db.setVisible(true);
     }//GEN-LAST:event_botonSalirActionPerformed

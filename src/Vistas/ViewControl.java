@@ -154,7 +154,7 @@ public class ViewControl extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void salirControlTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirControlTratamientoActionPerformed
-        Dashboard db = new Dashboard();
+        Dashboardv2 db = new Dashboardv2();
         this.setVisible(false);
         db.setVisible(true);
     }//GEN-LAST:event_salirControlTratamientoActionPerformed
