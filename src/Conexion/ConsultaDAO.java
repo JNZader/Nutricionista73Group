@@ -118,10 +118,9 @@ public class ConsultaDAO {
     }
 
     public void actualizar(Consulta consulta) {
-        String SQL_UPDATE = "UPDATE consulta SET idPaciente = ?, fecha = ?, pesoActual = ? WHERE idConsulta = ?";
+        String SQL_UPDATE = "UPDATE consulta SET idPaciente=?, fecha=?, pesoActual=? WHERE idConsulta=?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
-
             ps.setInt(1, consulta.getPaciente().getIdPaciente());
             ps.setDate(2, Date.valueOf(consulta.getFecha()));
             ps.setDouble(3, consulta.getPesoActual());
