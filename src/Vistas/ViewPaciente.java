@@ -72,6 +72,9 @@ public class ViewPaciente extends javax.swing.JPanel {
 
         jLabel2.setText("jLabel2");
 
+        setBackground(new java.awt.Color(180, 220, 160));
+
+        jPanel1.setBackground(new java.awt.Color(160, 200, 140));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos ", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -95,6 +98,7 @@ public class ViewPaciente extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel9.setText("ID");
 
+        jBBuscar.setBackground(new java.awt.Color(150, 200, 130));
         jBBuscar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jBBuscar.setText("Buscar");
         jBBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -171,6 +175,7 @@ public class ViewPaciente extends javax.swing.JPanel {
                 .addGap(11, 11, 11))
         );
 
+        jBGuardar.setBackground(new java.awt.Color(150, 200, 130));
         jBGuardar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jBGuardar.setText("Guardar");
         jBGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -179,6 +184,7 @@ public class ViewPaciente extends javax.swing.JPanel {
             }
         });
 
+        jBEliminar.setBackground(new java.awt.Color(150, 200, 130));
         jBEliminar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jBEliminar.setText("Eliminar");
         jBEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -187,6 +193,7 @@ public class ViewPaciente extends javax.swing.JPanel {
             }
         });
 
+        jBModificar.setBackground(new java.awt.Color(150, 200, 130));
         jBModificar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jBModificar.setText("Modificar");
         jBModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -195,6 +202,7 @@ public class ViewPaciente extends javax.swing.JPanel {
             }
         });
 
+        jBSalir.setBackground(new java.awt.Color(150, 200, 130));
         jBSalir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jBSalir.setText("Salir");
         jBSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -206,6 +214,7 @@ public class ViewPaciente extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabel8.setText("Gestion Paciente");
 
+        jBLimpiar.setBackground(new java.awt.Color(150, 200, 130));
         jBLimpiar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jBLimpiar.setText("Limpiar");
         jBLimpiar.addActionListener(new java.awt.event.ActionListener() {

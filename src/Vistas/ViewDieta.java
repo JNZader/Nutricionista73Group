@@ -217,7 +217,7 @@ public void actualizarTablaDos() {
         jtfPorcion = new javax.swing.JTextField();
         jbModificar = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(153, 153, 153));
+        setBackground(new java.awt.Color(180, 220, 160));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setPreferredSize(new java.awt.Dimension(755, 692));
 
@@ -248,7 +248,7 @@ public void actualizarTablaDos() {
             }
         });
 
-        jBGuardar.setBackground(new java.awt.Color(0, 255, 255));
+        jBGuardar.setBackground(new java.awt.Color(150, 200, 130));
         jBGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBGuardar.setForeground(new java.awt.Color(0, 0, 51));
         jBGuardar.setText("Guardar Dieta");
@@ -258,7 +258,7 @@ public void actualizarTablaDos() {
             }
         });
 
-        jbAgregar.setBackground(new java.awt.Color(0, 255, 255));
+        jbAgregar.setBackground(new java.awt.Color(150, 200, 130));
         jbAgregar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbAgregar.setForeground(new java.awt.Color(0, 0, 51));
         jbAgregar.setText("Agregar");
@@ -268,7 +268,7 @@ public void actualizarTablaDos() {
             }
         });
 
-        jbEliminar.setBackground(new java.awt.Color(0, 255, 255));
+        jbEliminar.setBackground(new java.awt.Color(150, 200, 130));
         jbEliminar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbEliminar.setForeground(new java.awt.Color(0, 0, 51));
         jbEliminar.setText("Eliminar");
@@ -278,7 +278,7 @@ public void actualizarTablaDos() {
             }
         });
 
-        jbSalir.setBackground(new java.awt.Color(0, 255, 255));
+        jbSalir.setBackground(new java.awt.Color(150, 200, 130));
         jbSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbSalir.setForeground(new java.awt.Color(0, 0, 51));
         jbSalir.setText("Salir");
@@ -356,7 +356,7 @@ public void actualizarTablaDos() {
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel5.setText("Dietas Disponibles");
 
-        jButton1.setBackground(new java.awt.Color(0, 255, 255));
+        jButton1.setBackground(new java.awt.Color(150, 200, 130));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton1.setForeground(new java.awt.Color(51, 51, 51));
         jButton1.setText("Modificar");
@@ -366,7 +366,7 @@ public void actualizarTablaDos() {
             }
         });
 
-        jbModificar.setBackground(new java.awt.Color(0, 255, 153));
+        jbModificar.setBackground(new java.awt.Color(150, 200, 130));
         jbModificar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbModificar.setText("Modificar");
         jbModificar.addActionListener(new java.awt.event.ActionListener() {
