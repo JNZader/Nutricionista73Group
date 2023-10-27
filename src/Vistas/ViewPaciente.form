@@ -232,14 +232,8 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTNombre">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTNombreActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTDni">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTDniActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTDomicilio">
         </Component>

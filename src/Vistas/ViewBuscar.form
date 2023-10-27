@@ -76,7 +76,7 @@
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jTextField1" pref="200" max="32767" attributes="0"/>
                                   <Component id="jComboBoxAtribSelect" alignment="0" pref="200" max="32767" attributes="0"/>
-                                  <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabelVariable" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -104,7 +104,7 @@
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelVariable" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jTextField1" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -264,7 +264,7 @@
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField1KeyTyped"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel3">
+    <Component class="javax.swing.JLabel" name="jLabelVariable">
       <Properties>
         <Property name="text" type="java.lang.String" value="                "/>
       </Properties>

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vistas;
 
 import Conexion.ConsultaDAO;
@@ -26,19 +21,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.NumberFormatter;
 import javax.swing.table.JTableHeader;
 
-/**
- *
- * @author javie
- */
 public class ViewConsulta extends javax.swing.JPanel {
 
-    /**
-     * Creates new form ViewConsulta
-     */
     ConsultaDAO conDAO = new ConsultaDAO();
 
     DefaultTableModel model;
-
+    private Consulta consu;
+    
     public ViewConsulta() {
         initComponents();
 
@@ -64,10 +53,21 @@ public class ViewConsulta extends javax.swing.JPanel {
 
     public ViewConsulta(Consulta consulta) {
         this();
+        this.consu=consulta;
         jButtonModificar.setEnabled(true);
-        jTPeso.setText(consulta.getPesoActual() + "");
-        jDateChFecha.setDate(Date.valueOf(consulta.getFecha()));
-        cargarComboBoxConPaciente(consulta.getPaciente());
+
+        llenarDatos();
+    }
+    
+    public void llenarDatos(){
+                jTPeso.setText(consu.getPesoActual() + "");
+        jDateChFecha.setDate(Date.valueOf(consu.getFecha()));
+        cargarComboBoxConPaciente(consu.getPaciente());
+        
+        System.out.println(consu.getFecha());
+        System.out.println(consu.getIdConsulta());
+        System.out.println(consu.getPaciente().getIdPaciente());
+        System.out.println(consu.getPesoActual());
     }
 
     @SuppressWarnings("unchecked")
@@ -271,7 +271,6 @@ public class ViewConsulta extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBVerHistorialDesdeComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVerHistorialDesdeComboActionPerformed
-        // TODO add your handling code here:
         actualizarTabla();
         if (jCbSeleccionPaciente.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(this, "Selecciona un paciente");
@@ -321,7 +320,6 @@ public class ViewConsulta extends javax.swing.JPanel {
     }//GEN-LAST:event_jCbSeleccionPacienteActionPerformed
 
     private void jTPesoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTPesoKeyTyped
-        // TODO add your handling code here:
         char c = evt.getKeyChar();
 
         if (!(Character.isDigit(c) || c == '.')) {
@@ -338,7 +336,6 @@ public class ViewConsulta extends javax.swing.JPanel {
     }//GEN-LAST:event_jTPesoKeyTyped
 
     private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
-        Consulta consulta2;
         String aux = jTPeso.getText();
         if (jCbSeleccionPaciente.getSelectedItem() != null
                 && jDateChFecha.getDate() != null && Character.isDigit((jTPeso.getText()).charAt(0))) {
@@ -346,15 +343,13 @@ public class ViewConsulta extends javax.swing.JPanel {
             LocalDate fecha = jDateChFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             Paciente paciente = (Paciente) jCbSeleccionPaciente.getSelectedItem();
 
-            consulta2 = new Consulta(paciente, fecha, peso);
-            conDAO.actualizar(consulta2);
+            conDAO.actualizar(new Consulta(consu.getIdConsulta(), paciente, fecha, peso));
             limpiar();
         } else {
             JOptionPane.showMessageDialog(this, "Ingresa datos validos");
         }
+        jButtonModificar.setEnabled(false);
     }//GEN-LAST:event_jButtonModificarActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBGuargarConsulta;
     private javax.swing.JButton jBVerHistorialDesdeCombo;
@@ -375,7 +370,6 @@ public class ViewConsulta extends javax.swing.JPanel {
     private javax.swing.JTextField jTPeso;
     private javax.swing.JTable jTTablaHistorial;
     // End of variables declaration//GEN-END:variables
-
     public void armarCabecera() {
         model.addColumn("Nombre");
         model.addColumn("peso");

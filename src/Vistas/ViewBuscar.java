@@ -78,7 +78,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         ((JTextFieldDateEditor) jDateChooser1.getDateEditor()).setEditable(false);
         jComboBoxAtributos.addItemListener(event -> {
             if (event.getStateChange() == ItemEvent.SELECTED) {
-                jLabel3.setText(event.getItem().toString() + ":");
+                jLabelVariable.setText(event.getItem().toString() + ":");
             }//lambda que agrega un itemlistener al combobox  y modifica el label de acuerdo al item seleccionado en el combo
         });
 
@@ -624,7 +624,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        jLabelVariable = new javax.swing.JLabel();
         jComboBoxAtribSelect = new javax.swing.JComboBox<>();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jButtonAnular = new javax.swing.JButton();
@@ -714,7 +714,7 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setText("                ");
+        jLabelVariable.setText("                ");
 
         jComboBoxAtribSelect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -782,7 +782,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                     .addComponent(jComboBoxAtribSelect, 0, 200, Short.MAX_VALUE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(jLabelVariable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(41, 41, 41))))
         );
         layout.setVerticalGroup(
@@ -800,7 +800,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jComboBoxEntidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(jLabelVariable)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(30, 30, 30)
@@ -829,7 +829,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             if (this.jComboBoxEntidades.getSelectedIndex() > 0) {
                 this.jComboBoxAtributos.setModel(new DefaultComboBoxModel<>(atributos(this.jComboBoxEntidades.getSelectedItem().toString())));
-                jLabel3.setText("");
+                jLabelVariable.setText(":");
             }
             if (this.jComboBoxEntidades.getSelectedIndex() == 0) {
                 this.jComboBoxAtributos.setModel(new DefaultComboBoxModel<>(atributos("")));
@@ -1414,7 +1414,7 @@ public class ViewBuscar extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelVariable;
     private javax.swing.JRadioButton jRadioButtonActivo;
     private javax.swing.JRadioButton jRadioButtonAmbos;
     private javax.swing.JRadioButton jRadioButtonInactivo;
