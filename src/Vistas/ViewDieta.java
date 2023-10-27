@@ -42,7 +42,7 @@ public class ViewDieta extends javax.swing.JPanel {
         llenarCabeceraDetalle();
         filtroNumeros = new FiltraEntrada(FiltraEntrada.SOLO_NUMEROS);
         filtroLetras = new FiltraEntrada(FiltraEntrada.SOLO_LETRAS);
-
+        jbModificar.setEnabled(false);
         jButtonModif.setEnabled(false);
 //        ((AbstractDocument) jTid.getDocument()).setDocumentFilter(filtroNumeros);
 //        ((AbstractDocument) jtnombre.getDocument()).setDocumentFilter(filtroLetras);
@@ -63,8 +63,15 @@ public class ViewDieta extends javax.swing.JPanel {
 
     public ViewDieta(DietaComida dietaComida) {
         this();
+        this.dietCom = dietaComida;
         jButtonModif.setEnabled(true);
+        cargarDatosDietaComida();
+    }
 
+    private void cargarDatosDietaComida() {
+        jtfPorcion.setText(String.valueOf(dietCom.getPorcion()));
+        jComboBoxComidas.setSelectedItem(dietCom.getComida());
+        jComboBoxHorario.setSelectedItem(dietCom.getHorario());
     }
 
     public void cargarComboBoxConPaciente(Paciente paciente) {
@@ -135,22 +142,28 @@ public class ViewDieta extends javax.swing.JPanel {
         modelo.addColumn("Estado");
         modelo.addColumn("Peso final");
         modelo.addColumn("Dieta");
-        
+
         jTablaDietaDispo.setModel(modelo);
         jTablaDietaDispo.getColumnModel().getColumn(7).setMinWidth(0);
         jTablaDietaDispo.getColumnModel().getColumn(7).setMaxWidth(0);
         jTablaDietaDispo.getColumnModel().getColumn(7).setWidth(0);
     }
-public void llenarCabeceraDetalle () {
+
+    public void llenarCabeceraDetalle() {
         mode.addColumn("ID");
         mode.addColumn("comida");
         mode.addColumn("Porcion");
         mode.addColumn("Horario");
+        mode.addColumn("obj");
+
         jTablaDetalleDieta.setModel(mode);
-    
-}
-    
-    
+
+        jTablaDetalleDieta.getColumnModel().getColumn(4).setMinWidth(0);
+        jTablaDetalleDieta.getColumnModel().getColumn(4).setMaxWidth(0);
+        jTablaDetalleDieta.getColumnModel().getColumn(4).setWidth(0);
+
+    }
+
     public void llenarTablaDietaDisponibles() {
         actualizarTabla();
         DietaDAO dietadao = new DietaDAO();
@@ -164,16 +177,15 @@ public void llenarCabeceraDetalle () {
         jTablaDietaDispo.setModel(modelo);// es
 
     }
-    public void llenarTablaDetalleDieta (DietaComida i){
-        
+
+    public void llenarTablaDetalleDieta(DietaComida i) {
+
         actualizarTablaDos();
-       
-        mode.addRow(new Object[]{i.getId(), i.getComida(), i.getPorcion(),i.getHorario()});
-        
+
+        mode.addRow(new Object[]{i.getId(), i.getComida(), i.getPorcion(), i.getHorario(), i});
+
         jTablaDetalleDieta.setModel(mode);// es
 
-    
-        
     }
 
     public void actualizarTabla() {
@@ -183,7 +195,8 @@ public void llenarCabeceraDetalle () {
         }
         jTablaDietaDispo.setModel(modelo);
     }
-public void actualizarTablaDos() {
+
+    public void actualizarTablaDos() {
         while (mode.getRowCount() > 0) { // mientras haya fila en el modelo de la tabla
             mode.removeRow(0);  // borra la primer fila
 
@@ -603,34 +616,33 @@ public void actualizarTablaDos() {
 
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
 
-        
-       try {//recopila los datos de los textfield, radio button y jdatechosser y los guarda en diferentes variables
-           if ( jComboBoxComidas.getSelectedItem() == null ||  jComboBoxHorario.getSelectedItem() == null
-             || jtfPorcion.getText().isEmpty()|| jTablaDietaDispo.getSelectedRow()== -1 )  {
-               
-            if (jTablaDietaDispo.getSelectedRow()== -1 ){
-                 JOptionPane.showMessageDialog(this, "Seleccione una dieta de la tabla" );
-            }else{
-               JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos."); 
-            }
-           } else {
+        try {//recopila los datos de los textfield, radio button y jdatechosser y los guarda en diferentes variables
+            if (jComboBoxComidas.getSelectedItem() == null || jComboBoxHorario.getSelectedItem() == null
+                    || jtfPorcion.getText().isEmpty() || jTablaDietaDispo.getSelectedRow() == -1) {
+
+                if (jTablaDietaDispo.getSelectedRow() == -1) {
+                    JOptionPane.showMessageDialog(this, "Seleccione una dieta de la tabla");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+                }
+            } else {
 //                      
-               DietaComidaDAO comidaDie = new DietaComidaDAO () ;
-               DietaDAO dieta = new DietaDAO () ;
-               Dieta diet =dieta.buscarPorId((int)jTablaDietaDispo.getValueAt(jTablaDietaDispo.getSelectedRow(),0 ), 1);  // cree una dieta budcando por id y el idlo consigue a travez de la tabla getvalue med devuelveun objeto que se encuentra en la celda ij donde i es el valor de la fila conseguido por el metodo getSelectRow y j es lacolumna. 
-               ComidaDAO comi = new ComidaDAO () ;
-              
-               int porcion = Integer.parseInt(jtfPorcion.getText());
-               Comida comidas = (Comida) jComboBoxComidas.getSelectedItem();
-               Horario horarios = (Horario) jComboBoxHorario.getSelectedItem() ;
-               DietaComida dietaComida = new DietaComida(comidas,diet,porcion,horarios,true) ;
-               comidaDie.insertar(dietaComida);
-               llenarTablaDetalleDieta (dietaComida) ;
+                DietaComidaDAO comidaDie = new DietaComidaDAO();
+                DietaDAO dieta = new DietaDAO();
+                Dieta diet = dieta.buscarPorId((int) jTablaDietaDispo.getValueAt(jTablaDietaDispo.getSelectedRow(), 0), 1);  // cree una dieta budcando por id y el idlo consigue a travez de la tabla getvalue med devuelveun objeto que se encuentra en la celda ij donde i es el valor de la fila conseguido por el metodo getSelectRow y j es lacolumna. 
+                ComidaDAO comi = new ComidaDAO();
+
+                int porcion = Integer.parseInt(jtfPorcion.getText());
+                Comida comidas = (Comida) jComboBoxComidas.getSelectedItem();
+                Horario horarios = (Horario) jComboBoxHorario.getSelectedItem();
+                DietaComida dietaComida = comidaDie.insertar(new DietaComida(comidas, diet, porcion, horarios, true));
+
+                llenarTablaDetalleDieta(dietaComida);
 //
-           }
-       } catch (NumberFormatException e) {
-           e.printStackTrace(System.out);
-           JOptionPane.showMessageDialog(null, "Complete la informacion con datos validos",
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace(System.out);
+            JOptionPane.showMessageDialog(null, "Complete la informacion con datos validos",
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -724,8 +736,8 @@ public void actualizarTablaDos() {
             LocalDate FeInicial = jDChoFeInicial.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate FechaFi = jdatechoFechaFinal.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             Paciente paciente = (Paciente) jComboPaciente.getSelectedItem();
-            boolean ess=jCbEstado.isSelected();
-            diedao.actualizar(new Dieta(die.getIdDieta(), nombre, paciente, FeInicial, FechaFi, peso,ess ));
+            boolean ess = jCbEstado.isSelected();
+            diedao.actualizar(new Dieta(die.getIdDieta(), nombre, paciente, FeInicial, FechaFi, peso, ess));
         } else {
             JOptionPane.showMessageDialog(this, "Ingresa datos validos");
         }
@@ -733,7 +745,35 @@ public void actualizarTablaDos() {
     }//GEN-LAST:event_jButtonModifActionPerformed
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
-        // TODO add your handling code here:
+        try {
+            DietaComidaDAO comidaDie = new DietaComidaDAO();
+            DietaDAO dietaDAO = new DietaDAO();
+
+            // Obtener la fila seleccionada de la tabla jTablaDetalleDieta
+            int selectedRow = jTablaDetalleDieta.getSelectedRow();
+
+            if (selectedRow != -1) {
+                // Obtener el valor de la columna que contiene el objeto DietaComida
+                DietaComida dietaComida = (DietaComida) jTablaDetalleDieta.getValueAt(selectedRow, 4);
+
+                // Realizar la actualización
+                int porcion = Integer.parseInt(jtfPorcion.getText());
+                Comida comidas = (Comida) jComboBoxComidas.getSelectedItem();
+                Horario horarios = (Horario) jComboBoxHorario.getSelectedItem();
+                dietaComida.setPorcion(porcion);
+                dietaComida.setComida(comidas);
+                dietaComida.setHorario(horarios);
+
+                comidaDie.actualizar(dietaComida);
+
+                llenarTablaDetalleDieta(dietaComida);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace(System.out);
+            JOptionPane.showMessageDialog(null, "Complete la información con datos válidos",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        jbModificar.setEnabled(false);
     }//GEN-LAST:event_jbModificarActionPerformed
 
 
