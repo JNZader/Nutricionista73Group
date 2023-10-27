@@ -187,23 +187,23 @@ public class Nutricionista73Group {
 //        PacienteDAO pacienteDAO = new PacienteDAO();
 //
 //        // inserción de  comida
-//        Comida nuevaComida = new Comida(250, "desayuno", "tostadas con mermelada", true);//("Desayuno", "Tostadas con mermelada", 250.0);
-//        comidaDAO.insertar(nuevaComida);
+        Comida nuevaComida = new Comida(250, "desayuno", "tostadas con mermelada", true);//("Desayuno", "Tostadas con mermelada", 250.0);
+//       comidaDAO.insertar(nuevaComida);
 //
-//        // Crea  paciente 
-//        Paciente paciente = new Paciente("Maria Rodriguez", 987654321, "Avenida 456", 555555, 60.0, true);
+////        // Crea  paciente 
+        Paciente paciente = new Paciente("Maria Rodriguez", 987654321, "Avenida 456", 555555, 60.0, true);
 //        // inserción de un paciente
 //        pacienteDAO.guardarPaciente(paciente);        
 //
 //        // inserción de una dieta
-//        Dieta nuevaDieta = new Dieta("Dieta de prueba", paciente, LocalDate.now(), LocalDate.now(), 55.0, true);
+        Dieta nuevaDieta = new Dieta("Dieta de prueba", paciente, LocalDate.now(), LocalDate.now(), 55.0, true);
 //        dietaDAO.insertar(nuevaDieta);        
 //        
 //        // inserción de una relación DietaComida
-//        Horario miHorario=Horario.DESAYUNO;
-//        DietaComida nuevaDietaComida = new DietaComida(nuevaComida,nuevaDieta, 250,miHorario,true);
-//        dietaComidaDAO.insertar(nuevaDietaComida);
-//
+        Horario miHorario=Horario.DESAYUNO;
+        DietaComida nuevaDietaComida = new DietaComida(nuevaComida,nuevaDieta, 250,miHorario,true);
+//       dietaComidaDAO.insertar(nuevaDietaComida);
+    System.out.println((nuevaDietaComida.getHorario()+"").getClass()) ;
 //        // búsqueda de comidas para una dieta específica
 //        int idDietaABuscar = nuevaDieta.getIdDieta(); 
 //        System.out.println("Comidas para la Dieta con ID " + idDietaABuscar + ":");

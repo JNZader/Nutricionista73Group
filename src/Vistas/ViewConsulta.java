@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vistas;
 
 import Conexion.ConsultaDAO;
@@ -26,19 +21,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.NumberFormatter;
 import javax.swing.table.JTableHeader;
 
-/**
- *
- * @author javie
- */
 public class ViewConsulta extends javax.swing.JPanel {
 
-    /**
-     * Creates new form ViewConsulta
-     */
     ConsultaDAO conDAO = new ConsultaDAO();
 
     DefaultTableModel model;
-
+    private Consulta consu;
+    
     public ViewConsulta() {
         initComponents();
 
@@ -64,10 +53,16 @@ public class ViewConsulta extends javax.swing.JPanel {
 
     public ViewConsulta(Consulta consulta) {
         this();
+        this.consu=consulta;
         jButtonModificar.setEnabled(true);
-        jTPeso.setText(consulta.getPesoActual() + "");
-        jDateChFecha.setDate(Date.valueOf(consulta.getFecha()));
-        cargarComboBoxConPaciente(consulta.getPaciente());
+
+        llenarDatos();
+    }
+    
+    public void llenarDatos(){
+                jTPeso.setText(consu.getPesoActual() + "");
+        jDateChFecha.setDate(Date.valueOf(consu.getFecha()));
+        cargarComboBoxConPaciente(consu.getPaciente());     
     }
 
     @SuppressWarnings("unchecked")
@@ -93,9 +88,15 @@ public class ViewConsulta extends javax.swing.JPanel {
         jTTablaHistorial = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
 
+        setBackground(new java.awt.Color(180, 220, 160));
+        setMaximumSize(new java.awt.Dimension(840, 690));
+        setMinimumSize(new java.awt.Dimension(840, 690));
+
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Historial paciente");
 
+        jPanel1.setBackground(new java.awt.Color(160, 200, 140));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Consulta", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -125,6 +126,7 @@ public class ViewConsulta extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setText("Kg");
 
+        jBGuargarConsulta.setBackground(new java.awt.Color(150, 200, 130));
         jBGuargarConsulta.setText("Guardar");
         jBGuargarConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,6 +134,7 @@ public class ViewConsulta extends javax.swing.JPanel {
             }
         });
 
+        jBVerHistorialDesdeCombo.setBackground(new java.awt.Color(150, 200, 130));
         jBVerHistorialDesdeCombo.setText("Ver historial");
         jBVerHistorialDesdeCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,6 +148,7 @@ public class ViewConsulta extends javax.swing.JPanel {
         jLPesoInicial.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLPesoInicial.setText("          ");
 
+        jButtonModificar.setBackground(new java.awt.Color(150, 200, 130));
         jButtonModificar.setText("Modificar");
         jButtonModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,16 +248,15 @@ public class ViewConsulta extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(275, 275, 275)
-                .addComponent(jLabel4)
-                .addContainerGap(290, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
-                    .addComponent(jSeparator1))
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(64, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61))
+            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,14 +267,13 @@ public class ViewConsulta extends javax.swing.JPanel {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(jLabel4)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBVerHistorialDesdeComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVerHistorialDesdeComboActionPerformed
-        // TODO add your handling code here:
         actualizarTabla();
         if (jCbSeleccionPaciente.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(this, "Selecciona un paciente");
@@ -321,7 +323,6 @@ public class ViewConsulta extends javax.swing.JPanel {
     }//GEN-LAST:event_jCbSeleccionPacienteActionPerformed
 
     private void jTPesoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTPesoKeyTyped
-        // TODO add your handling code here:
         char c = evt.getKeyChar();
 
         if (!(Character.isDigit(c) || c == '.')) {
@@ -338,7 +339,6 @@ public class ViewConsulta extends javax.swing.JPanel {
     }//GEN-LAST:event_jTPesoKeyTyped
 
     private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
-        Consulta consulta2;
         String aux = jTPeso.getText();
         if (jCbSeleccionPaciente.getSelectedItem() != null
                 && jDateChFecha.getDate() != null && Character.isDigit((jTPeso.getText()).charAt(0))) {
@@ -346,15 +346,13 @@ public class ViewConsulta extends javax.swing.JPanel {
             LocalDate fecha = jDateChFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             Paciente paciente = (Paciente) jCbSeleccionPaciente.getSelectedItem();
 
-            consulta2 = new Consulta(paciente, fecha, peso);
-            conDAO.actualizar(consulta2);
+            conDAO.actualizar(new Consulta(consu.getIdConsulta(), paciente, fecha, peso));
             limpiar();
         } else {
             JOptionPane.showMessageDialog(this, "Ingresa datos validos");
         }
+        jButtonModificar.setEnabled(false);
     }//GEN-LAST:event_jButtonModificarActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBGuargarConsulta;
     private javax.swing.JButton jBVerHistorialDesdeCombo;
@@ -375,7 +373,6 @@ public class ViewConsulta extends javax.swing.JPanel {
     private javax.swing.JTextField jTPeso;
     private javax.swing.JTable jTTablaHistorial;
     // End of variables declaration//GEN-END:variables
-
     public void armarCabecera() {
         model.addColumn("Nombre");
         model.addColumn("peso");
