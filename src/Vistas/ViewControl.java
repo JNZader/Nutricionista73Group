@@ -37,7 +37,6 @@ public class ViewControl extends javax.swing.JPanel {
     }
 
     private void llenarTablaNo() {
-
         DietaDAO ddao = new DietaDAO();
         ArrayList<String[]> pacientesData = ddao.listarPacientesNoAlcanzaronPesoObjetivo();
         for (String[] pacienteData : pacientesData) {
