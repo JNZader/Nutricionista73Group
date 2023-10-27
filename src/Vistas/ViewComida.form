@@ -5,6 +5,11 @@
     <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
     </Component>
   </NonVisualComponents>
+  <Properties>
+    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+      <Color blue="a0" green="dc" red="b4" type="rgb"/>
+    </Property>
+  </Properties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -206,6 +211,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jBagregarComida">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="82" green="c8" red="96" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Agregar Comida"/>
         <Property name="toolTipText" type="java.lang.String" value="Inserta Una Comida"/>
       </Properties>
@@ -222,6 +230,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="botonSalir">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="82" green="c8" red="96" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Salir"/>
         <Property name="toolTipText" type="java.lang.String" value="Salir Al Principal"/>
       </Properties>
@@ -284,6 +295,9 @@
     </Container>
     <Component class="javax.swing.JButton" name="botonEliminar">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="82" green="c8" red="96" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Eliminar"/>
       </Properties>
       <Events>
@@ -292,6 +306,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jBmodifComida">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="82" green="c8" red="96" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Modificar Comida"/>
       </Properties>
       <Events>

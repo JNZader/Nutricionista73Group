@@ -561,6 +561,8 @@ public class ViewBuscar extends javax.swing.JPanel {
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jButtonAnular = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(180, 220, 160));
+
         jComboBoxEntidades.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Comidas", "Consultas", "Tratamientos", "Pacientes", "Dietas" }));
         jComboBoxEntidades.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -593,6 +595,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         buttonGroup1.add(jRadioButtonAmbos);
         jRadioButtonAmbos.setText("Ambos");
 
+        jButtonBuscar.setBackground(new java.awt.Color(150, 200, 130));
         jButtonBuscar.setText("Buscar");
         jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -615,6 +618,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jButtonEditar.setBackground(new java.awt.Color(150, 200, 130));
         jButtonEditar.setText("Editar");
         jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -622,6 +626,7 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         });
 
+        jButtonEliminar.setBackground(new java.awt.Color(150, 200, 130));
         jButtonEliminar.setText("Eliminar");
         jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -629,6 +634,7 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         });
 
+        jButtonSalir.setBackground(new java.awt.Color(150, 200, 130));
         jButtonSalir.setText("Salir");
         jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -657,6 +663,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         jDateChooser1.setMaxSelectableDate(new java.util.Date(1735704071000L));
         jDateChooser1.setMinSelectableDate(new java.util.Date(1577851271000L));
 
+        jButtonAnular.setBackground(new java.awt.Color(150, 200, 130));
         jButtonAnular.setText("Anular");
         jButtonAnular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -703,14 +710,11 @@ public class ViewBuscar extends javax.swing.JPanel {
                                         .addGap(53, 53, 53)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jComboBoxAtributos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addGap(19, 19, 19)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(jLabel2)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(128, 128, 128)
-                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                     .addComponent(jComboBoxAtribSelect, 0, 200, Short.MAX_VALUE)

@@ -68,6 +68,8 @@ public class ViewControl extends javax.swing.JPanel {
         salirControlTratamiento = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
+        setBackground(new java.awt.Color(180, 220, 160));
+
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Control Tratamientos");
@@ -104,6 +106,7 @@ public class ViewControl extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        salirControlTratamiento.setBackground(new java.awt.Color(150, 200, 130));
         salirControlTratamiento.setText("Salir");
         salirControlTratamiento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

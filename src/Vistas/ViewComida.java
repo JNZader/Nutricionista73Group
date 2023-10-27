@@ -69,6 +69,8 @@ public class ViewComida extends javax.swing.JPanel {
         checkActivos = new javax.swing.JRadioButton();
         checkTodos = new javax.swing.JRadioButton();
 
+        setBackground(new java.awt.Color(180, 220, 160));
+
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel2.setText("INGRESO DE COMIDAS");
         jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -103,6 +105,7 @@ public class ViewComida extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel5.setText("LISTA DE COMIDAS");
 
+        jBagregarComida.setBackground(new java.awt.Color(150, 200, 130));
         jBagregarComida.setText("Agregar Comida");
         jBagregarComida.setToolTipText("Inserta Una Comida");
         jBagregarComida.addActionListener(new java.awt.event.ActionListener() {
@@ -113,6 +116,7 @@ public class ViewComida extends javax.swing.JPanel {
 
         jLabel7.setText("Estado :");
 
+        botonSalir.setBackground(new java.awt.Color(150, 200, 130));
         botonSalir.setText("Salir");
         botonSalir.setToolTipText("Salir Al Principal");
         botonSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -155,6 +159,7 @@ public class ViewComida extends javax.swing.JPanel {
             tablaComida.getColumnModel().getColumn(4).setResizable(false);
         }
 
+        botonEliminar.setBackground(new java.awt.Color(150, 200, 130));
         botonEliminar.setText("Eliminar");
         botonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +167,7 @@ public class ViewComida extends javax.swing.JPanel {
             }
         });
 
+        jBmodifComida.setBackground(new java.awt.Color(150, 200, 130));
         jBmodifComida.setText("Modificar Comida");
         jBmodifComida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

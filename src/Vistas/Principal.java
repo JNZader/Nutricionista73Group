@@ -29,6 +29,8 @@ public class Principal extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(180, 220, 160));
+
         jLabel1.setText("PRINCIPAL");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
