@@ -54,7 +54,7 @@ public class DietaDAO {
                 dieta.setPesoFinal(rs.getDouble("pesoFinal"));
                 dieta.setEstado(rs.getBoolean("estado"));
                 dieta.setIdDieta(rs.getInt("idDieta"));
-                
+
                 dietas.add(dieta);
             }
         } catch (SQLException ex) {
@@ -85,7 +85,6 @@ public class DietaDAO {
                 if (rs.next()) {
                     dieta = new Dieta();
                     dieta.setNombre(rs.getString("nombre"));
-
 
                     int idPaciente = rs.getInt("idpaciente");
                     Paciente p = pd.buscarPaciente(idPaciente, 3);
@@ -362,5 +361,71 @@ public class DietaDAO {
             JOptionPane.showMessageDialog(null, "Error al buscar dietas por peso final");
         }
         return dietas;
+    }
+
+    public ArrayList<String[]> listarPacientesNoAlcanzaronPesoObjetivo() {
+        ArrayList<String[]> pacientesData = new ArrayList<>();
+        System.out.println("1");
+        String SQL_SELECT = "SELECT p.idPaciente, p.nombreCompleto, MAX(c.pesoActual) AS pesoActual, d.pesoFinal, d.fechaFin "
+                + "FROM paciente p "
+                + "JOIN dieta d ON p.idPaciente = d.idPaciente "
+                + "LEFT JOIN consulta c ON p.idPaciente = c.idPaciente "
+                + "WHERE d.fechaFin <= CURDATE() "
+                + "GROUP BY p.idPaciente, d.pesoFinal "
+                + "HAVING pesoActual < d.pesoFinal";
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT);
+                ResultSet rs = ps.executeQuery()) {
+            System.out.println("2");
+            while (rs.next()) {
+                String[] pacienteData = new String[5];
+                System.out.println("3");
+                pacienteData[0] = String.valueOf(rs.getInt("idPaciente"));
+                System.out.println(rs.getDouble("pesoActual"));
+                pacienteData[1] = rs.getString("nombreCompleto");
+                pacienteData[2] = String.valueOf(rs.getDouble("pesoActual"));
+                pacienteData[3] = String.valueOf(rs.getDouble("pesoFinal"));
+                pacienteData[4] = rs.getDate("fechaFin").toString();
+
+                pacientesData.add(pacienteData);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al listar pacientes que no alcanzaron su peso objetivo");
+        }
+
+        return pacientesData;
+    }
+
+    public ArrayList<String[]> listarPacientesAlcanzaronPesoDeseado() {
+        ArrayList<String[]> pacientesData = new ArrayList<>();
+
+        String SQL_SELECT = "SELECT p.idPaciente, p.nombreCompleto, c.pesoActual, d.pesoFinal, d.fechaFin "
+                + "FROM paciente p "
+                + "JOIN dieta d ON p.idPaciente = d.idPaciente "
+                + "JOIN consulta c ON p.idPaciente = c.idPaciente "
+                + "WHERE d.fechaFin <= CURDATE() "
+                + // Compara con la fecha actual
+                "AND (c.fecha IS NULL OR c.fecha = (SELECT MAX(fecha) FROM consulta WHERE idPaciente = p.idPaciente)) "
+                + "AND c.pesoActual >= d.pesoFinal";
+
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT);
+                ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                String[] pacienteData = new String[5];
+                pacienteData[0] = rs.getInt("idPaciente") + "";
+                pacienteData[1] = rs.getString("nombreCompleto");
+                pacienteData[2] = rs.getDouble("pesoActual") + "";
+                pacienteData[3] = rs.getDouble("pesoFinal") + "";
+                pacienteData[4] = rs.getDate("fechaFin").toString();
+
+                pacientesData.add(pacienteData);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "Error al listar pacientes que alcanzaron el peso deseado");
+        }
+
+        return pacientesData;
     }
 }
