@@ -69,7 +69,13 @@ public class ViewComida extends javax.swing.JPanel {
         checkActivos = new javax.swing.JRadioButton();
         checkTodos = new javax.swing.JRadioButton();
 
+        setBackground(new java.awt.Color(180, 220, 160));
+        setMaximumSize(new java.awt.Dimension(840, 690));
+        setMinimumSize(new java.awt.Dimension(840, 690));
+        setPreferredSize(new java.awt.Dimension(840, 690));
+
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("INGRESO DE COMIDAS");
         jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
@@ -103,6 +109,7 @@ public class ViewComida extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel5.setText("LISTA DE COMIDAS");
 
+        jBagregarComida.setBackground(new java.awt.Color(150, 200, 130));
         jBagregarComida.setText("Agregar Comida");
         jBagregarComida.setToolTipText("Inserta Una Comida");
         jBagregarComida.addActionListener(new java.awt.event.ActionListener() {
@@ -113,6 +120,7 @@ public class ViewComida extends javax.swing.JPanel {
 
         jLabel7.setText("Estado :");
 
+        botonSalir.setBackground(new java.awt.Color(150, 200, 130));
         botonSalir.setText("Salir");
         botonSalir.setToolTipText("Salir Al Principal");
         botonSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -155,6 +163,7 @@ public class ViewComida extends javax.swing.JPanel {
             tablaComida.getColumnModel().getColumn(4).setResizable(false);
         }
 
+        botonEliminar.setBackground(new java.awt.Color(150, 200, 130));
         botonEliminar.setText("Eliminar");
         botonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +171,7 @@ public class ViewComida extends javax.swing.JPanel {
             }
         });
 
+        jBmodifComida.setBackground(new java.awt.Color(150, 200, 130));
         jBmodifComida.setText("Modificar Comida");
         jBmodifComida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,7 +213,8 @@ public class ViewComida extends javax.swing.JPanel {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1)
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel3)
@@ -222,31 +233,28 @@ public class ViewComida extends javax.swing.JPanel {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(jBmodifComida)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jBagregarComida))))))
+                                        .addComponent(jBagregarComida)))
+                                .addGap(70, 70, 70))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(208, 208, 208)
+                        .addComponent(jLabel5)
+                        .addGap(0, 396, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
-                        .addComponent(jScrollPane2))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(192, 192, 192)
-                                .addComponent(jLabel2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(208, 208, 208)
-                                .addComponent(jLabel5)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(botonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(checkInactivos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(checkActivos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(checkTodos)
-                        .addGap(18, 18, 18)
-                        .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(botonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(114, 114, 114)
+                                .addComponent(checkInactivos)
+                                .addGap(100, 100, 100)
+                                .addComponent(checkActivos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(checkTodos)
+                                .addGap(18, 18, 18)
+                                .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2))))
                 .addContainerGap())
+            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,15 +290,14 @@ public class ViewComida extends javax.swing.JPanel {
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(checkInactivos)
                         .addComponent(checkActivos)
-                        .addComponent(checkTodos))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(botonSalir)
-                        .addComponent(botonEliminar)))
+                        .addComponent(checkTodos)
+                        .addComponent(checkInactivos)
+                        .addComponent(botonEliminar))
+                    .addComponent(botonSalir))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -308,7 +315,7 @@ public class ViewComida extends javax.swing.JPanel {
                 int cantc = Integer.parseInt(jTcantCalorias.getText());
                 String nc = jTnombreComida.getText();
                 String dc = jTdetalleComida.getText();
-                boolean estc = jCestadoComida.getVerifyInputWhenFocusTarget();
+                boolean estc = jCestadoComida.isSelected();
                 Comida com = ComiData.insertar(new Comida(cantc, nc, dc, estc));
 
                 jTnombreComida.setText(null);
@@ -394,7 +401,7 @@ public class ViewComida extends javax.swing.JPanel {
 //    }
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
-        Dashboard db = new Dashboard();
+        Dashboardv2 db = new Dashboardv2();
         this.setVisible(false);
         db.setVisible(true);
     }//GEN-LAST:event_botonSalirActionPerformed

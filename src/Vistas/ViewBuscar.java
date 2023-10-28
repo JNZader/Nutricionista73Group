@@ -140,8 +140,14 @@ public class ViewBuscar extends javax.swing.JPanel {
                 for (int i = 0; i < jTable1.getColumnCount(); i++) {
                     jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
                 }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
                 jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(3).setMinWidth(100);
+                jTable1.getColumnModel().getColumn(3).setMaxWidth(100);
                 jTable1.getColumnModel().getColumn(3).setWidth(100);
                 break;
 
@@ -179,9 +185,17 @@ public class ViewBuscar extends javax.swing.JPanel {
                 for (int i = 0; i < jTable1.getColumnCount(); i++) {
                     jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
                 }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
                 jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(6).setMinWidth(100);
+                jTable1.getColumnModel().getColumn(6).setMaxWidth(100);
                 jTable1.getColumnModel().getColumn(6).setWidth(100);
+                jTable1.getColumnModel().getColumn(7).setMinWidth(50);
+                jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(7).setWidth(50);
                 break;
 
@@ -219,9 +233,17 @@ public class ViewBuscar extends javax.swing.JPanel {
                 for (int i = 0; i < jTable1.getColumnCount(); i++) {
                     jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
                 }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
                 jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(6).setMinWidth(100);
+                jTable1.getColumnModel().getColumn(6).setMaxWidth(100);
                 jTable1.getColumnModel().getColumn(6).setWidth(100);
+                jTable1.getColumnModel().getColumn(7).setMinWidth(50);
+                jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(7).setWidth(50);
                 break;
             case "Comida":
@@ -257,9 +279,17 @@ public class ViewBuscar extends javax.swing.JPanel {
                 for (int i = 0; i < jTable1.getColumnCount(); i++) {
                     jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
                 }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
                 jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
                 jTable1.getColumnModel().getColumn(1).setWidth(30);
+                jTable1.getColumnModel().getColumn(4).setMinWidth(150);
+                jTable1.getColumnModel().getColumn(4).setMaxWidth(150);
                 jTable1.getColumnModel().getColumn(4).setWidth(150);
+                jTable1.getColumnModel().getColumn(5).setMinWidth(50);
+                jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(5).setWidth(50);
                 break;
             case "DietaComida":
@@ -295,8 +325,14 @@ public class ViewBuscar extends javax.swing.JPanel {
                 for (int i = 0; i < jTable1.getColumnCount(); i++) {
                     jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
                 }
+                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
                 jTable1.getColumnModel().getColumn(0).setWidth(0);
+                jTable1.getColumnModel().getColumn(1).setMinWidth(40);
+                jTable1.getColumnModel().getColumn(1).setMaxWidth(40);
                 jTable1.getColumnModel().getColumn(1).setWidth(40);
+                jTable1.getColumnModel().getColumn(6).setMinWidth(50);
+                jTable1.getColumnModel().getColumn(6).setMaxWidth(50);
                 jTable1.getColumnModel().getColumn(6).setWidth(50);
                 break;
             default:
@@ -333,8 +369,14 @@ public class ViewBuscar extends javax.swing.JPanel {
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
         }
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(40);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(40);
         jTable1.getColumnModel().getColumn(1).setWidth(40);
+        jTable1.getColumnModel().getColumn(6).setMinWidth(50);
+        jTable1.getColumnModel().getColumn(6).setMaxWidth(50);
         jTable1.getColumnModel().getColumn(6).setWidth(50);
     }
 
@@ -367,9 +409,17 @@ public class ViewBuscar extends javax.swing.JPanel {
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
         }
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
         jTable1.getColumnModel().getColumn(1).setWidth(30);
+        jTable1.getColumnModel().getColumn(4).setMinWidth(150);
+        jTable1.getColumnModel().getColumn(4).setMaxWidth(150);
         jTable1.getColumnModel().getColumn(4).setWidth(150);
+        jTable1.getColumnModel().getColumn(5).setMinWidth(50);
+        jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
         jTable1.getColumnModel().getColumn(5).setWidth(50);
 
     }
@@ -397,8 +447,14 @@ public class ViewBuscar extends javax.swing.JPanel {
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
         }
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
         jTable1.getColumnModel().getColumn(1).setWidth(30);
+        jTable1.getColumnModel().getColumn(3).setMinWidth(100);
+        jTable1.getColumnModel().getColumn(3).setMaxWidth(100);
         jTable1.getColumnModel().getColumn(3).setWidth(100);
 
     }
@@ -434,8 +490,14 @@ public class ViewBuscar extends javax.swing.JPanel {
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
         }
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
         jTable1.getColumnModel().getColumn(1).setWidth(30);
+        jTable1.getColumnModel().getColumn(7).setMinWidth(50);
+        jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
         jTable1.getColumnModel().getColumn(7).setWidth(50);
     }
 
@@ -470,8 +532,14 @@ public class ViewBuscar extends javax.swing.JPanel {
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getTableHeader().getColumnModel().getColumn(i).setResizable(false);
         }
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setWidth(0);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(30);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(30);
         jTable1.getColumnModel().getColumn(1).setWidth(30);
+        jTable1.getColumnModel().getColumn(7).setMinWidth(50);
+        jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
         jTable1.getColumnModel().getColumn(7).setWidth(50);
 
     }
@@ -561,6 +629,11 @@ public class ViewBuscar extends javax.swing.JPanel {
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jButtonAnular = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(180, 220, 160));
+        setMaximumSize(new java.awt.Dimension(840, 690));
+        setMinimumSize(new java.awt.Dimension(840, 690));
+        setPreferredSize(new java.awt.Dimension(840, 690));
+
         jComboBoxEntidades.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Comidas", "Consultas", "Tratamientos", "Pacientes", "Dietas" }));
         jComboBoxEntidades.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -593,6 +666,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         buttonGroup1.add(jRadioButtonAmbos);
         jRadioButtonAmbos.setText("Ambos");
 
+        jButtonBuscar.setBackground(new java.awt.Color(150, 200, 130));
         jButtonBuscar.setText("Buscar");
         jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -615,6 +689,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jButtonEditar.setBackground(new java.awt.Color(150, 200, 130));
         jButtonEditar.setText("Editar");
         jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -622,6 +697,7 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         });
 
+        jButtonEliminar.setBackground(new java.awt.Color(150, 200, 130));
         jButtonEliminar.setText("Eliminar");
         jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -629,6 +705,7 @@ public class ViewBuscar extends javax.swing.JPanel {
             }
         });
 
+        jButtonSalir.setBackground(new java.awt.Color(150, 200, 130));
         jButtonSalir.setText("Salir");
         jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -657,6 +734,7 @@ public class ViewBuscar extends javax.swing.JPanel {
         jDateChooser1.setMaxSelectableDate(new java.util.Date(1735704071000L));
         jDateChooser1.setMinSelectableDate(new java.util.Date(1577851271000L));
 
+        jButtonAnular.setBackground(new java.awt.Color(150, 200, 130));
         jButtonAnular.setText("Anular");
         jButtonAnular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -672,50 +750,42 @@ public class ViewBuscar extends javax.swing.JPanel {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonEditar)
-                                .addGap(148, 148, 148)
-                                .addComponent(jButtonEliminar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonAnular)
-                                .addGap(148, 148, 148)
-                                .addComponent(jButtonSalir)))
-                        .addGap(35, 35, 35))
+                        .addComponent(jButtonEditar)
+                        .addGap(130, 130, 130)
+                        .addComponent(jButtonEliminar)
+                        .addGap(166, 166, 166)
+                        .addComponent(jButtonAnular)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                        .addComponent(jButtonSalir))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addComponent(jRadioButtonActivo)
-                                .addGap(73, 73, 73)
-                                .addComponent(jRadioButtonInactivo)
-                                .addGap(95, 95, 95)
-                                .addComponent(jRadioButtonAmbos)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(50, 50, 50)
+                        .addComponent(jRadioButtonActivo)
+                        .addGap(73, 73, 73)
+                        .addComponent(jRadioButtonInactivo)
+                        .addGap(95, 95, 95)
+                        .addComponent(jRadioButtonAmbos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBoxEntidades, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel1))
-                                        .addGap(53, 53, 53)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBoxAtributos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addGap(19, 19, 19)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(128, 128, 128)
-                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(jComboBoxAtribSelect, 0, 200, Short.MAX_VALUE)
-                                    .addComponent(jLabelVariable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(41, 41, 41))))
+                                    .addComponent(jComboBoxEntidades, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1))
+                                .addGap(53, 53, 53)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxAtributos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(128, 128, 128)
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(jComboBoxAtribSelect, 0, 200, Short.MAX_VALUE)
+                            .addComponent(jLabelVariable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(41, 41, 41))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1082,7 +1152,7 @@ public class ViewBuscar extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBoxAtributosActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
-        Dashboard db = new Dashboard();
+        Dashboardv2 db = new Dashboardv2();
         this.setVisible(false);
         db.setVisible(true);
     }//GEN-LAST:event_jButtonSalirActionPerformed
@@ -1261,7 +1331,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 if (pct != null) {
                     ViewPaciente VP = new ViewPaciente(pct);
                     this.setVisible(false);
-                    Dashboard db = new Dashboard();
+                    Dashboardv2 db = new Dashboardv2();
                     db.ShowJPanel(VP);
                     db.setVisible(true);
                 }
@@ -1270,7 +1340,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 if (diet != null) {
                     ViewDieta VD = new ViewDieta(diet);
                     this.setVisible(false);
-                    Dashboard db = new Dashboard();
+                    Dashboardv2 db = new Dashboardv2();
                     db.ShowJPanel(VD);
                     db.setVisible(true);
                 }
@@ -1279,7 +1349,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 if (com != null) {
                     ViewComida VCom = new ViewComida(com);
                     this.setVisible(false);
-                    Dashboard db = new Dashboard();
+                    Dashboardv2 db = new Dashboardv2();
                     db.ShowJPanel(VCom);
                     db.setVisible(true);
                 }
@@ -1288,7 +1358,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 if (consul != null) {
                     ViewConsulta VCon = new ViewConsulta(consul);
                     this.setVisible(false);
-                    Dashboard db = new Dashboard();
+                    Dashboardv2 db = new Dashboardv2();
                     db.ShowJPanel(VCon);
                     db.setVisible(true);
                 }
@@ -1297,7 +1367,7 @@ public class ViewBuscar extends javax.swing.JPanel {
                 if (dietCom != null) {
                     ViewDieta VDC = new ViewDieta(dietCom);
                     this.setVisible(false);
-                    Dashboard db = new Dashboard();
+                    Dashboardv2 db = new Dashboardv2();
                     db.ShowJPanel(VDC);
                     db.setVisible(true);
                 }

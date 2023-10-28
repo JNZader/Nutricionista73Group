@@ -21,7 +21,7 @@ public class DietaComidaDAO {
         con = getConnection();
     }
 
-    public void insertar(DietaComida dietacomida) {
+    public DietaComida insertar(DietaComida dietacomida) {
         String SQL_INSERT = "INSERT INTO dietacomida (idComida,idDieta, porcion, horario,estado) VALUES (?,?,?,?,?)";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
@@ -45,14 +45,15 @@ public class DietaComidaDAO {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al insertar DietaComida");
         }
+        return dietacomida;
     }
 
     public void actualizar(DietaComida dietaComida) {
         String SQL_UPDATE = "UPDATE dietaComida  SET  porcion = ?, horario = ? WHERE idComida  = ? AND idDieta  = ?";
-
+        System.out.println("dietaComida = " + dietaComida);
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
             ps.setInt(1, dietaComida.getPorcion());
-            ps.setObject(2, dietaComida.getHorario());
+            ps.setString(2, dietaComida.getHorario()+"");
             ps.setInt(3, dietaComida.getComida().getIdComida());
             ps.setInt(4, dietaComida.getDieta().getIdDieta());
 

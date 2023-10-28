@@ -72,6 +72,11 @@ public class ViewPaciente extends javax.swing.JPanel {
 
         jLabel2.setText("jLabel2");
 
+        setBackground(new java.awt.Color(180, 220, 160));
+        setMaximumSize(new java.awt.Dimension(840, 690));
+        setMinimumSize(new java.awt.Dimension(840, 690));
+
+        jPanel1.setBackground(new java.awt.Color(160, 200, 140));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos ", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -95,6 +100,7 @@ public class ViewPaciente extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel9.setText("ID");
 
+        jBBuscar.setBackground(new java.awt.Color(150, 200, 130));
         jBBuscar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jBBuscar.setText("Buscar");
         jBBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -124,7 +130,7 @@ public class ViewPaciente extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jChEstado))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(226, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jTID, javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,6 +177,7 @@ public class ViewPaciente extends javax.swing.JPanel {
                 .addGap(11, 11, 11))
         );
 
+        jBGuardar.setBackground(new java.awt.Color(150, 200, 130));
         jBGuardar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jBGuardar.setText("Guardar");
         jBGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -179,6 +186,7 @@ public class ViewPaciente extends javax.swing.JPanel {
             }
         });
 
+        jBEliminar.setBackground(new java.awt.Color(150, 200, 130));
         jBEliminar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jBEliminar.setText("Eliminar");
         jBEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -187,6 +195,7 @@ public class ViewPaciente extends javax.swing.JPanel {
             }
         });
 
+        jBModificar.setBackground(new java.awt.Color(150, 200, 130));
         jBModificar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jBModificar.setText("Modificar");
         jBModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -195,6 +204,7 @@ public class ViewPaciente extends javax.swing.JPanel {
             }
         });
 
+        jBSalir.setBackground(new java.awt.Color(150, 200, 130));
         jBSalir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jBSalir.setText("Salir");
         jBSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -206,6 +216,7 @@ public class ViewPaciente extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabel8.setText("Gestion Paciente");
 
+        jBLimpiar.setBackground(new java.awt.Color(150, 200, 130));
         jBLimpiar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jBLimpiar.setText("Limpiar");
         jBLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -227,11 +238,9 @@ public class ViewPaciente extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 100, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
@@ -245,6 +254,10 @@ public class ViewPaciente extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,7 +278,7 @@ public class ViewPaciente extends javax.swing.JPanel {
                         .addComponent(jBModificar)
                         .addComponent(jBLimpiar))
                     .addComponent(jBSalir))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -316,9 +329,9 @@ public class ViewPaciente extends javax.swing.JPanel {
     }//GEN-LAST:event_jBModificarActionPerformed
 
     private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
-        Dashboard d = new Dashboard();
+        Dashboardv2 db = new Dashboardv2();
         this.setVisible(false);
-        d.setVisible(true);
+        db.setVisible(true);
     }//GEN-LAST:event_jBSalirActionPerformed
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
