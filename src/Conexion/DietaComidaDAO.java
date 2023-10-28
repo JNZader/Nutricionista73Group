@@ -50,7 +50,7 @@ public class DietaComidaDAO {
 
     public void actualizar(DietaComida dietaComida) {
         String SQL_UPDATE = "UPDATE dietaComida  SET  porcion = ?, horario = ? WHERE idComida  = ? AND idDieta  = ?";
-
+        System.out.println("dietaComida = " + dietaComida);
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
             ps.setInt(1, dietaComida.getPorcion());
             ps.setString(2, dietaComida.getHorario()+"");
