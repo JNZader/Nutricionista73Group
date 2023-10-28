@@ -64,13 +64,13 @@ public class ViewDieta extends javax.swing.JPanel {
     public ViewDieta(DietaComida dietaComida) {
         this();
         this.dietCom = dietaComida;
-        jButtonModif.setEnabled(true);
+        jbModificar.setEnabled(true);
         cargarDatosDietaComida();
     }
 
     private void cargarDatosDietaComida() {
         jtfPorcion.setText(String.valueOf(dietCom.getPorcion()));
-        jComboBoxComidas.setSelectedItem(dietCom.getComida());
+        llenarComboBoxConComida(dietCom.getComida());
         jComboBoxHorario.setSelectedItem(dietCom.getHorario());
     }
 
@@ -81,6 +81,16 @@ public class ViewDieta extends javax.swing.JPanel {
 
         if (paciente != null) {
             jComboPaciente.setSelectedItem(paciente);
+        }
+    }
+
+    public void llenarComboBoxConComida(Comida comida) {
+        jComboBoxComidas.removeAllItems();
+        llenarcomboBoxComidas();
+        
+        System.out.println(comida);
+        if (comida != null) {
+            jComboBoxComidas.setSelectedItem(comida);
         }
     }
 
