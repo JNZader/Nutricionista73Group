@@ -18,17 +18,18 @@ public class PacienteDAO {
     }
 
 public void guardarPaciente(Paciente paciente) {
-    String sqlInsert = "INSERT INTO paciente (nombreCompleto, DNI, celular, pesoActual, estado) "
-            + "SELECT ?, ?, ?, ?, ? "
+    String sqlInsert = "INSERT INTO paciente (nombreCompleto, DNI,domicilio, celular, pesoActual, estado) "
+            + "SELECT ?, ?, ?, ?, ?,? "
             + "WHERE NOT EXISTS (SELECT 1 FROM paciente WHERE DNI = ?)";
 
     try (PreparedStatement ps = con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS)) {
         ps.setString(1, paciente.getNombre());
         ps.setInt(2, paciente.getDni());
-        ps.setInt(3, paciente.getTelefono());
-        ps.setDouble(4, paciente.getPesoActual());
-        ps.setBoolean(5, paciente.isEstado());
-        ps.setInt(6, paciente.getDni());
+        ps.setString(3, paciente.getDomicilio());
+        ps.setInt(4, paciente.getTelefono());
+        ps.setDouble(5, paciente.getPesoActual());
+        ps.setBoolean(6, paciente.isEstado());
+        ps.setInt(7, paciente.getDni());
 
         int filasAfectadas = ps.executeUpdate();
         if (filasAfectadas == 1) {
