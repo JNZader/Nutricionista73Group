@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
 
 public class ComidaDAO {
@@ -41,7 +40,7 @@ public class ComidaDAO {
                     }
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Inserción fallida. La comida con el mismo nombre ya existe.");
+                JOptionPane.showMessageDialog(null, "Inserción fallida. Existe una comida con ese nombre.");
                 return null;
             }
         } catch (SQLException ex) {
@@ -52,7 +51,7 @@ public class ComidaDAO {
     }
 
     public void modificar(Comida comida) {
-        // Verificar si el nuevo nombre ya existe en la base de datos
+        // Verifica si el nuevo nombre ya existe en la base de datos
         String SQL_CHECK_DUPLICATE = "SELECT COUNT(*) FROM comida WHERE nombre = ? AND idComida <> ?";
 
         try (PreparedStatement psCheck = con.prepareStatement(SQL_CHECK_DUPLICATE)) {
@@ -71,7 +70,7 @@ public class ComidaDAO {
             return;
         }
 
-        // Si el nuevo nombre no existe, procede con la actualización
+        // Si  no existe actualiza
         String SQL_UPDATE = "UPDATE comida SET nombre=?, detalle=?, cantCalorias=? WHERE idComida=?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
@@ -129,7 +128,7 @@ public class ComidaDAO {
     public ArrayList<Comida> listarComidas(int estado) {
         String SQL_SELECT = "";
         Comida comida = null;
-        ArrayList<Comida> comidaList = new ArrayList<>();
+        ArrayList<Comida> comidas = new ArrayList<>();
 
         switch (estado) {
             case 1:
@@ -154,13 +153,13 @@ public class ComidaDAO {
                 comida.setCantCalorias(rs.getInt("cantcalorias"));
                 comida.setEstado(rs.getBoolean("estado"));
 
-                comidaList.add(comida);
+                comidas.add(comida);
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al obtener comidas");
         }
-        return comidaList; // retorna la lista 
+        return comidas; 
     }
 
     public ArrayList<Comida> buscarXCantCalorias(int cantCalorias, int condicion) {
@@ -195,7 +194,7 @@ public class ComidaDAO {
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
-            JOptionPane.showMessageDialog(null, "Error al buscar las comidas por calorias");
+            JOptionPane.showMessageDialog(null, "Error al buscar comidas por calorias");
         }
         return comidas;
     }
@@ -285,7 +284,7 @@ public class ComidaDAO {
         }
 
         try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_DETALLE)) {
-            ps.setString(1, "%" + detalle + "%"); // Usamos "%" para buscar el detalle en cualquier parte del campo
+            ps.setString(1, "%" + detalle + "%"); // se usa "%" para buscar el detalle en cualquier parte del campo
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Comida comida = new Comida();
