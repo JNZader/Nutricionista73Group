@@ -198,7 +198,6 @@ public class Dashboardv2 extends javax.swing.JFrame {
                 .addContainerGap(316, Short.MAX_VALUE))
         );
 
-        jPContenedor.setBackground(new java.awt.Color(150, 200, 130));
         jPContenedor.setMaximumSize(new java.awt.Dimension(840, 690));
         jPContenedor.setMinimumSize(new java.awt.Dimension(840, 690));
 
