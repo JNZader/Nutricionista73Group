@@ -3,7 +3,6 @@ package Vistas;
 import Conexion.DietaDAO;
 import Entidades.Dieta;
 import java.util.ArrayList;
-import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -27,9 +26,11 @@ public class ViewControl extends javax.swing.JPanel {
                 return false;
             }
         };
-        modelo.setColumnIdentifiers(new String[]{"ID Paciente", "Nombre Completo", "Peso Actual", "Peso Final", "Fecha Culminación"});
+        jTable1.setModel(modelo);
+        modelo.setColumnIdentifiers(new String[]{"Nombre Paciente", "DNI", "Peso Actual", "Peso Objetivo", "Fecha Culminación"});
         limpiarTabla();
         botonDietasFinalizadas.setSelected(true);
+        limpiarTabla();
     }
 
     private void limpiarTabla() {
@@ -53,7 +54,30 @@ public class ViewControl extends javax.swing.JPanel {
         }
         jTable1.setModel(modelo);
     }
+public void llenarTabla() {
 
+    ArrayList<Dieta> dietas = new ArrayList<>();
+    boolean soloNoCumplidas = false;
+    DietaDAO didao=new DietaDAO();
+    
+    if (botonDietasNoFinalizadas.isSelected()) {
+        dietas = didao.listarDietas(true); // Obtener dietas no cumplidas
+        soloNoCumplidas = true;
+    } else if (botonDietasFinalizadas.isSelected()) {
+        dietas = didao.listarDietas(false); // Obtener todas las dietas
+    }
+
+    for (Dieta dieta : dietas) {
+        // Agregar datos de las dietas a la tabla
+        modelo.addRow(new Object[]{
+            dieta.getPaciente().getNombre(),
+            dieta.getPaciente().getDni(),
+            dieta.getPaciente().getPesoActual(),
+            dieta.getPesoFinal(),
+            dieta.getFechaFinal()
+        });
+    }
+}
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -160,12 +184,12 @@ public class ViewControl extends javax.swing.JPanel {
     }//GEN-LAST:event_salirControlTratamientoActionPerformed
     private void botonDietasFinalizadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDietasFinalizadasActionPerformed
         limpiarTabla();
-        llenarTablasi();
+        llenarTabla();
     }//GEN-LAST:event_botonDietasFinalizadasActionPerformed
 
     private void botonDietasNoFinalizadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDietasNoFinalizadasActionPerformed
         limpiarTabla();
-        llenarTablaNo();
+        llenarTabla();
     }//GEN-LAST:event_botonDietasNoFinalizadasActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton botonDietasFinalizadas;
