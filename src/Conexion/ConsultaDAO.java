@@ -24,11 +24,10 @@ public class ConsultaDAO {
     public ArrayList<Consulta> buscar() {
         String SQL_SELECT = "SELECT * FROM consulta";
         Consulta consulta = null;
-        ArrayList<Consulta> consultaList = new ArrayList<>();
+        ArrayList<Consulta> consultas = new ArrayList<>();
         PacienteDAO pdao = new PacienteDAO();
         Paciente paciente = new Paciente();
-        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT);
-                ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = con.prepareStatement(SQL_SELECT); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 consulta = new Consulta();
@@ -37,13 +36,14 @@ public class ConsultaDAO {
                 consulta.setPaciente(paciente);
                 consulta.setFecha(rs.getDate("fecha").toLocalDate());
                 consulta.setPesoActual(rs.getDouble("pesoActual"));
-                consultaList.add(consulta);
+
+                consultas.add(consulta);
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al obtener consultas");
         }
-        return consultaList; // retorna la lista 
+        return consultas;
     }
 
     public ArrayList<Consulta> buscar(Paciente paciente) {
@@ -98,19 +98,26 @@ public class ConsultaDAO {
         String SQL_INSERT = "INSERT INTO consulta (idPaciente, fecha, pesoActual) VALUES (?, ?, ?)";
 
         try (PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
-
             ps.setInt(1, consulta.getPaciente().getIdPaciente());
             ps.setDate(2, Date.valueOf(consulta.getFecha()));
             ps.setDouble(3, consulta.getPesoActual());
-            ps.executeUpdate(); // ejecuta la inserción en la base de datos
-            try (ResultSet rs = ps.getGeneratedKeys()) { // obtiene las claves generadas automáticamente
-                if (rs.next()) {
-                    consulta.setIdConsulta(rs.getInt(1)); // establece el ID generado en el objeto 
-                    JOptionPane.showMessageDialog(null, "Consulta realizada con exito");
-                } else {
-                    JOptionPane.showMessageDialog(null, "La consulta fallo");
-                }
+            ps.executeUpdate(); // Ejecuta la inserción en la base de datos
+
+            // Actualiza el peso actual en la tabla "paciente" solo si la consulta es la más reciente
+            String SQL_UPDATE_PACIENTE = "UPDATE paciente p "
+                    + "SET p.pesoActual = ? "
+                    + "WHERE p.idPaciente = ? "
+                    + "AND NOT EXISTS (SELECT 1 FROM consulta c "
+                    + "WHERE c.idPaciente = p.idPaciente AND c.fecha > ?)";
+
+            try (PreparedStatement psUpdatePaciente = con.prepareStatement(SQL_UPDATE_PACIENTE)) {
+                psUpdatePaciente.setDouble(1, consulta.getPesoActual());
+                psUpdatePaciente.setInt(2, consulta.getPaciente().getIdPaciente());
+                psUpdatePaciente.setDate(3, Date.valueOf(consulta.getFecha()));
+                psUpdatePaciente.executeUpdate();
             }
+
+            JOptionPane.showMessageDialog(null, "Consulta realizada con éxito");
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al guardar la consulta");
@@ -126,13 +133,27 @@ public class ConsultaDAO {
             ps.setDouble(3, consulta.getPesoActual());
             ps.setInt(4, consulta.getIdConsulta());
 
-            int on = ps.executeUpdate(); // Ejecuta la actualización en la base de datos
-            if (on > 0) {
-                JOptionPane.showMessageDialog(null, "Actualizacion realizada");
-            } else {
-                JOptionPane.showMessageDialog(null, "Actualizacion fallida");
-            }
+            int rowsUpdated = ps.executeUpdate();
 
+            if (rowsUpdated > 0) {
+                // Actualiza el peso actual en la tabla "paciente" solo si la consulta es la más reciente
+                String SQL_UPDATE_PACIENTE = "UPDATE paciente p "
+                        + "SET p.pesoActual = ? "
+                        + "WHERE p.idPaciente = ? "
+                        + "AND NOT EXISTS (SELECT 1 FROM consulta c "
+                        + "WHERE c.idPaciente = p.idPaciente AND c.fecha > ?)";
+
+                try (PreparedStatement psUpdatePaciente = con.prepareStatement(SQL_UPDATE_PACIENTE)) {
+                    psUpdatePaciente.setDouble(1, consulta.getPesoActual());
+                    psUpdatePaciente.setInt(2, consulta.getPaciente().getIdPaciente());
+                    psUpdatePaciente.setDate(3, Date.valueOf(consulta.getFecha()));
+                    psUpdatePaciente.executeUpdate();
+                }
+
+                JOptionPane.showMessageDialog(null, "Actualización realizada");
+            } else {
+                JOptionPane.showMessageDialog(null, "Actualización fallida");
+            }
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(null, "Error al actualizar consulta");
@@ -145,7 +166,7 @@ public class ConsultaDAO {
             ps.setInt(1, idConsulta);
             int del = ps.executeUpdate();
             if (del == 1) {
-                JOptionPane.showMessageDialog(null, "Consulta realizada con éxito");
+                JOptionPane.showMessageDialog(null, "Consulta eliminada con éxito");
             } else {
                 JOptionPane.showMessageDialog(null, "No se puede eliminar la consulta.");
             }
