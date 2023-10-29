@@ -1152,7 +1152,7 @@ public class ViewBuscar extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBoxAtributosActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
-        Dashboardv2 db = new Dashboardv2();
+        Dashboard db = new Dashboard();
         this.setVisible(false);
         db.setVisible(true);
     }//GEN-LAST:event_jButtonSalirActionPerformed
